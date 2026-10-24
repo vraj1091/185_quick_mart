@@ -60,7 +60,7 @@ export default async function HomePage() {
   return (
     <>
       {/* ---------- Hero ---------- */}
-      <section className="container-store grid gap-8 pt-5 pb-14 sm:pt-8 lg:grid-cols-[minmax(0,55fr)_minmax(0,45fr)] lg:items-center lg:gap-14 lg:pt-14 lg:pb-20">
+      <section className="container-store grid gap-8 pt-5 pb-14 sm:pt-8 lg:grid-cols-[minmax(0,55fr)_minmax(0,45fr)] lg:items-center lg:gap-14 lg:pt-10 lg:pb-12">
         <div>
           <p className="eyebrow flex items-center gap-3 text-muted">
             <RouteBadge className="text-[1.0625rem]" />
@@ -95,13 +95,13 @@ export default async function HomePage() {
             </a>
           </div>
         </div>
-        <figure className="order-first lg:order-none">
+        <figure className="order-first overflow-hidden rounded-sm border border-line lg:order-none">
           <StorePhoto
             photo={photos.storefrontDusk}
             cover
             preload
             sizes="(min-width: 1312px) 560px, (min-width: 1024px) 42vw, 100vw"
-            className="aspect-[16/10] rounded-t-sm lg:aspect-[4/3.2]"
+            className="aspect-[16/10] lg:aspect-[4/3.2]"
             position="35% 50%"
           />
           <CaptionStrip left="1341 Hwy 185" right={`${store.address.city}, ${store.address.region}`} />
@@ -109,7 +109,7 @@ export default async function HomePage() {
       </section>
 
       {/* ---------- Fuel ---------- */}
-      <section aria-labelledby="home-fuel" className="bg-surface-alt py-16 lg:py-24">
+      <section aria-labelledby="home-fuel" className="bg-surface-alt py-14 lg:pt-12 lg:pb-24">
         <div className="container-store grid gap-8 lg:grid-cols-12 lg:items-center lg:gap-14">
           <div className="lg:col-span-5">
             <p className="eyebrow text-accent">At the pump</p>
@@ -141,7 +141,7 @@ export default async function HomePage() {
                 sizes="(min-width: 1024px) 58vw, 100vw"
                 className="aspect-[982/600] rounded-t-sm"
               />
-              <CaptionStrip left="Look for the pizza sign" right="Hot food inside" />
+              <CaptionStrip left="Look for the pizza sign" />
             </figure>
             <div className="mt-4 grid grid-cols-5 gap-4">
               <StorePhoto

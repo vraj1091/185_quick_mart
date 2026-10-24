@@ -2,6 +2,7 @@
 
 import { Phone } from "lucide-react";
 import { store } from "@/content/store";
+import { Sep } from "@/components/brand/Sep";
 import { cn } from "@/lib/cn";
 import { formatDayHours, hasWeeklyHours, type Schedule, type SpecialDay } from "@/lib/hours";
 import { DISPLAY_DAY_ORDER, WEEKDAY_NAMES, formatDateKey, zonedParts } from "@/lib/time";
@@ -77,7 +78,10 @@ export function HoursTable({
               <li key={s.date} className="flex flex-wrap items-baseline justify-between gap-x-4 py-2.5">
                 <span>
                   <span className="font-bold">{s.label}</span>{" "}
-                  <span className="text-muted">· {formatDateKey(s.date)}</span>
+                  <span className="text-muted">
+                    <Sep />
+                    {formatDateKey(s.date)}
+                  </span>
                 </span>
                 <span className="font-mono tabular">{formatDayHours(s.hours)}</span>
               </li>

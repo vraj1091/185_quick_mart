@@ -123,13 +123,13 @@
   line-height: 0.94;
 }
 
-/* About 39px on phones up to 78px. On large screens the H1 shares the row with a photo,
+/* About 39px on phones up to 64px. On large screens the H1 shares the row with a photo,
    so it scales with that column; the longest word ("EVERYTHING") always fits. */
 @utility type-h1 {
-  font-size: clamp(2.375rem, 1.45rem + 4.3vw, 4.875rem);
+  font-size: clamp(2.375rem, 1.45rem + 4.3vw, 4rem);
 
   @media (min-width: 1024px) {
-    font-size: clamp(3.5rem, 6.72vw - 0.58rem, 4.875rem);
+    font-size: clamp(3.5rem, 6.72vw - 0.58rem, 4rem);
   }
 }
 
@@ -158,11 +158,9 @@
   max-width: 68ch;
 }
 
-/* Sign lettering for the "QUICK MART" wordmark. */
+/* Solid sign lettering for the "QUICK MART" wordmark (brand red or pine, see lib/theme.ts). */
 @utility sign-letters {
   color: var(--color-logo);
-  -webkit-text-stroke: 0.07em var(--color-on-primary);
-  paint-order: stroke fill;
 }
 
 /* Glowing digits from the price pylon. Only on the dark fuel board. */
