@@ -64,3 +64,40 @@ describe("store JSON-LD", () => {
     expect(jsonLdString({ name: "</script><script>alert(1)</script>" })).not.toContain("</script>");
   });
 });
+
+describe("store JSON-LD with the confirmed hours", () => {
+  it("publishes Mon–Fri 4–11, Sat 5–11, Sun 7–11 and links the menu", async () => {
+    const { confirmedHours } = await import("@/content/store");
+    const { toDayHours } = await import("./hours");
+    const schedule: Schedule = {
+      weekly: confirmedHours.map((h) => toDayHours(h.opensAt, h.closesAt)),
+      special: [],
+    };
+    const data = storeJsonLd(schedule);
+    expect(data.openingHoursSpecification).toEqual([
+      { "@type": "OpeningHoursSpecification", dayOfWeek: "https://schema.org/Sunday", opens: "07:00", closes: "23:00" },
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].map((d) => `https://schema.org/${d}`),
+        opens: "04:00",
+        closes: "23:00",
+      },
+      { "@type": "OpeningHoursSpecification", dayOfWeek: "https://schema.org/Saturday", opens: "05:00", closes: "23:00" },
+    ]);
+    expect(data.hasMenu).toMatch(/\/food#menu$/);
+  });
+});
+
+describe("menu JSON-LD", () => {
+  it("lists every menu item by name and never includes prices", async () => {
+    const { menuJsonLd } = await import("./seo");
+    const { menu } = await import("@/content/menu");
+    const json = JSON.stringify(menuJsonLd());
+    expect(json).not.toMatch(/offers|price|\$/i);
+    for (const category of menu) {
+      for (const group of category.groups) {
+        for (const item of group.items) expect(json).toContain(JSON.stringify(item.name));
+      }
+    }
+  });
+});

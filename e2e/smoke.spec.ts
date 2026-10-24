@@ -55,3 +55,42 @@ test("contact form shows friendly errors and sends", async ({ page }) => {
   // Repeated runs hit the 5-per-hour limit, which answers with a friendly "call us" message.
   await expect(page.getByText(/We got your message\.|You've sent a few messages already/)).toBeVisible();
 });
+
+test("menu tabs work with the keyboard on phones", async ({ page, isMobile }) => {
+  test.skip(!isMobile, "The tab bar only appears on phones");
+  await page.goto("/");
+  const tablist = page.getByRole("tablist", { name: "Menu" });
+  const tab = (name: string) => tablist.getByRole("tab", { name });
+  await expect(tab("Breakfast")).toHaveAttribute("aria-selected", "true");
+  await expect(page.getByRole("tabpanel")).toContainText("Bacon Biscuit");
+
+  await tab("Breakfast").focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(tab("Lunch")).toBeFocused();
+  await expect(tab("Lunch")).toHaveAttribute("aria-selected", "true");
+  await expect(page.getByRole("tabpanel")).toContainText("Chicken Crispito");
+
+  await page.keyboard.press("End");
+  await expect(page.getByRole("tabpanel")).toContainText("Hunk A Pizza");
+  await page.keyboard.press("ArrowRight"); // wraps around
+  await expect(tab("Breakfast")).toHaveAttribute("aria-selected", "true");
+});
+
+test("all four menu boards show side by side on desktop", async ({ page, isMobile }) => {
+  test.skip(isMobile, "Desktop layout");
+  await page.goto("/food#menu");
+  for (const name of ["Breakfast", "Lunch", "Fried Chicken", "Pizza & Wings"]) {
+    await expect(page.locator("#menu").getByRole("heading", { level: 3, name, exact: true })).toBeVisible();
+  }
+});
+
+test("the menu never shows prices, and real hours show in the footer", async ({ page }) => {
+  await page.goto("/");
+  const menuText = await page.locator("#menu").innerText();
+  expect(menuText).not.toMatch(/\$\s?\d/);
+  await expect(page.locator("#menu")).toContainText("Prices and daily availability vary");
+  const footer = page.getByRole("contentinfo");
+  await expect(footer).toContainText("Mon–Fri");
+  await expect(footer).toContainText("4 AM – 11 PM");
+  await expect(footer).not.toContainText("Call for hours");
+});

@@ -9,9 +9,13 @@ import {
   toDayHours,
   upcomingSpecials,
   type DayHours,
+  type OpenStatus,
   type Schedule,
 } from "./hours";
+import { confirmedHours } from "@/content/store";
 import { formatClock, zonedParts, zonedTimeToUtc } from "./time";
+
+type OpenStatusState = OpenStatus["state"];
 
 const open = (opens: string, closes: string): DayHours => ({ kind: "open", opens, closes });
 const closed: DayHours = { kind: "closed" };
@@ -69,13 +73,13 @@ describe("getOpenStatus", () => {
     expect(getOpenStatus(s, ct("2026-10-21", "04:30"))).toEqual({
       state: "closed",
       headline: "Closed",
-      detail: "opens 5 AM",
+      detail: "Opens 5 AM",
     });
     // Late evening: the next opening is tomorrow morning, which reads naturally as "opens 5 AM".
     expect(getOpenStatus(s, ct("2026-10-21", "23:30"))).toEqual({
       state: "closed",
       headline: "Closed",
-      detail: "opens 5 AM",
+      detail: "Opens 5 AM",
     });
   });
 
@@ -97,7 +101,7 @@ describe("getOpenStatus", () => {
     expect(getOpenStatus(s, ct("2026-10-22", "03:00"))).toEqual({
       state: "closed",
       headline: "Closed",
-      detail: "opens 6 AM",
+      detail: "Opens 6 AM",
     });
     expect(getOpenStatus(s, ct("2026-10-21", "22:00"))).toEqual({
       state: "open",
@@ -140,13 +144,13 @@ describe("getOpenStatus", () => {
     expect(getOpenStatus(s, ct("2026-10-18", "12:00"))).toEqual({
       state: "closed",
       headline: "Closed",
-      detail: "opens tomorrow 7 AM",
+      detail: "Opens tomorrow 7 AM",
     });
     // Saturday 10 PM -> Sunday closed -> opens Monday.
     expect(getOpenStatus(s, ct("2026-10-17", "22:00"))).toEqual({
       state: "closed",
       headline: "Closed",
-      detail: "opens Mon 7 AM",
+      detail: "Opens Mon 7 AM",
     });
   });
 
@@ -160,7 +164,7 @@ describe("getOpenStatus", () => {
     expect(getOpenStatus(s, ct("2026-11-26", "15:00"))).toEqual({
       state: "closed",
       headline: "Closed",
-      detail: "opens tomorrow 5 AM",
+      detail: "Opens tomorrow 5 AM",
     });
     expect(getOpenStatus(s, ct("2026-11-26", "09:00"))).toEqual({
       state: "open",
@@ -172,7 +176,7 @@ describe("getOpenStatus", () => {
     expect(getOpenStatus(s, ct("2026-12-24", "23:30"))).toEqual({
       state: "closed",
       headline: "Closed",
-      detail: "opens Sat 5 AM",
+      detail: "Opens Sat 5 AM",
     });
   });
 
@@ -270,5 +274,57 @@ describe("hours timeline segments", () => {
 
   it("is null when the day isn't set", () => {
     expect(daySegments(null, open("05:00", "23:00"))).toBeNull();
+  });
+});
+
+describe("the owner-confirmed hours", () => {
+  // Built from the same data the database is seeded with.
+  const confirmed: Schedule = {
+    weekly: confirmedHours.map((h) => toDayHours(h.opensAt, h.closesAt)),
+    special: [],
+  };
+  // 2026-10-19 is a Monday; 10-23 Friday, 10-24 Saturday, 10-25 Sunday.
+  const cases: [string, string, string, OpenStatusState, string][] = [
+    ["Monday 3:59 AM", "2026-10-19", "03:59", "closed", "Opens 4 AM"],
+    ["Monday 4:00 AM", "2026-10-19", "04:00", "open", "until 11 PM"],
+    ["Saturday 4:30 AM", "2026-10-24", "04:30", "closed", "Opens 5 AM"],
+    ["Sunday 6:45 AM", "2026-10-25", "06:45", "closed", "Opens 7 AM"],
+    ["Friday 11:00 PM (Saturday next)", "2026-10-23", "23:00", "closed", "Opens 5 AM"],
+    ["Saturday 11:30 PM (Sunday next)", "2026-10-24", "23:30", "closed", "Opens 7 AM"],
+    ["Sunday 11:15 PM (Monday next)", "2026-10-25", "23:15", "closed", "Opens 4 AM"],
+  ];
+
+  it.each(cases)("%s", (_label, date, time, state, detail) => {
+    expect(getOpenStatus(confirmed, ct(date, time))).toMatchObject({ state, detail });
+  });
+
+  it.each([
+    ["UTC", 0],
+    ["Asia/Kolkata", -330],
+  ])("gives Central Time results when the server clock is %s", (zone, offset) => {
+    const original = process.env.TZ;
+    process.env.TZ = zone;
+    try {
+      // Prove the server clock really changed before checking the results.
+      expect(new Date(Date.UTC(2026, 9, 19, 12)).getTimezoneOffset()).toBe(offset);
+      for (const [, date, time, state, detail] of cases) {
+        expect(getOpenStatus(confirmed, ct(date, time))).toMatchObject({ state, detail });
+      }
+    } finally {
+      if (original === undefined) delete process.env.TZ;
+      else process.env.TZ = original;
+    }
+  });
+
+  it("groups the week Monday first", () => {
+    const rows = summarizeWeek(confirmed);
+    expect(rows).toEqual([
+      { days: "Mon–Fri", hours: "4 AM – 11 PM" },
+      { days: "Sat", hours: "5 AM – 11 PM" },
+      { days: "Sun", hours: "7 AM – 11 PM" },
+    ]);
+    expect(rows.map((r) => `${r.days} ${r.hours}`).join(" · ")).toBe(
+      "Mon–Fri 4 AM – 11 PM · Sat 5 AM – 11 PM · Sun 7 AM – 11 PM",
+    );
   });
 });

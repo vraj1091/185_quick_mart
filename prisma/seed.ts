@@ -1,11 +1,13 @@
 /**
  * Seeds an empty database with safe defaults. Safe to run more than once.
  *  - Fuel grades with no price (the site shows "Call for today's price").
- *  - No store hours (the site shows "Call for hours" until the owner sets them).
+ *  - The owner-confirmed store hours, but only if no hours are stored yet, so hours
+ *    edited in /admin are never overwritten.
  *  - Default site settings.
  *  - One example deal, switched OFF so it never shows until the owner turns it on.
  */
 import { PrismaClient } from "@prisma/client";
+import { confirmedHours } from "../content/store";
 
 const db = new PrismaClient();
 
@@ -15,6 +17,15 @@ async function main() {
   }
 
   await db.siteSettings.upsert({ where: { id: 1 }, update: {}, create: { id: 1 } });
+
+  if ((await db.storeHours.count()) === 0) {
+    await db.storeHours.createMany({
+      data: confirmedHours.map((h, dayOfWeek) => ({ dayOfWeek, ...h })),
+    });
+    console.log("Added the confirmed store hours.");
+  } else {
+    console.log("Store hours already set; left them as they are.");
+  }
 
   if ((await db.deal.count()) === 0) {
     await db.deal.create({
@@ -28,7 +39,7 @@ async function main() {
     });
   }
 
-  console.log("Seed complete: fuel grades, settings, and one inactive example deal.");
+  console.log("Seed complete: fuel grades, settings, hours, and one inactive example deal.");
 }
 
 main()

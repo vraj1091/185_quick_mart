@@ -110,6 +110,21 @@ export const store: StoreInfo = {
 
 export const STORE_TIME_ZONE = store.timeZone;
 
+/**
+ * Store hours confirmed by the owner, Central Time, 24-hour "HH:MM". Index 0 = Sunday.
+ * These seed the database (prisma/seed.ts, scripts/set-store-hours.ts). After that the
+ * owner manages hours in /admin, and the database is what the site shows.
+ */
+export const confirmedHours: readonly { opensAt: string; closesAt: string }[] = [
+  { opensAt: "07:00", closesAt: "23:00" }, // Sunday
+  { opensAt: "04:00", closesAt: "23:00" }, // Monday
+  { opensAt: "04:00", closesAt: "23:00" }, // Tuesday
+  { opensAt: "04:00", closesAt: "23:00" }, // Wednesday
+  { opensAt: "04:00", closesAt: "23:00" }, // Thursday
+  { opensAt: "04:00", closesAt: "23:00" }, // Friday
+  { opensAt: "05:00", closesAt: "23:00" }, // Saturday
+];
+
 export const fullAddress = `${store.address.street}, ${store.address.city}, ${store.address.region} ${store.address.postalCode}`;
 export const displayAddress = `${store.address.streetDisplay}, ${store.address.city}, ${store.address.region} ${store.address.postalCode}`;
 

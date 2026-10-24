@@ -145,9 +145,9 @@ export function getOpenStatus(schedule: Schedule | null, now: Date): OpenStatus 
   const dayOffset = Math.floor(next.start / MINUTES_PER_DAY);
   const time = formatClock(next.start);
   let detail: string;
-  if (dayOffset === 0) detail = `opens ${time}`;
-  else if (dayOffset === 1) detail = nowMin >= 18 * 60 ? `opens ${time}` : `opens tomorrow ${time}`;
-  else detail = `opens ${WEEKDAY_SHORT[weekdayOfKey(addDaysToKey(z.dateKey, dayOffset))]} ${time}`;
+  if (dayOffset === 0) detail = `Opens ${time}`;
+  else if (dayOffset === 1) detail = nowMin >= 18 * 60 ? `Opens ${time}` : `Opens tomorrow ${time}`;
+  else detail = `Opens ${WEEKDAY_SHORT[weekdayOfKey(addDaysToKey(z.dateKey, dayOffset))]} ${time}`;
   return { state: "closed", headline: "Closed", detail };
 }
 

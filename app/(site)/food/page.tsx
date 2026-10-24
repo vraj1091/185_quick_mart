@@ -4,11 +4,12 @@ import { CaptionStrip } from "@/components/brand/ShelfEdge";
 import { buttonClass } from "@/components/ui/Button";
 import { StorePhoto } from "@/components/ui/StorePhoto";
 import { photos, type Photo } from "@/content/images";
-import { menu, type MenuCategory } from "@/content/menu";
+import { JsonLd } from "@/components/JsonLd";
+import { MenuSection } from "@/components/menu/MenuSection";
 import { store } from "@/content/store";
 import { cn } from "@/lib/cn";
 import { getSettings } from "@/lib/data";
-import { pageMetadata } from "@/lib/seo";
+import { menuJsonLd, pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
   title: "Fried Chicken, Hunt Brothers Pizza, Coffee & Slushies in Bowling Green",
@@ -63,13 +64,15 @@ export default async function FoodPage() {
             <div className="grid content-start gap-10 sm:grid-cols-2 lg:col-span-6 lg:grid-cols-1">
               <MenuBlock
                 id="chicken"
-                category={menu[0]!}
+                brand="Perfectly Southern"
+                title="Fried chicken"
                 partner="perfectlySouthern"
                 text="Perfectly Southern fried chicken, cooked right here in the store. Want a piece hot out of the fryer? Just ask at the counter."
               />
               <MenuBlock
                 id="pizza"
-                category={menu[1]!}
+                brand="Hunt Brothers Pizza"
+                title="Pizza"
                 partner="huntBrothers"
                 text="Hunt Brothers pizza, whole pies or by the slice, baked here. Good for lunch, the drive home, or the whole crew."
               />
@@ -77,6 +80,10 @@ export default async function FoodPage() {
           </div>
         </div>
       </section>
+
+      {/* ---------- The menu (same component and data as the home page) ---------- */}
+      <MenuSection id="menu" />
+      <JsonLd data={menuJsonLd()} />
 
       {/* ---------- Drinks and sweets ---------- */}
       <FoodFeature
@@ -135,40 +142,26 @@ export default async function FoodPage() {
 
 function MenuBlock({
   id,
-  category,
+  brand,
+  title,
   partner,
   text,
 }: {
   id: string;
-  category: MenuCategory;
+  brand: string;
+  title: string;
   partner: "perfectlySouthern" | "huntBrothers";
   text: string;
 }) {
   return (
-    <div id={id} className="scroll-mt-6">
+    <div id={id} className="scroll-mt-24">
       <PartnerLogo partner={partner} className="mb-3 h-12 w-auto" />
-      <p className="eyebrow text-accent">{category.brand}</p>
-      <h3 className="type-display type-h3 mt-2">{category.title}</h3>
+      <p className="eyebrow text-accent">{brand}</p>
+      <h3 className="type-display type-h3 mt-2">{title}</h3>
       <p className="mt-3 text-lg">{text}</p>
-      {category.items.length > 0 ? (
-        <ul className="mt-5 divide-y divide-line border-y border-line">
-          {category.items.map((item) => (
-            <li key={item.name} className="flex items-baseline justify-between gap-4 py-3">
-              <span>
-                <span className="font-bold">{item.name}</span>
-                {item.description ? (
-                  <span className="block text-[0.9375rem] text-muted">{item.description}</span>
-                ) : null}
-              </span>
-              {item.price ? <span className="font-mono font-semibold tabular">{item.price}</span> : null}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className="mt-4 border-l-4 border-primary pl-3 font-semibold">
-          Ask at the counter for today’s menu.
-        </p>
-      )}
+      <a href="#menu" className="link-store mt-4 inline-block">
+        See the menu
+      </a>
     </div>
   );
 }

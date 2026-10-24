@@ -12,6 +12,7 @@ Why each crop exists (see README "Photo changes"):
 - auto-care: remove garbled background signs.
 - interior-counter-wide: keep the "Quick · Clean · Kind" wall, drop the cigarette back bar and garbled banner.
 - atm: remove the screen (garbled on-screen text).
+- hot-food-counter: remove the top strip (garbled banner small print and warmer sign).
 
 Run: python scripts/crop-photos.py
 """
@@ -35,6 +36,9 @@ CROPS = {
     "aisles/auto-care.jpg": ("aisles/auto-care-shelves.jpg", (130, 330, 1792, 1344)),
     "aisles/interior-counter-wide.jpg": ("aisles/interior-tagline-band.jpg", (230, 380, 1700, 760)),
     "services/atm.jpg": ("services/atm-keypad.jpg", (0, 925, 1264, 1600)),
+    # Already cropped by the owner's kit; the top 48px still had a banner with garbled
+    # small print, a misprinted "hot n fresh" logo and a gibberish sign on the pizza warmer.
+    "food/hot-food-counter.jpg": ("food/hot-food-counter.jpg", (0, 48, 840, 486)),
 }
 
 for src, (out, box) in CROPS.items():

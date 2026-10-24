@@ -8,6 +8,7 @@ import { Tagline } from "@/components/brand/Wordmark";
 import { DealTag } from "@/components/deals/DealTag";
 import { FuelBoard } from "@/components/fuel/FuelBoard";
 import { InfoRail } from "@/components/home/InfoRail";
+import { MenuSection } from "@/components/menu/MenuSection";
 import { RoadDivider } from "@/components/brand/RoadLine";
 import { buttonClass } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -155,13 +156,15 @@ export default async function HomePage() {
           <div className="lg:col-span-7 lg:pr-4">
             <figure className="offset-frame [--offset-color:var(--color-accent)]">
               <div className="overflow-hidden rounded-sm shadow-lift">
+                {/* 840px source, shown at ~1:1 on a 1920px screen; centered 40% keeps the case and both signs in view. */}
                 <StorePhoto
-                  photo={photos.storefrontSide}
+                  photo={photos.hotFoodCounter}
                   cover
-                  sizes="(min-width: 1024px) 58vw, 100vw"
-                  className="aspect-[982/600]"
+                  sizes="(min-width: 1312px) 764px, (min-width: 1024px) 58vw, 100vw"
+                  className="aspect-[16/9]"
+                  position="center 40%"
                 />
-                <CaptionStrip left="Look for the pizza sign" right="Hot food inside" />
+                <CaptionStrip className="max-sm:text-[0.6875rem]" left="Hot food counter" right="Chicken · Pizza · Wings" />
               </div>
             </figure>
             <div className="mt-8 grid grid-cols-5 items-start gap-4 lg:mt-10 lg:gap-8">
@@ -214,21 +217,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ---------- The wall above the counter ---------- */}
-      <figure>
-        <StorePhoto
-          photo={photos.interiorBand}
-          cover
-          sizes="100vw"
-          className="aspect-[2.1/1] w-full sm:aspect-[3/1] lg:aspect-[1470/380]"
-          position="6% 100%"
-        />
-        <CaptionStrip
-          className="px-4 sm:px-6 lg:px-10"
-          left="Inside the store"
-          right="Above the register"
-        />
-      </figure>
+      {/* ---------- Menu boards (replaced the "Quick · Clean · Kind" wall photo) ---------- */}
+      <MenuSection id="menu" showFoodLink />
 
       {/* ---------- Aisles ---------- */}
       <section aria-labelledby="home-aisles" className="container-store py-16 lg:py-24">

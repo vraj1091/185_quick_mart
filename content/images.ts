@@ -20,6 +20,12 @@ export const photos = {
     height: 1000,
     alt: "The front of 185 Quick Mart on a sunny day, with flower planters along the windows",
   },
+  hotFoodCounter: {
+    src: "/images/food/hot-food-counter.jpg",
+    width: 840,
+    height: 438,
+    alt: "The hot food counter at 185 Quick Mart, with fried chicken in the warming case, pizza slices in the warmers, and the Perfectly Southern and Hunt Brothers Pizza signs.",
+  },
   storefrontSide: {
     src: "/images/storefront/storefront-side-food-signs.jpg",
     width: 982,
@@ -56,6 +62,7 @@ export const photos = {
     height: 1650,
     alt: "Blue Bunny ice cream freezer stocked with cups, cones, sandwiches and bars",
   },
+  /** Not on the site right now (the home banner became the menu section). Kept for later. */
   interiorBand: {
     src: "/images/aisles/interior-tagline-band.jpg",
     width: 1470,

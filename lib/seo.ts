@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { menu } from "@/content/menu";
 import { store } from "@/content/store";
 import { photos } from "@/content/images";
 import { fromDayHours, hasWeeklyHours, type DayHours, type Schedule } from "./hours";
@@ -79,6 +80,8 @@ export function storeJsonLd(schedule: Schedule | null): JsonLd {
       "Bagged ice",
     ].map((name) => ({ "@type": "LocationFeatureSpecification", name, value: true })),
     hasMap: store.maps.search,
+    // The full menu (names only, no prices) is marked up on the food page.
+    hasMenu: absoluteUrl("/food#menu"),
   };
 
   if (store.coordinates) {
@@ -100,6 +103,34 @@ export function storeJsonLd(schedule: Schedule | null): JsonLd {
   }
 
   return data;
+}
+
+/** The hot food menu as schema.org Menu. Names and options only: no offers, no prices. */
+export function menuJsonLd(): JsonLd {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Menu",
+    "@id": absoluteUrl("/food#menu"),
+    name: `${store.name} hot food menu`,
+    url: absoluteUrl("/food#menu"),
+    hasMenuSection: menu.map((category) => {
+      const toItem = (item: { name: string; note?: string }) => ({
+        "@type": "MenuItem",
+        name: item.name,
+        ...(item.note ? { description: item.note } : {}),
+      });
+      const untitled = category.groups.filter((g) => !g.title).flatMap((g) => g.items.map(toItem));
+      const titled = category.groups
+        .filter((g) => g.title)
+        .map((g) => ({ "@type": "MenuSection", name: g.title, hasMenuItem: g.items.map(toItem) }));
+      return {
+        "@type": "MenuSection",
+        name: category.eyebrow ? `${category.eyebrow} ${category.title}` : category.title,
+        ...(untitled.length ? { hasMenuItem: untitled } : {}),
+        ...(titled.length ? { hasMenuSection: titled } : {}),
+      };
+    }),
+  };
 }
 
 /** Serializes JSON-LD for a <script> tag without allowing "</script>" injection. */

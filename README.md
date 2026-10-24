@@ -40,7 +40,7 @@ npm run dev                     # http://localhost:3000
 - Owner dashboard: <http://localhost:3000/admin>
 - Internal style guide (not linked, not indexed): <http://localhost:3000/styleguide>
 
-`npm run setup` leaves the site in its honest "launch" state: no fuel prices ("Call for today's price"), no hours ("Call for hours"), and one example deal that is switched **off**.
+`npm run setup` leaves the site in its honest "launch" state: the owner-confirmed store hours, no fuel prices ("Call for today's price"), and one example deal that is switched **off**.
 
 ---
 
@@ -72,6 +72,7 @@ Any Node.js host works; nothing in the code is Vercel-only. These steps use Verc
    DATABASE_URL="postgresql://…" npm run db:push
    DATABASE_URL="postgresql://…" npm run db:seed
    ```
+   The seed adds the owner-confirmed store hours (Mon–Fri 4 AM – 11 PM, Sat 5 AM – 11 PM, Sun 7 AM – 11 PM, Central) only if no hours are stored yet. For a database that already exists, run `DATABASE_URL="postgresql://…" npm run db:hours`: it adds the hours only if none are stored, and if different hours are stored (edited in `/admin`) it lists the differences and changes nothing. `npm run db:hours -- --force` replaces them.
    `db:push` switches `prisma/schema.prisma` to PostgreSQL automatically when the URL starts with `postgres`. Don't commit that change if you still use SQLite locally (`git checkout prisma/schema.prisma`).
 3. **Vercel.** Import the repository at [vercel.com/new](https://vercel.com/new). Framework: Next.js. Build command: leave the default (`npm run build`). It runs `scripts/prisma-provider.mjs`, which picks PostgreSQL from `DATABASE_URL` for you.
 4. **Environment variables** in Vercel → Settings → Environment Variables: everything in [section 4](#4-environment-variables). Paste the **plain** password hash (no backslashes) on Vercel.
@@ -105,13 +106,17 @@ Nothing below is guessed on the site; each item stays hidden or says "call" unti
 - [ ] **Phone** (270) 599-1126 matches the Google Business Profile listing.
 - [ ] **Lottery cashing:** confirm the store is an authorized Kentucky Lottery cashing agent for prizes from $600.01 to $5,000. The Lottery page says "We cash winning tickets up to $5,000"; change `lottery.cashLimitDollars` if that's not right.
 - [ ] **Problem-gambling helpline:** the site lists 1-800-GAMBLER (1-800-426-2537), the Kentucky Council on Problem Gambling's line (kycpg.org). Re-check before launch.
-- [ ] **Store hours:** set them in `/admin` (the site says "Call for hours" until you do).
+- [x] **Store hours:** confirmed (Mon–Fri 4 AM – 11 PM, Sat 5 AM – 11 PM, Sun 7 AM – 11 PM). They're in `content/store.ts` (`confirmedHours`) and seeded into the database; change them in `/admin` from now on.
 - [ ] **Opening year:** if you want "Serving Bowling Green since 2023", set `servingSince: 2023`.
 - [ ] **Exact location:** latitude/longitude of the front door (`coordinates`). Until then, maps use the street address.
 - [ ] **Pay at the pump?** (`fuel.payAtPump`). The fuel FAQ leaves this question out until you answer it.
 - [ ] **Mid-grade?** and **Non-ethanol (E0)?** (`fuel.midGrade`, `fuel.nonEthanol`). Only Regular, Premium and Diesel are listed now.
-- [ ] **Chicken menu and prices** (`content/menu.ts`). Until then: "Ask at the counter for today's menu."
-- [ ] **Pizza menu and prices** (`content/menu.ts`).
+- [x] **Menu:** breakfast, lunch, Perfectly Southern chicken and Hunt Brothers pizza & wings are in `content/menu.ts`, names and options only. **Prices are never published** (they change and are handwritten in the store); the type has no price field.
+- [ ] **Pork Rib Sandwich or Salisbury steak?** A handwritten note on the lunch sheet says "Salisbury steak". The site lists Pork Rib Sandwich until you confirm.
+- [ ] **"Puff" on the breakfast sheet:** the handwriting is unclear, so it's not on the menu yet. Tell us the name.
+- [ ] **Chicken Leg and Chicken Wing** are crossed out on the paper lunch menu, so they're not under Lunch. They still appear under the chicken Boxes; confirm that's right.
+- [ ] **Breakfast and lunch serving times:** unknown, so the site doesn't state any. Send them if you'd like them shown.
+- [ ] **Hot food counter photo:** please send a real, higher-resolution phone photo of the counter (see section 7).
 - [ ] **Public email** (`email`), shown on the Visit page once set.
 - [ ] **Facebook / Instagram / Google Business Profile links** (`socials`), added to search data once set.
 
@@ -157,8 +162,11 @@ Only the store's own photos are used. No stock photos, AI images or food illustr
 | Auto care | Garbled background signs | Lower shelves only |
 | Wide interior | Cigarette back bar behind the counter; garbled lottery banner | Cropped to the "Quick · Clean · Kind" wall and menu boards |
 | ATM | Garbled on-screen text | Cropped to the card reader and keypad |
+| Hot food counter (home food band) | The kit's cropped file still had a banner with garbled small print, a misprinted "hot n fresh" logo, and a gibberish sign on the pizza warmer along its top edge | Top 48px trimmed; the full case, food and both lit signs stay. The kit's file is kept in `assets/photo-originals/food/` |
 
 **Not used:** the BP price sign photo (shows old prices, so it could contradict the live board), the marketing collage (misspelled brand name), and two alternate shots. All originals are kept in `assets/photo-originals/` (outside `public/`, so they're never served). See that folder's README.
+
+**About the hot food counter photo:** it's only 840px wide, so it shows at about 1:1 on a 1920px desktop and looks soft on high-density (Retina and phone) screens. It also looks AI-generated or heavily AI-enhanced: parsley garnish in the case, drifting steam, and lettering that turns into gibberish. The original brief ruled out AI images, so a plain phone photo of the real counter would be better. Swap it in by replacing `assets/photo-originals/food/hot-food-counter.jpg` and running `npm run photos:crop` (adjust the crop box in `scripts/crop-photos.py` if needed).
 
 Remaining small details to be aware of: small price stickers on the front doors are visible in the storefront photos (the products aren't identifiable). The lottery machine's screen ad is legible and correct.
 
@@ -235,6 +243,7 @@ The hidden style guide at `/styleguide` shows every token as a swatch with its c
 | `npm run build` / `npm start` | Production build / server |
 | `npm run setup` | Create local DB tables + seed |
 | `npm run db:push` / `npm run db:seed` | Sync schema / seed (any database) |
+| `npm run db:hours` | Load the confirmed store hours into a database that has none (`-- --force` to replace) |
 | `npm run admin:password -- "…"` | Make an `ADMIN_PASSWORD_HASH` |
 | `npm test` | Unit tests (Vitest) |
 | `npm run test:e2e` | Smoke and accessibility tests (Playwright + axe) against a production build |
@@ -247,8 +256,8 @@ The hidden style guide at `/styleguide` shows every token as a swatch with its c
 
 ## 9. Tests and checks
 
-- `npm test`: 54 unit tests. Hours logic (time zones, normal / after-midnight / 24-hour / closed days / holiday overrides / unknown days), the hours-timeline segments (including after-midnight tails), the 48-hour fuel rule and price display, contact and admin validation, the admin auth guard and password check, and the JSON-LD shape.
-- `npm run build && npx playwright install chromium && npm run test:e2e`: smoke tests on phone and desktop. Home loads, call links dial the store, the Call/Directions/Gas Prices bar works on phones, every page responds, admin requires login, and the contact form shows friendly errors and sends. (Run repeatedly within an hour, the contact and login tests see the rate-limit message instead, which they accept.)
+- `npm test`: 66 unit tests. Hours logic (time zones, normal / after-midnight / 24-hour / closed days / holiday overrides / unknown days), the owner-confirmed hours (every opening and closing edge, with the server clock set to UTC and to Asia/Kolkata to prove the results stay in Central Time), the hours-timeline segments (including after-midnight tails), the menu JSON-LD (every item, no prices), the 48-hour fuel rule and price display, contact and admin validation, the admin auth guard and password check, and the JSON-LD shape.
+- `npm run build && npx playwright install chromium && npm run test:e2e`: smoke tests on phone and desktop. Home loads, call links dial the store, the Call/Directions/Gas Prices bar works on phones, every page responds, admin requires login, the contact form shows friendly errors and sends, the phone menu tabs work with the keyboard (arrows, Home, End), all four menu boards show on desktop, the menu never shows a price, and the footer shows the real hours. (Run repeatedly within an hour, the contact and login tests see the rate-limit message instead, which they accept.)
 - The same command runs `e2e/a11y.spec.ts`: an axe scan for WCAG 2.2 A/AA problems, including color contrast, on every public page and the admin login, on phone and desktop. All pass. (The Google map iframe is Google's content and is excluded.)
 
 **Lighthouse (local, mobile, after the level-up):** Accessibility **100**, Best Practices **100** and SEO **100** on every page, and layout shift **0**. Performance **88–94** (home 90, fuel 94, food 92, store 92, lottery 94, visit 88), the same range as before the level-up, which added only about 5 KB. **The 95 target is not met locally.** The limit is Lighthouse's simulated slow-4G connection, where the framework JavaScript and web fonts compete with the hero photo. Run PageSpeed Insights on the deployed site for the real-world figure. The hero image is preloaded, the display font is a 7 KB subset, and the Google map waits until the page has finished loading.

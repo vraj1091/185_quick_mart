@@ -22,7 +22,8 @@
     "setup": "prisma db push && tsx prisma/seed.ts",
     "admin:password": "node scripts/hash-password.mjs",
     "photos:crop": "python scripts/crop-photos.py",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "db:hours": "tsx scripts/set-store-hours.ts"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",
