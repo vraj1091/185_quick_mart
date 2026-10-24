@@ -22,16 +22,19 @@ export default function LotteryPage() {
   const rules = [
     {
       amount: `${counterLimit} or less`,
-      text: (
-        <>Bring the winning ticket to the counter and we’ll cash it. No claim form needed.</>
-      ),
+      text: <>Bring the winning ticket to the counter and we’ll cash it. No claim form needed.</>,
     },
     {
       amount: `Over ${counterLimit} up to ${cashLimit}`,
       text: (
         <>
           Bring the signed ticket, a completed Kentucky Lottery{" "}
-          <a href={officialLinks.kyLotteryClaim} target="_blank" rel="noopener noreferrer" className="link-store">
+          <a
+            href={officialLinks.kyLotteryClaim}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link-store"
+          >
             prize claim form
           </a>
           , and a valid photo ID. We’ll take care of the rest.
@@ -44,7 +47,12 @@ export default function LotteryPage() {
         <>
           These are claimed through the Kentucky Lottery itself: at a Super Cashing Agent (up to
           $25,000) or at Kentucky Lottery headquarters in Louisville. See the Lottery’s{" "}
-          <a href={officialLinks.kyLotteryClaim} target="_blank" rel="noopener noreferrer" className="link-store">
+          <a
+            href={officialLinks.kyLotteryClaim}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link-store"
+          >
             claim page
           </a>{" "}
           for where and how.
@@ -63,8 +71,8 @@ export default function LotteryPage() {
             Kentucky Lottery tickets, scratch-offs and draw games at the counter, plus a
             self-service lottery machine inside the store.
           </p>
-          <div className="on-dark mt-8 inline-flex flex-wrap items-center gap-4 rounded-md bg-deep p-4 pr-6 text-on-deep">
-            <span className="type-display rounded-sm bg-surface px-3 pt-2.5 pb-1.5 text-[2rem] text-primary">
+          <div className="on-dark bg-deep text-on-deep mt-8 inline-flex flex-wrap items-center gap-4 rounded-md p-4 pr-6">
+            <span className="type-display bg-surface text-primary rounded-sm px-3 pt-2.5 pb-1.5 text-[2rem]">
               {cashLimit}
             </span>
             <span className="text-lg font-bold">We cash winning tickets up to {cashLimit}.</span>
@@ -83,36 +91,46 @@ export default function LotteryPage() {
         </figure>
       </section>
 
-      <section aria-labelledby="cashing" className="border-y border-line bg-surface-alt py-16 lg:py-24">
+      <section
+        aria-labelledby="cashing"
+        className="border-line bg-surface-alt border-y py-16 lg:py-24"
+      >
         <div className="container-store grid gap-10 lg:grid-cols-12 lg:gap-14">
           <div className="lg:col-span-4">
             <p className="eyebrow text-accent">Cashing a winner</p>
             <h2 id="cashing" className="type-display type-h2 mt-3">
               Won? Here’s how it works.
             </h2>
-            <p className="mt-4 text-muted">
+            <p className="text-muted mt-4">
               Sign the back of your ticket as soon as you know it’s a winner.
             </p>
           </div>
-          <dl className="lg:col-span-8">
-            {rules.map((r) => (
-              <div
-                key={r.amount}
-                className="grid gap-2 border-t-[3px] border-primary py-6 sm:grid-cols-[14rem_1fr] sm:gap-8"
-              >
-                <dt className="font-mono text-lg font-semibold tabular">{r.amount}</dt>
-                <dd className="text-lg">{r.text}</dd>
-              </div>
-            ))}
-            <p className="border-t border-line pt-5 text-muted">
+          <div className="lg:col-span-8">
+            <dl>
+              {rules.map((r) => (
+                <div
+                  key={r.amount}
+                  className="border-primary grid gap-2 border-t-[3px] py-6 sm:grid-cols-[14rem_1fr] sm:gap-8"
+                >
+                  <dt className="tabular font-mono text-lg font-semibold">{r.amount}</dt>
+                  <dd className="text-lg">{r.text}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className="border-line text-muted border-t pt-5">
               Prizes must be claimed within 180 days of the drawing, or of the game’s end date for
               scratch-offs. Rules are set by the Kentucky Lottery and can change; check{" "}
-              <a href={officialLinks.kyLottery} target="_blank" rel="noopener noreferrer" className="link-store">
+              <a
+                href={officialLinks.kyLottery}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link-store"
+              >
                 kylottery.com
               </a>{" "}
               for the latest.
             </p>
-          </dl>
+          </div>
         </div>
       </section>
 
@@ -126,7 +144,10 @@ export default function LotteryPage() {
             <p>
               Lottery games are for fun, and no ticket is a sure thing. If gambling stops being fun
               for you or someone you know, free, confidential help is available 24/7. Call or text{" "}
-              <a href={officialLinks.gamblingHelpline.href} className="link-store font-mono tabular">
+              <a
+                href={officialLinks.gamblingHelpline.href}
+                className="link-store tabular font-mono"
+              >
                 {officialLinks.gamblingHelpline.display}
               </a>
               .

@@ -27,3 +27,6 @@ coverage/
 
 # original photo kit download
 *.zip
+
+# before/after screenshots for the retheme review (large, local only)
+retheme-review/

@@ -177,17 +177,40 @@ content/             store facts (single source of truth), photos, aisles, menu
 lib/                 hours logic, fuel rules, time zones, validation, auth, rate limiting, SEO, data access
 prisma/              schema + seed
 scripts/             photo crops, display font build, password hash, DB provider switch
-e2e/                 Playwright smoke tests
+e2e/                 Playwright smoke tests and accessibility (axe) checks
 ```
 
 **Key behaviors**
 
 - **Central Time everywhere.** All open/closed logic uses `America/Chicago` via `Intl` (`lib/time.ts`, `lib/hours.ts`). Supports normal hours, after-midnight closing, 24 hours, closed days, and holiday overrides. If a day isn't set, the site doesn't guess.
 - **No stale fuel prices, ever.** A price older than 48 hours is (1) never rendered by the server, (2) hidden before first paint by a tiny inline script if a cached page has aged, and (3) re-checked every minute in the browser (`components/fuel/`).
-- **Fast, static pages.** Public pages are pre-rendered and refreshed at most every 10 minutes, and immediately after any admin save (`revalidatePath`). Only the menu toggle, open-now pill, hours highlight, fuel freshness check, notice dismiss and forms run JavaScript in the browser. The Google map is a lazy-loaded iframe, so it loads only when it scrolls near the screen.
+- **Fast, static pages.** Public pages are pre-rendered and refreshed at most every 10 minutes, and immediately after any admin save (`revalidatePath`). Only the menu toggle, open-now pill, hours highlight, fuel freshness check, notice dismiss, map loader and forms run JavaScript in the browser. The Google map starts loading on its own after the rest of the page has finished, so Google's scripts never slow the first paint.
 - **Fails safe.** If the database is unreachable, public pages still render with "Call for price" / "Call for hours" instead of an error.
 - **Admin security.** Single owner password (bcrypt), httpOnly + sameSite=lax session cookie (secure in production, 12-hour life), login rate limit (5 tries / 15 min per IP), every server action re-checks the session, `/admin` is `noindex` and disallowed in robots.txt. Server Actions include Next.js's built-in CSRF (origin) protection.
 - **Contact form.** Validated in the browser and again on the server, honeypot field, 5 messages/hour per IP (IP addresses are hashed, never stored), saved to the inbox, then emailed if Resend is set up.
+
+**Colors and the theme file**
+
+Every color on the site lives in one file, [`lib/theme.ts`](lib/theme.ts). Nothing else in the codebase contains a color value. Components use semantic names, never raw colors:
+
+| Token | Value | Used for |
+|---|---|---|
+| `bg`, `surface` | white | Page background, cards |
+| `surface-alt` | mist `#F2F7F3` | Every other section |
+| `ink`, `muted` | `#14201A`, `#4F5D54` | Main and secondary text |
+| `line` | sage `#D5E3D9` | Borders and dividers |
+| `primary`, `primary-hover`, `on-primary` | pine `#14532D`, `#0E3B20`, white | Buttons, active nav, links |
+| `accent`, `accent-soft` | fern `#1F7A45`, tint `#E3F0E7` | Eyebrow labels, tagline, chips |
+| `deep`, `deep-2`, `on-deep`, `on-deep-muted` | dark pines, white, `#A7C4B0` | Footer, fuel board, lottery panel, notice strip |
+| `led` | `#4ADE80` | Fuel price digits only |
+| `brand-red` | `#B4232C` | Logo wordmark only |
+| `danger` | `#9F1D24` | Form errors only |
+
+The values reach the page as CSS variables on `<html>`, which Tailwind exposes as classes (`bg-surface-alt`, `text-muted`, `border-line` ...). The share image, icons and browser `theme-color` read the same file. To change the site's colors, edit the values there and rebuild.
+
+**Red in the logo:** `USE_BRAND_RED_IN_LOGO` in `lib/theme.ts`. `true` (the default) keeps the real sign red in the header wordmark and share image; red appears nowhere else. `false` makes the wordmark pine green. The footer wordmark is always white, because red or pine on the dark pine footer would be too low-contrast.
+
+The hidden style guide at `/styleguide` shows every token as a swatch with its contrast ratios, a WCAG AA check of every text/background pair, both logo options, and the components on light and dark sections.
 
 **Scripts**
 
@@ -199,7 +222,7 @@ e2e/                 Playwright smoke tests
 | `npm run db:push` / `npm run db:seed` | Sync schema / seed (any database) |
 | `npm run admin:password -- "…"` | Make an `ADMIN_PASSWORD_HASH` |
 | `npm test` | Unit tests (Vitest) |
-| `npm run test:e2e` | Smoke tests (Playwright) against a production build |
+| `npm run test:e2e` | Smoke and accessibility tests (Playwright + axe) against a production build |
 | `npm run lint` / `npm run typecheck` / `npm run format` | ESLint / TypeScript / Prettier |
 | `npm run photos:crop` | Re-create the cropped photos from `assets/photo-originals/` |
 | `python scripts/build-display-font.py` | Rebuild the display font file (needs `pip install fonttools brotli`) |
@@ -210,19 +233,21 @@ e2e/                 Playwright smoke tests
 
 - `npm test`: 49 unit tests. Hours logic (time zones, normal / after-midnight / 24-hour / closed days / holiday overrides / unknown days), the 48-hour fuel rule and price display, contact and admin validation, the admin auth guard and password check, and the JSON-LD shape.
 - `npm run build && npx playwright install chromium && npm run test:e2e`: smoke tests on phone and desktop. Home loads, call links dial the store, the Call/Directions/Gas Prices bar works on phones, every page responds, admin requires login, and the contact form shows friendly errors and sends. (Run repeatedly within an hour, the contact and login tests see the rate-limit message instead, which they accept.)
+- The same command runs `e2e/a11y.spec.ts`: an axe scan for WCAG 2.2 A/AA problems, including color contrast, on every public page and the admin login, on phone and desktop. All pass. (The Google map iframe is Google's content and is excluded.)
 
-**Lighthouse (local, mobile):** Accessibility **100**, Best Practices **100**, SEO **100**, layout shift **0** on every page tested. The Performance score measured 55–89 on the build machine, but that machine's CPU benchmark swung 4× between runs, so the number isn't reliable there. Run PageSpeed Insights on the deployed site for the real figure. The page weight is small (roughly half a megabyte for the home page, photos included), the hero image is preloaded, and the display font is a 7 KB subset.
+**Lighthouse (local, mobile, after the white & green retheme):** Accessibility **100**, Best Practices **100** and SEO **100** on every page, and layout shift near zero. Performance: Fuel, Store and Lottery **96**; Home, Food and Visit between **90 and 94** across runs (Home's largest paint is the hero photo, which shares the simulated slow-4G bandwidth with the framework's JavaScript). So the 95 target is met on half the pages and close on the rest. Run PageSpeed Insights on the deployed site for the real-world figure. The hero image is preloaded, the display font is a 7 KB subset, and the Google map waits until the page has finished loading.
 
 ---
 
 ## 10. Decisions and changes from the brief
 
-- **Contrast fixes (WCAG AA):** red (`#B4232C`) on asphalt is only 2.5:1, so on dark backgrounds the focus ring is limestone instead of red, and red is used there only as button fills and underline bars, never as text. Form inputs use a `slate` border (5.6:1) instead of `concrete`, which is too faint for an input outline. No colors outside the palette were added.
+- **White & green retheme** (October 2026, three commits on top of the original charcoal & red build): semantic tokens first with no visual change, then the new palette, then polish. Pine rather than bright green, and no yellow, so the site doesn't read as a BP corporate page.
+- **Contrast details (WCAG AA):** every text pair passes (see `/styleguide`). Two deliberate exceptions to the retheme brief: form fields use the `muted` border (6.9:1) instead of `line`, because `line` is only 1.3:1 on white and an input outline needs 3:1 (WCAG 1.4.11); and the footer wordmark is white, not red or pine. On dark sections the focus ring is white instead of pine so it stays visible.
 - **Display font:** Archivo ExtraBold at 118% width, served as a 7 KB self-hosted subset (`app/fonts/archivo-display.woff2`, built from Google Fonts by `scripts/build-display-font.py`) instead of the 88 KB variable font. Overpass and Overpass Mono load through `next/font/google`.
-- **Open-now tag** is styled like the red "OPEN" sign in the front window rather than a green dot, because green is reserved for fuel and yellow for deals/lottery.
+- **Hero size:** the headline tops out at 64px, so at 1920×1080 it runs three lines and the fuel board starts above the fold.
 - **Prisma 6** (stable, single schema with built-in engines) rather than Prisma 7, which needs separate native database drivers. **bcryptjs** (same bcrypt algorithm, no native build) rather than `bcrypt`.
 - **Rate limits are stored in the database**, so they work on serverless hosts where memory resets between requests.
-- **Map shows right away** (a lazy-loaded Google Maps embed) instead of the brief's tap-to-load placeholder, at the owner's request. It still loads only when scrolled near, so it doesn't slow the top of the page.
+- **Map shows on its own** (a Google Maps embed) instead of the brief's tap-to-load placeholder, at the owner's request. It starts loading after the rest of the page has finished, so it doesn't slow the first paint.
 - **Apple Maps** link is shown to everyone on the Visit page (it works on all devices), next to Google Maps directions.
 - **Lottery claim rules** come from the Kentucky Lottery's own claim page: $600 or less at any retailer; up to $5,000 at a cashing agent with the claim form and ID; above that, a Super Cashing Agent (up to $25,000) or Lottery headquarters; 180-day claim deadline.
 - **Original photos** that contain wrong names, garbled text, old prices or tobacco promotions were moved out of `public/` (see section 7), so they can't be reached on the live site.
