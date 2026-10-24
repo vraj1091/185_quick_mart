@@ -1,0 +1,84 @@
+// 185 Quick Mart data model.
+//
+// Development uses SQLite (file in prisma/dev.db). Production uses PostgreSQL:
+// `npm run build` and `npm run db:push` run scripts/prisma-provider.mjs first,
+// which switches the provider below to "postgresql" when DATABASE_URL is a
+// postgres:// URL. Keep the provider line exactly as written so the script can find it.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+/// One row per grade: "regular" | "premium" | "diesel".
+/// price is null until the owner enters one, and the site never shows a price older than 48 hours.
+model FuelPrice {
+  id        String   @id @default(cuid())
+  grade     String   @unique
+  price     Decimal?
+  updatedAt DateTime @updatedAt
+}
+
+model Deal {
+  id        String    @id @default(cuid())
+  title     String // "2-Liter Pepsi products"
+  priceText String // "2 for $5"
+  note      String?
+  startsAt  DateTime?
+  endsAt    DateTime?
+  active    Boolean   @default(true)
+  sortOrder Int       @default(0)
+  createdAt DateTime  @default(now())
+}
+
+/// Weekly schedule. No rows at all = hours not published (site says "Call for hours").
+/// opensAt/closesAt are "HH:MM" in Central Time. Both null = closed that day.
+/// "00:00"–"24:00" = open 24 hours. closesAt earlier than opensAt = closes after midnight.
+model StoreHours {
+  dayOfWeek Int     @id // 0 = Sunday
+  opensAt   String?
+  closesAt  String?
+}
+
+/// Holiday or one-off hours. Overrides the weekly schedule for that calendar date.
+/// `date` is stored as midnight UTC of the calendar date (e.g. 2026-11-26T00:00:00Z).
+model SpecialHours {
+  id       String   @id @default(cuid())
+  date     DateTime
+  label    String // "Thanksgiving"
+  opensAt  String?
+  closesAt String?
+
+  @@index([date])
+}
+
+model SiteSettings {
+  id         Int     @id @default(1)
+  noticeText String?
+  hotFoodOn  Boolean @default(true)
+  hiringOn   Boolean @default(false)
+}
+
+model ContactMessage {
+  id        String    @id @default(cuid())
+  name      String
+  contact   String // phone or email
+  topic     String
+  message   String
+  createdAt DateTime  @default(now())
+  readAt    DateTime?
+}
+
+/// Rate-limit log for the contact form and admin login. Works on serverless hosts
+/// where in-memory counters reset between requests. Old rows are pruned automatically.
+model RateLimitHit {
+  id        String   @id @default(cuid())
+  key       String
+  createdAt DateTime @default(now())
+
+  @@index([key, createdAt])
+}

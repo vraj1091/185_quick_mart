@@ -1,0 +1,250 @@
+@import "tailwindcss";
+
+/*
+ * 185 Quick Mart design tokens. Colors come from the building itself:
+ * charcoal metal roof (asphalt), cream block walls (limestone), the red channel-letter
+ * sign (sign-red), and the BP price pylon (price-green). No other colors.
+ */
+@theme {
+  --color-*: initial;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-asphalt: #1e2023;
+  --color-asphalt-2: #2b2e32;
+  --color-sign-red: #b4232c;
+  --color-ember: #8e1b22;
+  --color-limestone: #f3eee4;
+  --color-bone: #fbf9f4;
+  --color-concrete: #d9d3c7;
+  --color-slate: #5a5e63;
+  --color-price-green: #2fd06a;
+  --color-canopy-green: #0b6b3a;
+  --color-hi-vis: #f2c230;
+
+  --font-sans: var(--font-overpass), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-overpass-mono), ui-monospace, "SFMono-Regular", monospace;
+  --font-display: var(--font-archivo), var(--font-overpass), ui-sans-serif, sans-serif;
+
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+}
+
+/* ---------- Base ---------- */
+
+@layer base {
+  :root {
+    --focus-ring: var(--color-sign-red);
+  }
+
+  html {
+    background: var(--color-limestone);
+    color: var(--color-asphalt);
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 1.5rem;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: clamp(1.0625rem, 1rem + 0.2vw, 1.125rem);
+    line-height: 1.55;
+    min-height: 100dvh;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Dark surfaces get a light focus ring: red on asphalt is under 3:1. */
+  .on-dark {
+    --focus-ring: var(--color-limestone);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 3px;
+  }
+
+  a,
+  button,
+  input,
+  select,
+  textarea,
+  summary {
+    transition-property: color, background-color, border-color, transform;
+    transition-duration: 160ms;
+    transition-timing-function: ease-out;
+  }
+
+  ::selection {
+    background: var(--color-sign-red);
+    color: var(--color-white);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ---------- Type ---------- */
+
+/* Wide, heavy capitals that echo the channel letters on the roof. */
+@utility type-display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.012em;
+  line-height: 0.94;
+}
+
+/* About 39px on phones up to 78px. On large screens the H1 shares the row with a photo,
+   so it scales with that column; the longest word ("EVERYTHING") always fits. */
+@utility type-h1 {
+  font-size: clamp(2.375rem, 1.45rem + 4.3vw, 4.875rem);
+
+  @media (min-width: 1024px) {
+    font-size: clamp(3.5rem, 6.72vw - 0.58rem, 4.875rem);
+  }
+}
+
+@utility type-h2 {
+  font-size: clamp(1.875rem, 1.25rem + 2.5vw, 3.25rem);
+}
+
+@utility type-h3 {
+  font-size: clamp(1.375rem, 1.1rem + 1vw, 1.875rem);
+}
+
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  line-height: 1.2;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@utility measure {
+  max-width: 68ch;
+}
+
+/* Red letters with a thin white outline, like the lit sign on the roof. */
+@utility sign-letters {
+  color: var(--color-sign-red);
+  -webkit-text-stroke: 0.07em var(--color-white);
+  paint-order: stroke fill;
+}
+
+/* Glowing digits from the price pylon. Only on the dark fuel board. */
+@utility price-led {
+  color: var(--color-price-green);
+  text-shadow:
+    0 0 6px rgb(47 208 106 / 0.45),
+    0 0 20px rgb(47 208 106 / 0.18);
+}
+
+/* ---------- Components ---------- */
+
+@layer components {
+  .container-store {
+    width: 100%;
+    max-width: 82rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .container-store {
+      padding-inline: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container-store {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  /* Fuel price board: hide prices the moment they pass 48 hours. */
+  [data-fuel-fallback] {
+    display: none;
+  }
+
+  [data-stale] [data-fuel-fresh] {
+    display: none;
+  }
+
+  [data-stale] [data-fuel-fallback] {
+    display: block;
+  }
+
+  /* Notice banner hidden after "dismiss" (set before paint by an inline script). */
+  .notice-dismissed [data-notice] {
+    display: none;
+  }
+
+  /* Body copy links. */
+  .link-store {
+    color: var(--color-sign-red);
+    font-weight: 700;
+    text-decoration-line: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.2em;
+  }
+
+  .link-store:hover {
+    color: var(--color-ember);
+  }
+
+  .on-dark .link-store {
+    color: var(--color-limestone);
+    text-decoration-color: var(--color-sign-red);
+  }
+
+  .on-dark .link-store:hover {
+    color: var(--color-white);
+  }
+
+  /* Plain-language long text (privacy page, lottery rules). */
+  .prose-store > * + * {
+    margin-top: 1rem;
+  }
+
+  .prose-store h2 {
+    margin-top: 2.5rem;
+    font-weight: 800;
+    font-size: 1.375rem;
+    line-height: 1.25;
+  }
+
+  .prose-store ul {
+    list-style: square;
+    padding-left: 1.25rem;
+  }
+
+  .prose-store li + li {
+    margin-top: 0.5rem;
+  }
+
+  .prose-store li::marker {
+    color: var(--color-sign-red);
+  }
+}
