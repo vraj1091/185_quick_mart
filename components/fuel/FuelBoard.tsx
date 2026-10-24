@@ -1,11 +1,12 @@
 import { Phone } from "lucide-react";
 import { store } from "@/content/store";
 import { cn } from "@/lib/cn";
-import { fuelBoardState, priceSpoken, splitPrice, type FuelSnapshot } from "@/lib/fuel";
+import { fuelBoardState, type FuelSnapshot } from "@/lib/fuel";
 import { Sep } from "@/components/brand/Sep";
 import { buttonClass } from "@/components/ui/Button";
 import { FuelFreshness } from "./FuelFreshness";
 import { FuelUpdated } from "./FuelUpdated";
+import { LedPrice } from "./LedPrice";
 
 /*
  * Fuel price board, styled after the price pylon out front: dark pine header,
@@ -44,91 +45,67 @@ export function FuelBoard({
     <section
       id={id}
       aria-labelledby={headingId}
-      className={cn("on-dark overflow-hidden rounded-md bg-deep-2 text-on-deep", className)}
+      className={cn("border-chrome bg-chrome rounded-md border-[6px] shadow-md", className)}
     >
-      <div className="flex items-center justify-between gap-3 bg-deep px-5 py-3.5 sm:px-6">
-        <Heading id={headingId} className="eyebrow text-on-deep">
-          {title}
-        </Heading>
-        <p className="eyebrow text-on-deep-muted">
-          {store.fuelBrand}
-          <Sep />
-          per gallon
-        </p>
-      </div>
+      {/* The metal cabinet: chrome frame, then a thin dark inner line. */}
+      <div className="on-dark border-deep-3 bg-deep-2 text-on-deep overflow-hidden rounded-[2px] border">
+        <div className="bg-deep flex items-center justify-between gap-3 px-5 py-3.5 shadow-[inset_0_1px_0_color-mix(in_srgb,var(--color-on-deep)_6%,transparent)] sm:px-6">
+          <Heading id={headingId} className="eyebrow text-on-deep">
+            {title}
+          </Heading>
+          <p className="eyebrow text-on-deep-muted">
+            {store.fuelBrand}
+            <Sep />
+            per gallon
+          </p>
+        </div>
 
-      {state.fresh ? (
-        <>
-          <FuelFreshness staleAt={state.staleAtMs}>
-            <div data-fuel-fresh>
-              <dl>
-                {state.rows.map((row) => (
-                  <div
-                    key={row.grade}
-                    className={cn(
-                      "flex items-center justify-between gap-4 border-b border-on-deep/10 px-5 sm:px-6",
-                      size === "lg" ? "py-5" : "py-4",
-                    )}
-                  >
-                    <dt className="eyebrow flex items-center gap-3 text-[0.875rem] text-on-deep-muted">
-                      <span
-                        aria-hidden="true"
-                        className="size-2.5 rounded-full bg-accent"
-                      />
-                      {row.label}
-                    </dt>
-                    <dd>
-                      {row.price !== null ? (
-                        <PriceDigits price={row.price} size={size} />
-                      ) : (
-                        <a href={store.phone.href} className="link-store text-base">
-                          Call for price
-                        </a>
+        {state.fresh ? (
+          <>
+            <FuelFreshness staleAt={state.staleAtMs}>
+              <div data-fuel-fresh>
+                <dl data-odometer-group>
+                  {state.rows.map((row) => (
+                    <div
+                      key={row.grade}
+                      className={cn(
+                        "border-on-deep/10 flex items-center justify-between gap-4 border-b px-5 sm:px-6",
+                        size === "lg" ? "py-5" : "py-4",
                       )}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-              <p className="px-5 py-3 text-sm text-on-deep-muted sm:px-6">
-                Updated <FuelUpdated at={state.updatedAtMs} />
-              </p>
-            </div>
-            <div data-fuel-fallback>
-              <CallForPrice />
-            </div>
-          </FuelFreshness>
-          <script dangerouslySetInnerHTML={{ __html: STALE_SCRIPT }} />
-        </>
-      ) : (
-        <CallForPrice />
-      )}
+                    >
+                      <dt className="eyebrow text-on-deep-muted flex items-center gap-3 text-[0.875rem]">
+                        <span aria-hidden="true" className="bg-accent size-2.5 rounded-full" />
+                        {row.label}
+                      </dt>
+                      <dd>
+                        {row.price !== null ? (
+                          <LedPrice price={row.price} size={size} />
+                        ) : (
+                          <a href={store.phone.href} className="link-store text-base">
+                            Call for price
+                          </a>
+                        )}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+                <div className="flex justify-end px-5 pt-3 pb-4 sm:px-6">
+                  <p className="bg-deep-3 text-on-deep-muted rounded-xs px-2.5 pt-1 pb-0.5 font-mono text-xs">
+                    Updated <FuelUpdated at={state.updatedAtMs} />
+                  </p>
+                </div>
+              </div>
+              <div data-fuel-fallback>
+                <CallForPrice />
+              </div>
+            </FuelFreshness>
+            <script dangerouslySetInnerHTML={{ __html: STALE_SCRIPT }} />
+          </>
+        ) : (
+          <CallForPrice />
+        )}
+      </div>
     </section>
-  );
-}
-
-function PriceDigits({ price, size }: { price: number; size: "md" | "lg" }) {
-  const { main, tenths } = splitPrice(price);
-  return (
-    <span
-      className={cn(
-        "price-led flex items-start font-mono leading-none font-semibold tabular",
-        size === "lg"
-          ? "text-[clamp(3rem,2.2rem+3.2vw,4.5rem)]"
-          : "text-[clamp(2.5rem,2rem+2vw,3.5rem)]",
-      )}
-    >
-      <span className="sr-only">{priceSpoken(price)}</span>
-      <span aria-hidden="true">{main}</span>
-      {tenths ? (
-        <span
-          aria-hidden="true"
-          className="mt-[0.1em] ml-[0.08em] flex flex-col items-center text-[0.34em] leading-[1.1]"
-        >
-          <span>{tenths}</span>
-          <span className="border-t-2 border-current px-[0.08em]">10</span>
-        </span>
-      ) : null}
-    </span>
   );
 }
 
@@ -136,12 +113,12 @@ function CallForPrice() {
   return (
     <div className="px-5 py-6 sm:px-6 sm:py-8">
       <p className="type-display text-[1.75rem] sm:text-[2rem]">Call for today’s price</p>
-      <p className="mt-3 max-w-md text-on-deep-muted">
+      <p className="text-on-deep-muted mt-3 max-w-md">
         Prices change often. Give us a call and we’ll read you what’s on the sign.
       </p>
       <a href={store.phone.href} className={buttonClass("inverse", "md", "mt-5")}>
         <Phone aria-hidden="true" strokeWidth={1.75} className="size-5" />
-        Call <span className="font-mono tabular">{store.phone.display}</span>
+        Call <span className="tabular font-mono">{store.phone.display}</span>
       </a>
     </div>
   );

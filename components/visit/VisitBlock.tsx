@@ -11,12 +11,12 @@ import { MapEmbed } from "./MapEmbed";
 export function VisitBlock({ schedule }: { schedule: Schedule }) {
   return (
     <section aria-labelledby="visit-title" className="border-t border-line bg-surface-alt py-16 lg:py-24">
-      <div className="container-store grid gap-10 lg:grid-cols-12 lg:gap-14">
+      <div data-reveal className="container-store grid gap-10 lg:grid-cols-12 lg:gap-14">
         <div className="lg:sticky lg:top-6 lg:col-span-7 lg:self-start">
           <MapEmbed />
         </div>
         <div className="lg:col-span-5">
-          <p className="eyebrow text-accent">Visit</p>
+          <p className="eyebrow road-under text-accent">Visit</p>
           <h2 id="visit-title" className="type-display type-h2 mt-3">
             Find us on Highway 185
           </h2>

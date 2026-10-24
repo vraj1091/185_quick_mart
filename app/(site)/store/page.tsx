@@ -18,7 +18,7 @@ export default function StorePage() {
   return (
     <>
       <header className="container-store pt-10 pb-10 lg:pt-16 lg:pb-14">
-        <p className="eyebrow text-accent">In the store</p>
+        <p className="eyebrow road-under text-accent">In the store</p>
         <h1 className="type-display type-h1 mt-4">{store.supportLine}.</h1>
         <p className="measure mt-5 text-lg sm:text-xl">
           Ten aisles of the things you stop for on the way to work or on the way home. Here’s what’s
@@ -27,7 +27,7 @@ export default function StorePage() {
       </header>
 
       <nav aria-label="Aisles" className="container-store pb-12 lg:pb-16">
-        <ol className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-5">
+        <ol data-reveal data-reveal-stagger className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-5">
           {aisles.map((a) => (
             <li key={a.slug}>
               <Link
@@ -47,7 +47,7 @@ export default function StorePage() {
       ))}
 
       <section aria-labelledby="services" className="container-store scroll-mt-6 py-14 lg:py-20" id="atm">
-        <div className="grid gap-8 border-t border-line pt-14 lg:grid-cols-12 lg:gap-14">
+        <div data-reveal className="grid gap-8 border-t border-line pt-14 lg:grid-cols-12 lg:gap-14">
           <figure className="lg:col-span-6">
             <StorePhoto
               photo={photos.atm}
@@ -58,7 +58,7 @@ export default function StorePage() {
             <CaptionStrip left="ATM" right="Inside the store" />
           </figure>
           <div className="lg:col-span-6">
-            <p className="eyebrow text-accent">Also inside</p>
+            <p className="eyebrow road-under text-accent">Also inside</p>
             <h2 id="services" className="type-display type-h2 mt-3">
               ATM, ice, air & lottery
             </h2>
@@ -83,7 +83,7 @@ function AisleSection({ aisle, flip }: { aisle: Aisle; flip: boolean }) {
   if (!main) {
     return (
       <section id={aisle.slug} aria-labelledby={`${aisle.slug}-title`} className="container-store scroll-mt-6 py-10 lg:py-14">
-        <div className="on-dark grid gap-6 rounded-md border-t-[3px] border-accent bg-deep p-6 text-on-deep sm:p-10 lg:grid-cols-12">
+        <div data-reveal className="on-dark grid gap-6 rounded-md border-t-[3px] border-accent bg-deep p-6 text-on-deep sm:p-10 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <p className="font-mono text-sm font-semibold tracking-wider text-on-deep-muted uppercase">
               Aisle {aisle.number}
@@ -112,7 +112,7 @@ function AisleSection({ aisle, flip }: { aisle: Aisle; flip: boolean }) {
       aria-labelledby={`${aisle.slug}-title`}
       className={cn("scroll-mt-6 py-10 lg:py-14", flip && "bg-surface-alt")}
     >
-      <div className="container-store grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-14">
+      <div data-reveal className="container-store grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-14">
         <div className={cn("lg:col-span-7", flip && "lg:order-2")}>
           <figure>
             <StorePhoto

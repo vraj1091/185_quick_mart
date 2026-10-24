@@ -25,7 +25,7 @@ export default async function VisitPage() {
   return (
     <>
       <header className="container-store pt-10 pb-10 lg:pt-16 lg:pb-14">
-        <p className="eyebrow text-accent">Visit</p>
+        <p className="eyebrow road-under text-accent">Visit</p>
         <h1 className="type-display type-h1 mt-4">Hours, directions & contact</h1>
       </header>
 
@@ -120,9 +120,9 @@ export default async function VisitPage() {
       ) : null}
 
       <section aria-labelledby="contact" className="border-t border-line bg-surface-alt py-16 lg:py-24">
-        <div className="container-store grid gap-10 lg:grid-cols-12 lg:gap-14">
+        <div data-reveal className="container-store grid gap-10 lg:grid-cols-12 lg:gap-14">
           <div className="lg:col-span-4">
-            <p className="eyebrow text-accent">Contact</p>
+            <p className="eyebrow road-under text-accent">Contact</p>
             <h2 id="contact" className="type-display type-h2 mt-3">
               Send us a note
             </h2>

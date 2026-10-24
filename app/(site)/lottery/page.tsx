@@ -65,7 +65,7 @@ export default function LotteryPage() {
     <>
       <section className="container-store grid gap-10 pt-10 pb-14 lg:grid-cols-12 lg:items-center lg:gap-14 lg:pt-16 lg:pb-20">
         <div className="lg:col-span-7">
-          <p className="eyebrow text-accent">Kentucky Lottery</p>
+          <p className="eyebrow road-under text-accent">Kentucky Lottery</p>
           <h1 className="type-display type-h1 mt-4">Play here. Cash it here.</h1>
           <p className="measure mt-5 text-lg sm:text-xl">
             Kentucky Lottery tickets, scratch-offs and draw games at the counter, plus a
@@ -95,9 +95,9 @@ export default function LotteryPage() {
         aria-labelledby="cashing"
         className="border-line bg-surface-alt border-y py-16 lg:py-24"
       >
-        <div className="container-store grid gap-10 lg:grid-cols-12 lg:gap-14">
+        <div data-reveal className="container-store grid gap-10 lg:grid-cols-12 lg:gap-14">
           <div className="lg:col-span-4">
-            <p className="eyebrow text-accent">Cashing a winner</p>
+            <p className="eyebrow road-under text-accent">Cashing a winner</p>
             <h2 id="cashing" className="type-display type-h2 mt-3">
               Won? Here’s how it works.
             </h2>
@@ -135,7 +135,7 @@ export default function LotteryPage() {
       </section>
 
       <section aria-labelledby="responsibly" className="container-store py-16 lg:py-24">
-        <div className="max-w-4xl">
+        <div data-reveal className="max-w-4xl">
           <h2 id="responsibly" className="type-display type-h2">
             Play responsibly
           </h2>

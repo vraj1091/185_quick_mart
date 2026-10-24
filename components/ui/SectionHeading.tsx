@@ -21,7 +21,7 @@ export function SectionHeading({
   return (
     <div className={cn("max-w-3xl", className)}>
       {eyebrow ? (
-        <p className={cn("eyebrow mb-3", dark ? "text-on-deep-muted" : "text-accent")}>{eyebrow}</p>
+        <p className={cn("eyebrow road-under mb-3", dark ? "text-on-deep-muted" : "text-accent")}>{eyebrow}</p>
       ) : null}
       <Tag id={id} className={cn("type-display", Tag === "h1" ? "type-h1" : "type-h2")}>
         {title}

@@ -13,9 +13,11 @@ type Props = {
   cover?: boolean;
   /** CSS object-position when `cover` is set, e.g. "50% 30%". */
   position?: string;
+  /** Extra classes on the <img> itself (e.g. hover zoom inside a cover frame). */
+  imgClassName?: string;
 };
 
-export function StorePhoto({ photo, sizes, preload, className, cover, position }: Props) {
+export function StorePhoto({ photo, sizes, preload, className, cover, position, imgClassName }: Props) {
   if (cover) {
     return (
       <div className={cn("relative overflow-hidden bg-line", className)}>
@@ -26,7 +28,7 @@ export function StorePhoto({ photo, sizes, preload, className, cover, position }
           sizes={sizes}
           preload={preload}
           fetchPriority={preload ? "high" : undefined}
-          className="object-cover"
+          className={cn("object-cover", imgClassName)}
           style={position ? { objectPosition: position } : undefined}
         />
       </div>

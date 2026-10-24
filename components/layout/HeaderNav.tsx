@@ -35,10 +35,8 @@ export function HeaderNav() {
                 href={item.href}
                 aria-current={isActive(item.href) ? "page" : undefined}
                 className={cn(
-                  "flex min-h-11 items-center rounded-sm px-3 text-[0.9375rem] font-bold tracking-wide uppercase hover:text-primary hover:shadow-[inset_0_-2px_0_var(--color-primary)]",
-                  isActive(item.href)
-                    ? "text-primary shadow-[inset_0_-2px_0_var(--color-primary)]"
-                    : "text-ink",
+                  "nav-road flex min-h-11 items-center rounded-sm px-3 text-[0.9375rem] font-bold tracking-wide uppercase hover:text-primary focus-visible:text-primary",
+                  isActive(item.href) ? "text-primary" : "text-ink",
                 )}
               >
                 {item.label}

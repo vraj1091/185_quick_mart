@@ -151,6 +151,30 @@ export function getOpenStatus(schedule: Schedule | null, now: Date): OpenStatus 
   return { state: "closed", headline: "Closed", detail };
 }
 
+/**
+ * The open spans within one calendar day, in minutes from midnight (0–1440), for the
+ * hours timeline. Includes the early-morning tail of the previous day's shift when it
+ * closes after midnight. Returns null when the day's hours aren't set.
+ */
+export function daySegments(
+  hours: DayHours | null,
+  previousDay: DayHours | null,
+): { start: number; end: number }[] | null {
+  if (hours === null) return null;
+  const segments: { start: number; end: number }[] = [];
+  if (previousDay?.kind === "open") {
+    const o = parseTime(previousDay.opens);
+    const c = parseTime(previousDay.closes);
+    if (o !== null && c !== null && c <= o && c > 0) segments.push({ start: 0, end: c });
+  }
+  if (hours.kind === "open24") segments.push({ start: 0, end: MINUTES_PER_DAY });
+  else if (hours.kind === "open") {
+    const iv = dayInterval(hours, 0);
+    if (iv) segments.push({ start: iv.start, end: Math.min(iv.end, MINUTES_PER_DAY) });
+  }
+  return mergeIntervals(segments);
+}
+
 /** "5 AM – 11 PM", "Open 24 hours", "Closed". */
 export function formatDayHours(hours: DayHours | null): string {
   if (hours === null) return "Call for hours";

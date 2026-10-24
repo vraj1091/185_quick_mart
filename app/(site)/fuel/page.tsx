@@ -64,7 +64,7 @@ export default async function FuelPage() {
     <>
       <section className="container-store grid gap-10 pt-10 pb-14 lg:grid-cols-12 lg:items-center lg:gap-14 lg:pt-16 lg:pb-20">
         <div className="lg:col-span-5">
-          <p className="eyebrow text-accent">BP fuel on Highway 185</p>
+          <p className="eyebrow road-under text-accent">BP fuel on Highway 185</p>
           <h1 className="type-display type-h1 mt-4">Fuel & prices</h1>
           <p className="measure mt-5 text-lg sm:text-xl">
             Low prices at the pump on regular, premium and diesel. Air for your tires and ice for
@@ -84,7 +84,7 @@ export default async function FuelPage() {
         />
       </section>
 
-      <figure className="container-store">
+      <figure data-reveal className="container-store">
         <StorePhoto
           photo={photos.fuelCanopy}
           cover
@@ -97,9 +97,9 @@ export default async function FuelPage() {
       </figure>
 
       <section aria-labelledby="grades" className="container-store py-16 lg:py-24">
-        <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
+        <div data-reveal className="grid gap-10 lg:grid-cols-12 lg:gap-14">
           <div className="lg:col-span-4">
-            <p className="eyebrow text-accent">At the pump</p>
+            <p className="eyebrow road-under text-accent">At the pump</p>
             <h2 id="grades" className="type-display type-h2 mt-3">
               Three grades
             </h2>
@@ -153,7 +153,7 @@ export default async function FuelPage() {
       </section>
 
       <section aria-labelledby="fuel-faq" className="container-store py-16 lg:py-24">
-        <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
+        <div data-reveal className="grid gap-10 lg:grid-cols-12 lg:gap-14">
           <div className="lg:col-span-5">
             <h2 id="fuel-faq" className="type-display type-h2">
               Fuel questions

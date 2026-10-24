@@ -54,6 +54,7 @@
 @layer base {
   :root {
     --focus-ring: var(--color-primary);
+    --road-color: var(--color-accent-bright);
   }
 
   html {
@@ -86,6 +87,7 @@
   /* Dark surfaces get a light focus ring so it stays visible. */
   .on-dark {
     --focus-ring: var(--color-on-deep);
+    --road-color: color-mix(in srgb, var(--color-on-deep-muted) 40%, transparent);
   }
 
   :focus-visible {
@@ -171,12 +173,97 @@
   color: var(--color-logo);
 }
 
-/* Glowing digits from the price pylon. Only on the dark fuel board. */
-@utility price-led {
+/* ---------- Level-up details ---------- */
+
+/* Highway center line: 4px tall, 28px dashes with 20px gaps. */
+@utility road-line {
+  height: 4px;
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--road-color) 0 28px,
+    transparent 28px 48px
+  );
+}
+
+/* Two dashes of road line under an eyebrow label. */
+@utility road-under {
+  &::after {
+    content: "";
+    display: block;
+    width: 76px;
+    height: 4px;
+    margin-top: 0.75rem;
+    background-image: repeating-linear-gradient(
+      to right,
+      var(--road-color) 0 28px,
+      transparent 28px 48px
+    );
+  }
+}
+
+/* Topographic contour lines (public/textures/contours.svg) on dark sections. Meant to be
+   noticed on a second look: deep-3 lines on deep. */
+@utility texture-contour {
+  position: relative;
+  isolation: isolate;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-color: var(--color-deep-3);
+    -webkit-mask: url("/textures/contours.svg") 0 0 / 640px 400px repeat;
+    mask: url("/textures/contours.svg") 0 0 / 640px 400px repeat;
+  }
+}
+
+/* A solid block offset 16px behind a photo (desktop). Set --offset-color to change it. */
+@utility offset-frame {
+  position: relative;
+  isolation: isolate;
+
+  @media (min-width: 1024px) {
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      border-radius: var(--radius-sm);
+      background: var(--offset-color, var(--color-deep));
+      transform: translate(16px, 16px);
+    }
+  }
+}
+
+/* Huge outline numerals ("185"), purely decorative. */
+@utility outline-numerals {
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 0.8;
+  letter-spacing: -0.02em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--numeral-stroke, var(--color-line));
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Fuel price digits: LED green with a two-layer soft glow. */
+@utility led-glow {
   color: var(--color-led);
-  text-shadow:
-    0 0 6px color-mix(in srgb, var(--color-led) 45%, transparent),
-    0 0 20px color-mix(in srgb, var(--color-led) 18%, transparent);
+  text-shadow: 0 0 1px currentColor;
+  filter: drop-shadow(0 0 12px color-mix(in srgb, var(--color-led) 35%, transparent));
+}
+
+/* Faint dot-matrix grid laid over the digits only (functional texture). */
+@utility led-matrix {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, transparent 0 0.7px, var(--color-deep-2) 1.2px);
+  background-size: 3px 3px;
+  opacity: 0.32;
 }
 
 /* ---------- Components ---------- */
@@ -198,6 +285,111 @@
   @media (min-width: 1024px) {
     .container-store {
       padding-inline: 2.5rem;
+    }
+  }
+
+  /* Odometer roll-in for fuel digits (components/fuel/LedPrice.tsx). Without JS, or with
+     reduced motion, digits simply sit at their value. */
+  .odo-window {
+    display: inline-block;
+    height: 1em;
+    overflow: hidden;
+    vertical-align: top;
+  }
+
+  .odo-strip {
+    display: flex;
+    flex-direction: column;
+    transform: translateY(calc(var(--d) * -1em));
+  }
+
+  .odo-strip > span {
+    height: 1em;
+    line-height: 1;
+  }
+
+  [data-odometer="armed"] .odo-strip {
+    transform: translateY(0);
+  }
+
+  [data-odometer="run"] .odo-strip {
+    transition: transform 500ms cubic-bezier(0.2, 0.7, 0.2, 1) calc(var(--i) * 40ms);
+  }
+
+  /* Header: 88px at the top of the page; after 24px of scroll it shows 68px (the top
+     20px slides under the viewport edge, so nothing below it moves), gains a border
+     and shadow, and the wordmark scales to 90%. */
+  .site-header {
+    border-bottom: 1px solid transparent;
+    transition:
+      border-color 200ms ease-out,
+      box-shadow 200ms ease-out;
+  }
+
+  html[data-scrolled] .site-header {
+    border-bottom-color: var(--color-line);
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* The 20px offset itself is the lg:-top-5 class on the header. */
+  @media (min-width: 1024px) {
+    .site-header-inner,
+    .site-lockup {
+      transition: transform 200ms ease-out;
+    }
+
+    .site-lockup {
+      transform-origin: left center;
+    }
+
+    html[data-scrolled] .site-header-inner {
+      transform: translateY(0.625rem);
+    }
+
+    html[data-scrolled] .site-lockup {
+      transform: scale(0.9);
+    }
+  }
+
+  /* Nav links: a short run of road-line dashes draws in on hover, focus and the active page. */
+  .nav-road {
+    position: relative;
+  }
+
+  .nav-road::after {
+    content: "";
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.375rem;
+    height: 3px;
+    background-image: repeating-linear-gradient(
+      to right,
+      var(--color-accent-bright) 0 8px,
+      transparent 8px 13px
+    );
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 200ms ease-out;
+  }
+
+  .nav-road:hover::after,
+  .nav-road:focus-visible::after,
+  .nav-road[aria-current="page"]::after {
+    clip-path: inset(0 0 0 0);
+  }
+
+  /* Quiet scroll reveals (components/layout/RevealObserver.tsx). Content that is already
+     on screen at load is never hidden. */
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal-item {
+      transition:
+        opacity 320ms ease-out,
+        transform 320ms ease-out;
+    }
+
+    .reveal-pending {
+      opacity: 0;
+      transform: translateY(12px);
     }
   }
 

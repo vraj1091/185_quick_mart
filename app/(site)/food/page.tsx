@@ -23,7 +23,7 @@ export default async function FoodPage() {
   return (
     <>
       <header className="container-store pt-10 pb-12 lg:pt-16 lg:pb-16">
-        <p className="eyebrow text-accent">Hot food & drinks</p>
+        <p className="eyebrow road-under text-accent">Hot food & drinks</p>
         <h1 className="type-display type-h1 mt-4 max-w-4xl">Hot food, cold drinks, fresh coffee.</h1>
         <p className="measure mt-5 text-lg sm:text-xl">
           Fried chicken and pizza from the kitchen, coffee on every morning, and a whole bay of
@@ -49,7 +49,7 @@ export default async function FoodPage() {
           <h2 id="kitchen" className="type-display type-h2">
             From the kitchen
           </h2>
-          <div className="mt-10 grid gap-10 lg:grid-cols-12 lg:gap-14">
+          <div data-reveal className="mt-10 grid gap-10 lg:grid-cols-12 lg:gap-14">
             <figure className="lg:col-span-6">
               <StorePhoto
                 photo={photos.storefrontSide}
@@ -121,7 +121,7 @@ export default async function FoodPage() {
       />
 
       <section className="container-store pb-16 lg:pb-24">
-        <div className="on-dark flex flex-col gap-5 rounded-md bg-deep p-6 text-on-deep sm:flex-row sm:items-center sm:justify-between sm:p-8">
+        <div data-reveal className="on-dark flex flex-col gap-5 rounded-md bg-deep p-6 text-on-deep sm:flex-row sm:items-center sm:justify-between sm:p-8">
           <p className="text-xl font-bold">Calling ahead for food? We’ll tell you what’s hot.</p>
           <a href={store.phone.href} className={buttonClass("primary", "md", "shrink-0")}>
             <Phone aria-hidden="true" strokeWidth={1.75} className="size-5" />
@@ -202,7 +202,7 @@ function FoodFeature({
       aria-labelledby={`${id}-title`}
       className={cn("scroll-mt-6 py-12 lg:py-16", flip && "bg-surface-alt")}
     >
-      <div className="container-store grid gap-8 lg:grid-cols-12 lg:items-center lg:gap-14">
+      <div data-reveal className="container-store grid gap-8 lg:grid-cols-12 lg:items-center lg:gap-14">
         <figure className={cn("lg:col-span-7", flip && "lg:order-2 lg:col-span-5 lg:col-start-8")}>
           <StorePhoto
             photo={photo}
@@ -214,7 +214,7 @@ function FoodFeature({
           <CaptionStrip left={caption} right={store.address.city} />
         </figure>
         <div className={cn("lg:col-span-5", flip && "lg:order-1 lg:col-span-6 lg:col-start-1")}>
-          <p className="eyebrow text-accent">{eyebrow}</p>
+          <p className="eyebrow road-under text-accent">{eyebrow}</p>
           <h2 id={`${id}-title`} className="type-display type-h2 mt-3">
             {title}
           </h2>

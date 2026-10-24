@@ -1,22 +1,27 @@
+import { Navigation, Phone } from "lucide-react";
 import type { Metadata } from "next";
 import { AisleCard } from "@/components/aisles/AisleCard";
+import { RoadDivider } from "@/components/brand/RoadLine";
 import { RouteBadge } from "@/components/brand/RouteBadge";
 import { CaptionStrip, ShelfEdge } from "@/components/brand/ShelfEdge";
 import { Lockup, Tagline } from "@/components/brand/Wordmark";
 import { DealTag } from "@/components/deals/DealTag";
 import { FuelBoard } from "@/components/fuel/FuelBoard";
+import { InfoRail } from "@/components/home/InfoRail";
+import { HoursTable, HoursTimelineCompact } from "@/components/hours/HoursTable";
 import { OpenNowPill } from "@/components/hours/OpenNowPill";
-import { buttonClass } from "@/components/ui/Button";
+import { buttonClass, type ButtonState, type ButtonVariant } from "@/components/ui/Button";
 import { fieldClass } from "@/components/ui/fields";
 import { getAisle } from "@/content/aisles";
 import { cn } from "@/lib/cn";
-import { exampleFuelSnapshot } from "@/lib/fuel";
+import { exampleFuelSnapshot, type FuelSnapshot } from "@/lib/fuel";
 import type { DayHours, Schedule } from "@/lib/hours";
 import {
   USE_BRAND_RED_IN_LOGO,
   contrastRatio,
   cssVarName,
   palette,
+  shadows,
   tokenNotes,
   type ThemeToken,
 } from "@/lib/theme";
@@ -42,12 +47,15 @@ const pairs: { fg: ThemeToken; bg: ThemeToken; use: string; min: number }[] = [
   { fg: "onPrimary", bg: "primaryHover", use: "Button text, hovered", min: 4.5 },
   { fg: "accent", bg: "bg", use: "Eyebrow labels, tagline", min: 4.5 },
   { fg: "accent", bg: "surfaceAlt", use: "Eyebrows on alternate sections", min: 4.5 },
-  { fg: "primary", bg: "accentSoft", use: "Chips, open-now pill", min: 4.5 },
+  { fg: "accentBright", bg: "bg", use: "Hero ampersand (large text only)", min: 3 },
+  { fg: "primary", bg: "accentSoft", use: "Chips, open-now pill, aisle numbers", min: 4.5 },
   { fg: "onDeep", bg: "deep", use: "Text on dark sections", min: 4.5 },
   { fg: "onDeep", bg: "deep2", use: "Text on the fuel board", min: 4.5 },
-  { fg: "onDeepMuted", bg: "deep", use: "Secondary text on dark sections", min: 4.5 },
+  { fg: "onDeepMuted", bg: "deep", use: "Secondary text and eyebrows on dark sections", min: 4.5 },
   { fg: "onDeepMuted", bg: "deep2", use: "Fuel board labels", min: 4.5 },
+  { fg: "onDeepMuted", bg: "deep3", use: "\"Updated\" stamp plate", min: 4.5 },
   { fg: "led", bg: "deep2", use: "Fuel price digits (large)", min: 3 },
+  { fg: "primary", bg: "onDeep", use: "Inverse (white) buttons on dark", min: 4.5 },
   { fg: "brandRed", bg: "bg", use: "Logo wordmark, red version (large)", min: 3 },
   { fg: "primary", bg: "bg", use: "Logo wordmark, green version (large)", min: 3 },
   { fg: "error", bg: "bg", use: "Form error text", min: 4.5 },
@@ -55,18 +63,54 @@ const pairs: { fg: ThemeToken; bg: ThemeToken; use: string; min: number }[] = [
 
 const varOf = (t: ThemeToken) => `var(${cssVarName(t)})`;
 
+const buttonStates: { label: string; state?: ButtonState; extra?: string; disabled?: boolean }[] = [
+  { label: "Rest" },
+  { label: "Hover", state: "hover" },
+  { label: "Pressed", state: "active" },
+  { label: "Keyboard focus", extra: "[outline:2px_solid_var(--focus-ring)] [outline-offset:2px]" },
+  { label: "Disabled", disabled: true },
+];
+
+function ButtonRow({ variant, icon }: { variant: ButtonVariant; icon?: boolean }) {
+  return (
+    <div className="flex flex-wrap items-end gap-4">
+      {buttonStates.map((s) => (
+        <div key={s.label} className="space-y-2">
+          <p className="font-mono text-xs opacity-80">{s.label}</p>
+          <button type="button" disabled={s.disabled} className={buttonClass(variant, "md", s.extra, s.state)}>
+            {icon ? <Navigation aria-hidden="true" strokeWidth={1.75} className="size-5" /> : null}
+            {variant}
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function StyleguidePage() {
   // Example data for previews only. Never real prices or hours.
   const freshPrices = exampleFuelSnapshot(1);
   const stalePrices = exampleFuelSnapshot(49);
+  const notSet: FuelSnapshot = {
+    checkedAt: freshPrices.checkedAt,
+    rows: freshPrices.rows.map((r) => ({ ...r, price: null, updatedAt: null })),
+  };
   const everyDay = (h: DayHours): Schedule => ({ weekly: Array.from({ length: 7 }, () => h), special: [] });
   const openSchedule = everyDay({ kind: "open24" });
   const closedSchedule = everyDay({ kind: "closed" });
+  const exampleWeek: Schedule = {
+    weekly: [
+      { kind: "open", opens: "07:00", closes: "22:00" },
+      ...Array.from({ length: 5 }, () => ({ kind: "open" as const, opens: "05:00", closes: "23:00" })),
+      { kind: "open", opens: "06:00", closes: "01:00" },
+    ],
+    special: [],
+  };
 
   return (
     <div className="space-y-16 pb-16">
       <header className="container-store pt-12">
-        <p className="eyebrow text-accent">Internal</p>
+        <p className="eyebrow road-under text-accent">Internal</p>
         <h1 className="type-display type-h1 mt-3">Style guide</h1>
         <p className="measure mt-3 text-muted">
           Every color comes from <code className="font-mono">lib/theme.ts</code>. Example data on
@@ -86,7 +130,7 @@ export default function StyleguidePage() {
                 <p className="font-mono">{palette[token]}</p>
                 <p className="text-muted">{tokenNotes[token]}</p>
                 <p className="mt-1 font-mono text-xs text-muted">
-                  vs bg {contrastRatio(palette[token], palette.bg).toFixed(2)}:1 · vs deep{" "}
+                  vs white {contrastRatio(palette[token], palette.bg).toFixed(2)}:1 · vs deep{" "}
                   {contrastRatio(palette[token], palette.deep).toFixed(2)}:1
                 </p>
               </div>
@@ -139,11 +183,34 @@ export default function StyleguidePage() {
       </section>
 
       <section className="container-store space-y-5">
+        <h2 className="type-display type-h3">Shadows</h2>
+        <p className="measure text-muted">Green-tinted, built from deep-3 in lib/theme.ts. Never gray-blue.</p>
+        <div className="grid gap-6 sm:grid-cols-3">
+          {(["sm", "md", "lift"] as const).map((k) => (
+            <div
+              key={k}
+              className={cn(
+                "rounded-sm border border-line bg-surface p-5",
+                k === "sm" && "shadow-sm",
+                k === "md" && "shadow-md",
+                k === "lift" && "shadow-lift",
+              )}
+            >
+              <p className="font-bold">shadow-{k}</p>
+              <p className="mt-1 font-mono text-xs break-words text-muted">{shadows[k]}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="container-store space-y-5">
         <h2 className="type-display type-h3">Type</h2>
-        <p className="type-display type-h1">Display H1</p>
+        <p className="type-display type-h1">
+          Display H1 <span className="text-accent-bright">&amp;</span>
+        </p>
         <p className="type-display type-h2">Display H2</p>
         <p className="type-display type-h3">Display H3</p>
-        <p className="eyebrow text-accent">Eyebrow label</p>
+        <p className="eyebrow road-under text-accent">Eyebrow with road line</p>
         <Tagline className="text-accent" />
         <p className="measure text-lg">
           Body copy in Overpass, based on Highway Gothic. <span className="text-muted">Muted text.</span>{" "}
@@ -182,7 +249,7 @@ export default function StyleguidePage() {
 
       {/* ---------- Components on light ---------- */}
       <section className="border-y border-line bg-bg py-12">
-        <div className="container-store space-y-8">
+        <div className="container-store space-y-10">
           <h2 className="type-display type-h3">Components on light</h2>
           <div className="flex flex-wrap items-center gap-6">
             <span className="text-[1.5rem]">
@@ -190,16 +257,9 @@ export default function StyleguidePage() {
             </span>
             <RouteBadge className="text-3xl" />
           </div>
-          <div className="flex flex-wrap gap-3">
-            <button type="button" className={buttonClass("primary")}>
-              Primary
-            </button>
-            <button type="button" className={buttonClass("outline")}>
-              Outline
-            </button>
-            <button type="button" className={buttonClass("primary", "lg")}>
-              Primary large
-            </button>
+          <div className="space-y-6">
+            <ButtonRow variant="primary" icon />
+            <ButtonRow variant="outline" icon />
           </div>
           <div className="flex flex-wrap gap-4">
             <OpenNowPill schedule={openSchedule} />
@@ -221,56 +281,73 @@ export default function StyleguidePage() {
             <input id="sg-field-error" className={fieldClass} aria-invalid="true" defaultValue="nope" />
             <p className="mt-1.5 font-semibold text-error">That doesn’t look like a phone number or email.</p>
           </div>
-          <ShelfEdge />
-          <CaptionStrip left="Caption strip" right="Right side" />
-        </div>
-      </section>
-
-      <section className="bg-surface-alt py-12">
-        <div className="container-store space-y-4">
-          <h2 className="type-display type-h3">Alternate section (mist)</h2>
-          <p className="eyebrow text-accent">Eyebrow on mist</p>
-          <p className="measure text-muted">Secondary text on the alternate section background.</p>
-          <div className="flex flex-wrap gap-3">
-            <button type="button" className={buttonClass("primary")}>
-              Primary
-            </button>
-            <button type="button" className={buttonClass("outline")}>
-              Outline
-            </button>
+          <div className="space-y-3">
+            <p className="font-bold">Road line (section divider)</p>
+            <RoadDivider />
+          </div>
+          <div className="space-y-3">
+            <p className="font-bold">Shelf edge and caption strip</p>
+            <ShelfEdge />
+            <CaptionStrip left="Caption strip" right="Right side" />
+          </div>
+          <div className="max-w-xl space-y-3">
+            <p className="font-bold">Hours timeline (example week)</p>
+            <HoursTable schedule={exampleWeek} specials={[]} />
           </div>
         </div>
       </section>
 
+      <section className="flow-root bg-surface-alt pb-12">
+        <div className="container-store pt-12">
+          <h2 className="type-display type-h3">At-a-glance rail (example data)</h2>
+          <p className="mt-2 text-muted">Example price and hours. On the site it reads the real data.</p>
+        </div>
+        <div className="mt-12">
+          <InfoRail schedule={openSchedule} prices={freshPrices} />
+        </div>
+        <div className="mt-6">
+          <InfoRail schedule={{ weekly: Array(7).fill(null), special: [] }} prices={notSet} />
+        </div>
+        <p className="container-store mt-3 text-sm text-muted">Second rail: no hours and no prices set.</p>
+      </section>
+
       {/* ---------- Components on dark ---------- */}
-      <section className="on-dark bg-deep py-12 text-on-deep">
-        <div className="container-store space-y-8">
-          <h2 className="type-display type-h3">Components on dark</h2>
+      <section className="on-dark texture-contour bg-deep py-12 text-on-deep">
+        <div className="container-store space-y-10">
+          <h2 className="type-display type-h3">Components on dark (with the contour texture)</h2>
           <div className="flex flex-wrap items-center gap-6">
             <span className="text-[1.5rem]">
               <Lockup tone="dark" />
             </span>
             <RouteBadge tone="dark" className="text-3xl" />
+            <span className="outline-numerals text-[8rem] [--numeral-stroke:var(--color-deep-3)]" aria-hidden="true">
+              185
+            </span>
           </div>
-          <div className="flex flex-wrap gap-3">
-            <button type="button" className={buttonClass("inverse")}>
-              Inverse (filled) on dark
-            </button>
-            <button type="button" className={buttonClass("outline-light")}>
-              Outline on dark
-            </button>
+          <div className="space-y-6">
+            <ButtonRow variant="inverse" />
+            <ButtonRow variant="outline-light" />
           </div>
-          <CaptionStrip left="Caption strip" right="Right side" />
           <p className="measure">
             Text on dark. <span className="text-on-deep-muted">Muted text on dark.</span>{" "}
             <a href="#" className="link-store">
               A link on dark
             </a>
           </p>
-          <div className="grid gap-6 lg:grid-cols-2">
-            <FuelBoard prices={freshPrices} title="Example prices" headingLevel="h3" id="sg-fresh" />
-            <FuelBoard prices={stalePrices} title="Older than 48 hours" headingLevel="h3" id="sg-stale" />
+          <div className="max-w-xs space-y-3">
+            <p className="font-bold">Road line on dark and the compact timeline</p>
+            <RoadDivider />
+            <HoursTimelineCompact schedule={exampleWeek} />
           </div>
+          <div className="grid gap-6 lg:grid-cols-3">
+            <FuelBoard prices={freshPrices} title="Prices (example)" headingLevel="h3" id="sg-fresh" />
+            <FuelBoard prices={stalePrices} title="Older than 48 hours" headingLevel="h3" id="sg-stale" />
+            <FuelBoard prices={notSet} title="Never set" headingLevel="h3" id="sg-empty" />
+          </div>
+          <a href="tel:+12705991126" className={buttonClass("inverse")}>
+            <Phone aria-hidden="true" strokeWidth={1.75} className="size-5" />
+            Inverse with icon
+          </a>
         </div>
       </section>
     </div>

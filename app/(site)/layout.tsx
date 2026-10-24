@@ -3,6 +3,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { MobileActionBar } from "@/components/layout/MobileActionBar";
 import { NoticeBanner } from "@/components/layout/NoticeBanner";
+import { RevealObserver } from "@/components/layout/RevealObserver";
 import { getSchedule, getSettings } from "@/lib/data";
 import { storeJsonLd } from "@/lib/seo";
 
@@ -28,6 +29,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       </main>
       <Footer schedule={schedule} />
       <MobileActionBar />
+      <RevealObserver />
       <JsonLd data={storeJsonLd(schedule)} />
     </>
   );

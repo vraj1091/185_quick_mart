@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  daySegments,
   emptySchedule,
   formatDayHours,
   fromDayHours,
@@ -241,5 +242,33 @@ describe("formatting and summaries", () => {
     expect(toDayHours("05:00", "23:00")).toEqual(open("05:00", "23:00"));
     expect(fromDayHours(open24)).toEqual({ opensAt: "00:00", closesAt: "24:00" });
     expect(fromDayHours(closed)).toEqual({ opensAt: null, closesAt: null });
+  });
+});
+
+describe("hours timeline segments", () => {
+  it("covers normal hours", () => {
+    expect(daySegments(open("05:00", "23:00"), open("05:00", "23:00"))).toEqual([{ start: 300, end: 1380 }]);
+  });
+
+  it("runs to midnight for a shift that closes after midnight, and shows the tail the next morning", () => {
+    expect(daySegments(open("06:00", "02:00"), closed)).toEqual([{ start: 360, end: 1440 }]);
+    expect(daySegments(open("06:00", "02:00"), open("06:00", "02:00"))).toEqual([
+      { start: 0, end: 120 },
+      { start: 360, end: 1440 },
+    ]);
+  });
+
+  it("fills the whole track when open 24 hours, and nothing when closed", () => {
+    expect(daySegments(open24, open24)).toEqual([{ start: 0, end: 1440 }]);
+    expect(daySegments(closed, open("05:00", "23:00"))).toEqual([]);
+    expect(daySegments(closed, open("18:00", "03:00"))).toEqual([{ start: 0, end: 180 }]);
+  });
+
+  it("treats a 24:00 close as midnight with no tail", () => {
+    expect(daySegments(open("06:00", "07:00"), open("06:00", "24:00"))).toEqual([{ start: 360, end: 420 }]);
+  });
+
+  it("is null when the day isn't set", () => {
+    expect(daySegments(null, open("05:00", "23:00"))).toBeNull();
   });
 });
