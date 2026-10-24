@@ -201,16 +201,31 @@ Every color on the site lives in one file, [`lib/theme.ts`](lib/theme.ts). Nothi
 | `line` | sage `#D5E3D9` | Borders and dividers |
 | `primary`, `primary-hover`, `on-primary` | pine `#14532D`, `#0E3B20`, white | Buttons, active nav, links |
 | `accent`, `accent-soft` | fern `#1F7A45`, tint `#E3F0E7` | Eyebrow labels, tagline, chips |
-| `deep`, `deep-2`, `on-deep`, `on-deep-muted` | dark pines, white, `#A7C4B0` | Footer, fuel board, lottery panel, notice strip |
+| `accent-bright` | `#2F9E5A` | Large text and graphics only (hero "&", road-line dashes) |
+| `deep`, `deep-2`, `on-deep`, `on-deep-muted` | dark pines, white, `#A7C4B0` | Footer, food band, fuel board, lottery panel, notice strip |
+| `deep-3` | `#0A2A17` | Contour texture lines and small plates inside dark sections |
 | `led` | `#4ADE80` | Fuel price digits only |
+| `chrome` | `#C9D2CD` | Fuel board cabinet frame (decorative) |
 | `brand-red` | `#B4232C` | Logo wordmark only |
-| `danger` | `#9F1D24` | Form errors only |
+| `error` | `#9F1D24` | Form errors only |
+
+Shadows are tokens too (`shadow-sm`, `shadow-md`, `shadow-lift`), tinted with dark pine instead of the usual gray-blue; Tailwind's default shadows are switched off.
 
 The values reach the page as CSS variables on `<html>`, which Tailwind exposes as classes (`bg-surface-alt`, `text-muted`, `border-line` ...). The share image, icons and browser `theme-color` read the same file. To change the site's colors, edit the values there and rebuild.
 
 **Red in the logo:** `USE_BRAND_RED_IN_LOGO` in `lib/theme.ts`. `true` (the default) keeps the real sign red in the header wordmark and share image; red appears nowhere else. `false` makes the wordmark pine green. The footer wordmark is always white, because red or pine on the dark pine footer would be too low-contrast.
 
-The hidden style guide at `/styleguide` shows every token as a swatch with its contrast ratios, a WCAG AA check of every text/background pair, both logo options, and the components on light and dark sections.
+The hidden style guide at `/styleguide` shows every token as a swatch with its contrast ratios, a WCAG AA check of every text/background pair, the shadows, both logo options, buttons in every state, the road line, contour texture and hours timeline, the at-a-glance rail and the fuel board in every data state (prices, older than 48 hours, never set), on light and dark sections.
+
+**Design details** (the "level-up" pass), all small, reusable and decorative elements hidden from screen readers:
+
+- **Hero depth:** the storefront photo sits on a solid dark-pine block offset 16px (desktop), and a huge outline "185" sits behind the headline. No gradients.
+- **At-a-glance rail** under the hero: open status, today's regular price, lottery cashing, address. It uses the same data and empty states as the rest of the site, so it says "Call for hours" or "Call for price" rather than showing anything made up.
+- **Road line:** highway center-line dashes under section labels, as the footer's top edge, once as a section divider, and as the nav underline that draws in on hover.
+- **Contour texture:** an original topographic pattern (`public/textures/contours.svg`, 2 KB, rebuilt by `python scripts/build-contours.py`), only on the footer, lottery panel and home food band, faint enough to notice on a second look.
+- **Fuel board as a sign cabinet:** chrome frame, LED digits with a soft glow and dot-matrix, and a one-time odometer roll when the board scrolls into view. It never animates for "Call for price", with reduced motion, or when the board is already on screen at load.
+- **Hours timeline:** a 24-hour bar per day (Visit page, home and footer) with today highlighted and a marker at the current Central Time while open. Hidden when no hours are set.
+- **Motion:** the header compacts after 24px of scroll without moving the page; sections fade up 12px once as they enter the screen; buttons have a pressed edge. Everything respects reduced-motion settings, and nothing above the fold animates in.
 
 **Scripts**
 
@@ -226,16 +241,17 @@ The hidden style guide at `/styleguide` shows every token as a swatch with its c
 | `npm run lint` / `npm run typecheck` / `npm run format` | ESLint / TypeScript / Prettier |
 | `npm run photos:crop` | Re-create the cropped photos from `assets/photo-originals/` |
 | `python scripts/build-display-font.py` | Rebuild the display font file (needs `pip install fonttools brotli`) |
+| `python scripts/build-contours.py` | Rebuild the contour texture SVG (needs `numpy` and `matplotlib`) |
 
 ---
 
 ## 9. Tests and checks
 
-- `npm test`: 49 unit tests. Hours logic (time zones, normal / after-midnight / 24-hour / closed days / holiday overrides / unknown days), the 48-hour fuel rule and price display, contact and admin validation, the admin auth guard and password check, and the JSON-LD shape.
+- `npm test`: 54 unit tests. Hours logic (time zones, normal / after-midnight / 24-hour / closed days / holiday overrides / unknown days), the hours-timeline segments (including after-midnight tails), the 48-hour fuel rule and price display, contact and admin validation, the admin auth guard and password check, and the JSON-LD shape.
 - `npm run build && npx playwright install chromium && npm run test:e2e`: smoke tests on phone and desktop. Home loads, call links dial the store, the Call/Directions/Gas Prices bar works on phones, every page responds, admin requires login, and the contact form shows friendly errors and sends. (Run repeatedly within an hour, the contact and login tests see the rate-limit message instead, which they accept.)
 - The same command runs `e2e/a11y.spec.ts`: an axe scan for WCAG 2.2 A/AA problems, including color contrast, on every public page and the admin login, on phone and desktop. All pass. (The Google map iframe is Google's content and is excluded.)
 
-**Lighthouse (local, mobile, after the white & green retheme):** Accessibility **100**, Best Practices **100** and SEO **100** on every page, and layout shift near zero. Performance: Fuel, Store and Lottery **96**; Home, Food and Visit between **90 and 94** across runs (Home's largest paint is the hero photo, which shares the simulated slow-4G bandwidth with the framework's JavaScript). So the 95 target is met on half the pages and close on the rest. Run PageSpeed Insights on the deployed site for the real-world figure. The hero image is preloaded, the display font is a 7 KB subset, and the Google map waits until the page has finished loading.
+**Lighthouse (local, mobile, after the level-up):** Accessibility **100**, Best Practices **100** and SEO **100** on every page, and layout shift **0**. Performance **88–94** (home 90, fuel 94, food 92, store 92, lottery 94, visit 88), the same range as before the level-up, which added only about 5 KB. **The 95 target is not met locally.** The limit is Lighthouse's simulated slow-4G connection, where the framework JavaScript and web fonts compete with the hero photo. Run PageSpeed Insights on the deployed site for the real-world figure. The hero image is preloaded, the display font is a 7 KB subset, and the Google map waits until the page has finished loading.
 
 ---
 
@@ -244,7 +260,8 @@ The hidden style guide at `/styleguide` shows every token as a swatch with its c
 - **White & green retheme** (October 2026, three commits on top of the original charcoal & red build): semantic tokens first with no visual change, then the new palette, then polish. Pine rather than bright green, and no yellow, so the site doesn't read as a BP corporate page.
 - **Contrast details (WCAG AA):** every text pair passes (see `/styleguide`). Two deliberate exceptions to the retheme brief: form fields use the `muted` border (6.9:1) instead of `line`, because `line` is only 1.3:1 on white and an input outline needs 3:1 (WCAG 1.4.11); and the footer wordmark is white, not red or pine. On dark sections the focus ring is white instead of pine so it stays visible.
 - **Display font:** Archivo ExtraBold at 118% width, served as a 7 KB self-hosted subset (`app/fonts/archivo-display.woff2`, built from Google Fonts by `scripts/build-display-font.py`) instead of the 88 KB variable font. Overpass and Overpass Mono load through `next/font/google`.
-- **Hero size:** the headline tops out at 64px, so at 1920×1080 it runs three lines and the fuel board starts above the fold.
+- **Hero size:** the headline tops out at 64px, so at 1920×1080 it runs three lines; the at-a-glance rail is fully visible and the fuel board starts above the fold, with or without the notice banner.
+- **Level-up pass** (on top of the retheme): `accent-bright` is only used for large text and graphics, so the food band's small eyebrow uses `on-deep-muted` instead (bright fern on dark pine is 3.7:1). The header "shrink" slides its top 20px under the screen edge instead of changing height, so nothing below it moves. The hero shows pine, fern and bright fern plus the dark-pine offset block; pine and dark pine read as one color, which keeps it close to the "three greens per view" rule.
 - **Prisma 6** (stable, single schema with built-in engines) rather than Prisma 7, which needs separate native database drivers. **bcryptjs** (same bcrypt algorithm, no native build) rather than `bcrypt`.
 - **Rate limits are stored in the database**, so they work on serverless hosts where memory resets between requests.
 - **Map shows on its own** (a Google Maps embed) instead of the brief's tap-to-load placeholder, at the owner's request. It starts loading after the rest of the page has finished, so it doesn't slow the first paint.
