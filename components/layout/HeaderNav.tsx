@@ -22,7 +22,8 @@ export function HeaderNav() {
     return () => document.removeEventListener("keydown", onKey);
   }, [open]);
 
-  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
 
   return (
     <>
@@ -34,10 +35,10 @@ export function HeaderNav() {
                 href={item.href}
                 aria-current={isActive(item.href) ? "page" : undefined}
                 className={cn(
-                  "flex min-h-11 items-center rounded-sm px-3 text-[0.9375rem] font-bold tracking-wide uppercase hover:text-on-deep",
+                  "flex min-h-11 items-center rounded-sm px-3 text-[0.9375rem] font-bold tracking-wide uppercase hover:text-primary hover:shadow-[inset_0_-2px_0_var(--color-primary)]",
                   isActive(item.href)
-                    ? "text-on-deep shadow-[inset_0_-3px_0_var(--color-primary)]"
-                    : "text-on-deep/85",
+                    ? "text-primary shadow-[inset_0_-2px_0_var(--color-primary)]"
+                    : "text-ink",
                 )}
               >
                 {item.label}
@@ -57,7 +58,7 @@ export function HeaderNav() {
 
       <button
         type="button"
-        className="-mr-2 flex min-h-11 min-w-11 items-center gap-2 rounded-sm px-2 font-bold tracking-wide uppercase lg:hidden"
+        className="-mr-2 flex min-h-11 min-w-11 items-center gap-2 rounded-sm px-2 font-bold tracking-wide text-ink uppercase lg:hidden"
         aria-expanded={open}
         aria-controls="mobile-menu"
         onClick={() => setOpen((v) => !v)}
@@ -73,40 +74,28 @@ export function HeaderNav() {
       <div
         id="mobile-menu"
         hidden={!open}
-        className="absolute inset-x-0 top-full z-40 border-b-[3px] border-accent bg-deep lg:hidden"
+        className="absolute inset-x-0 top-full z-40 border-b border-line bg-bg lg:hidden"
       >
         <nav aria-label="Mobile" className="container-store pt-2 pb-6">
           <ul>
-            <li>
-              <Link
-                href="/"
-                onClick={() => setOpen(false)}
-                aria-current={pathname === "/" ? "page" : undefined}
-                className="flex min-h-14 items-center border-b border-on-deep/10 text-lg font-bold uppercase aria-[current=page]:text-on-deep"
-              >
-                Home
-              </Link>
-            </li>
-            {mainNav.map((item) => (
+            {[{ href: "/", label: "Home" }, ...mainNav].map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
                   onClick={() => setOpen(false)}
                   aria-current={isActive(item.href) ? "page" : undefined}
                   className={cn(
-                    "flex min-h-14 items-center justify-between border-b border-on-deep/10 text-lg font-bold uppercase",
-                    isActive(item.href) ? "text-on-deep" : "text-on-deep/90",
+                    "flex min-h-14 items-center justify-between border-b border-line text-lg font-bold uppercase",
+                    isActive(item.href) ? "text-primary" : "text-ink",
                   )}
                 >
                   {item.label}
-                  {isActive(item.href) ? (
-                    <span aria-hidden="true" className="h-3 w-3 bg-primary" />
-                  ) : null}
+                  {isActive(item.href) ? <span aria-hidden="true" className="h-3 w-3 bg-primary" /> : null}
                 </Link>
               </li>
             ))}
           </ul>
-          <p className="mt-5 text-on-deep/75">{displayAddress}</p>
+          <p className="mt-5 text-muted">{displayAddress}</p>
         </nav>
       </div>
     </>

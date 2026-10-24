@@ -109,8 +109,8 @@ export default async function HomePage() {
       </section>
 
       {/* ---------- Fuel ---------- */}
-      <section aria-labelledby="home-fuel" className="container-store pb-16 lg:pb-24">
-        <div className="grid gap-8 lg:grid-cols-12 lg:items-center lg:gap-14">
+      <section aria-labelledby="home-fuel" className="bg-surface-alt py-16 lg:py-24">
+        <div className="container-store grid gap-8 lg:grid-cols-12 lg:items-center lg:gap-14">
           <div className="lg:col-span-5">
             <p className="eyebrow text-accent">At the pump</p>
             <h2 id="home-fuel" className="type-display type-h2 mt-3">
@@ -131,7 +131,7 @@ export default async function HomePage() {
       </section>
 
       {/* ---------- Hot food ---------- */}
-      <section aria-labelledby="home-food" className="border-y border-line bg-surface-alt py-16 lg:py-24">
+      <section aria-labelledby="home-food" className="py-16 lg:py-24">
         <div className="container-store grid gap-10 lg:grid-cols-12 lg:gap-14">
           <div className="lg:col-span-7">
             <figure>
@@ -175,7 +175,7 @@ export default async function HomePage() {
               </p>
             </div>
             {!settings.hotFoodOn ? (
-              <p className="mt-5 rounded-sm border-l-4 border-accent bg-bg px-4 py-3 font-semibold">
+              <p className="mt-5 rounded-sm border-l-4 border-accent bg-accent-soft px-4 py-3 font-semibold">
                 The kitchen is closed right now. Call before you come for chicken or pizza.
               </p>
             ) : null}
@@ -264,15 +264,15 @@ export default async function HomePage() {
         <div className="on-dark grid overflow-hidden rounded-md bg-deep text-on-deep lg:grid-cols-12">
           <div className="p-6 sm:p-10 lg:col-span-8 lg:p-14">
             <p className="flex flex-wrap items-center gap-3">
-              <span className="type-display rounded-sm bg-legacy-highlight px-3 pt-2.5 pb-1.5 text-[1.75rem] text-ink">
+              <span className="type-display rounded-sm bg-surface px-3 pt-2.5 pb-1.5 text-[1.75rem] text-primary">
                 {cashLimit}
               </span>
-              <span className="eyebrow text-on-deep/80">Kentucky Lottery cashing</span>
+              <span className="eyebrow text-on-deep-muted">Kentucky Lottery cashing</span>
             </p>
             <h2 id="home-lottery" className="type-display type-h2 mt-6">
               Won? Cash it here.
             </h2>
-            <p className="measure mt-4 text-lg text-on-deep/85">
+            <p className="measure mt-4 text-lg text-on-deep-muted">
               Won a scratch-off? Cash it right here, up to {cashLimit}. Buy tickets, scratch-offs
               and draw games at the counter or the self-serve lottery machine.
             </p>
@@ -280,7 +280,7 @@ export default async function HomePage() {
               <Link href="/lottery" className={buttonClass("outline-light")}>
                 How cashing works
               </Link>
-              <p className="text-sm text-on-deep/75">
+              <p className="text-sm text-on-deep-muted">
                 Must be 18 or older to play. Please play responsibly.
               </p>
             </div>

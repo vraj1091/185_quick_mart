@@ -66,7 +66,7 @@ export function ContactForm() {
 
   if (status.type === "success") {
     return (
-      <div role="status" className="rounded-md border-2 border-ink bg-surface p-6">
+      <div role="status" className="rounded-md border-2 border-primary bg-surface p-6">
         <p className="text-xl font-extrabold">Thanks, {status.name}. We got your message.</p>
         <p className="mt-2 text-muted">
           We’ll get back to you as soon as we can. Need an answer right now? Call{" "}

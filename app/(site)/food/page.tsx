@@ -32,7 +32,7 @@ export default async function FoodPage() {
         {!settings.hotFoodOn ? (
           <p
             role="note"
-            className="mt-6 max-w-2xl rounded-sm border-l-4 border-accent bg-surface px-4 py-3 text-lg font-semibold"
+            className="mt-6 max-w-2xl rounded-sm border-l-4 border-accent bg-accent-soft px-4 py-3 text-lg font-semibold"
           >
             The kitchen is closed right now. Call{" "}
             <a href={store.phone.href} className="link-store font-mono tabular">
@@ -165,7 +165,7 @@ function MenuBlock({
           ))}
         </ul>
       ) : (
-        <p className="mt-4 border-l-4 border-ink pl-3 font-semibold">
+        <p className="mt-4 border-l-4 border-primary pl-3 font-semibold">
           Ask at the counter for today’s menu.
         </p>
       )}
@@ -197,8 +197,12 @@ function FoodFeature({
   flip?: boolean;
 }) {
   return (
-    <section id={id} aria-labelledby={`${id}-title`} className="container-store scroll-mt-6 py-12 lg:py-16">
-      <div className="grid gap-8 lg:grid-cols-12 lg:items-center lg:gap-14">
+    <section
+      id={id}
+      aria-labelledby={`${id}-title`}
+      className={cn("scroll-mt-6 py-12 lg:py-16", flip && "bg-surface-alt")}
+    >
+      <div className="container-store grid gap-8 lg:grid-cols-12 lg:items-center lg:gap-14">
         <figure className={cn("lg:col-span-7", flip && "lg:order-2 lg:col-span-5 lg:col-start-8")}>
           <StorePhoto
             photo={photo}

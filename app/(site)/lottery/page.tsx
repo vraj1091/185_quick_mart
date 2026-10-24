@@ -64,7 +64,7 @@ export default function LotteryPage() {
             self-service lottery machine inside the store.
           </p>
           <div className="on-dark mt-8 inline-flex flex-wrap items-center gap-4 rounded-md bg-deep p-4 pr-6 text-on-deep">
-            <span className="type-display rounded-sm bg-legacy-highlight px-3 pt-2.5 pb-1.5 text-[2rem] text-ink">
+            <span className="type-display rounded-sm bg-surface px-3 pt-2.5 pb-1.5 text-[2rem] text-primary">
               {cashLimit}
             </span>
             <span className="text-lg font-bold">We cash winning tickets up to {cashLimit}.</span>
@@ -98,7 +98,7 @@ export default function LotteryPage() {
             {rules.map((r) => (
               <div
                 key={r.amount}
-                className="grid gap-2 border-t-[3px] border-ink py-6 sm:grid-cols-[14rem_1fr] sm:gap-8"
+                className="grid gap-2 border-t-[3px] border-primary py-6 sm:grid-cols-[14rem_1fr] sm:gap-8"
               >
                 <dt className="font-mono text-lg font-semibold tabular">{r.amount}</dt>
                 <dd className="text-lg">{r.text}</dd>

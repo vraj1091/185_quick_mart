@@ -79,7 +79,7 @@ export default async function VisitPage() {
             <h2 className="eyebrow mt-10 text-muted">Phone</h2>
             <a
               href={store.phone.href}
-              className="mt-2 inline-flex min-h-11 items-center gap-3 font-mono text-2xl font-semibold text-danger tabular hover:text-primary-hover"
+              className="mt-2 inline-flex min-h-11 items-center gap-3 font-mono text-2xl font-semibold text-primary tabular hover:text-primary-hover"
             >
               <Phone aria-hidden="true" strokeWidth={1.75} className="size-6" />
               {store.phone.display}
@@ -111,7 +111,7 @@ export default async function VisitPage() {
             <h2 id="hiring" className="type-display type-h2 lg:col-span-5">
               We’re hiring
             </h2>
-            <p className="text-lg text-on-deep/90 lg:col-span-7">
+            <p className="text-lg text-on-deep lg:col-span-7">
               Friendly, reliable, and like a clean store? Stop by the counter and ask for an
               application, or send us a note below and pick “Jobs”.
             </p>

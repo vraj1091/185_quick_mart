@@ -21,13 +21,13 @@ export function SectionHeading({
   return (
     <div className={cn("max-w-3xl", className)}>
       {eyebrow ? (
-        <p className={cn("eyebrow mb-3", dark ? "text-on-deep/80" : "text-accent")}>{eyebrow}</p>
+        <p className={cn("eyebrow mb-3", dark ? "text-on-deep-muted" : "text-accent")}>{eyebrow}</p>
       ) : null}
       <Tag id={id} className={cn("type-display", Tag === "h1" ? "type-h1" : "type-h2")}>
         {title}
       </Tag>
       {intro ? (
-        <div className={cn("measure mt-4 text-lg", dark ? "text-on-deep/85" : "text-muted")}>
+        <div className={cn("measure mt-4 text-lg", dark ? "text-on-deep-muted" : "text-muted")}>
           {intro}
         </div>
       ) : null}

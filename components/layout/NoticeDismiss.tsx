@@ -6,7 +6,7 @@ export function NoticeDismiss({ id }: { id: string }) {
   return (
     <button
       type="button"
-      className="-mr-2 flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-sm text-on-deep/80 hover:text-on-deep"
+      className="-mr-2 flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-sm text-on-deep-muted hover:text-on-deep"
       onClick={() => {
         try {
           localStorage.setItem("qm-notice", id);

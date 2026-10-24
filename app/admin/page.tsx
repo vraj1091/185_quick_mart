@@ -123,7 +123,7 @@ export default async function AdminPage() {
 
   return (
     <>
-      <header className="on-dark sticky top-0 z-30 border-b-[3px] border-accent bg-deep text-on-deep">
+      <header className="sticky top-0 z-30 border-b border-line bg-bg text-ink">
         <div className="mx-auto flex h-16 max-w-4xl items-center justify-between gap-3 px-4">
           <span className="text-[1rem] sm:text-[1.25rem]">
             <Lockup />
@@ -132,7 +132,7 @@ export default async function AdminPage() {
             <Link
               href="/"
               target="_blank"
-              className="flex min-h-11 items-center gap-1.5 rounded-sm px-2 text-sm font-bold whitespace-nowrap hover:text-on-deep"
+              className="flex min-h-11 items-center gap-1.5 rounded-sm px-2 text-sm font-bold whitespace-nowrap hover:text-primary"
             >
               Site
               <ExternalLink aria-hidden="true" strokeWidth={1.75} className="size-4" />
@@ -140,7 +140,7 @@ export default async function AdminPage() {
             <form action={logoutAction}>
               <button
                 type="submit"
-                className="flex min-h-11 items-center gap-1.5 rounded-sm px-2 text-sm font-bold whitespace-nowrap hover:text-on-deep"
+                className="flex min-h-11 items-center gap-1.5 rounded-sm px-2 text-sm font-bold whitespace-nowrap hover:text-primary"
               >
                 <LogOut aria-hidden="true" strokeWidth={1.75} className="size-4" />
                 Log out
@@ -148,13 +148,13 @@ export default async function AdminPage() {
             </form>
           </div>
         </div>
-        <nav aria-label="Dashboard sections" className="border-t border-on-deep/10">
+        <nav aria-label="Dashboard sections" className="border-t border-line">
           <ul className="mx-auto flex max-w-4xl gap-1 overflow-x-auto px-2">
             {sections.map((s) => (
               <li key={s.id} className="shrink-0">
                 <a
                   href={`#${s.id}`}
-                  className="flex min-h-11 items-center px-2.5 text-sm font-bold tracking-wide uppercase hover:text-on-deep"
+                  className="flex min-h-11 items-center px-2.5 text-sm font-bold tracking-wide uppercase hover:text-primary"
                 >
                   {s.label}
                 </a>
@@ -178,7 +178,7 @@ export default async function AdminPage() {
         <AdminSection
           id="deals"
           title="Deals"
-          intro="The home page shows up to four live deals as yellow shelf tags."
+          intro="The home page shows up to four live deals as shelf price tags."
         >
           <DealsManager deals={adminDeals} />
         </AdminSection>

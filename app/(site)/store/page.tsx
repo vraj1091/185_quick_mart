@@ -32,9 +32,9 @@ export default function StorePage() {
             <li key={a.slug}>
               <Link
                 href={`#${a.slug}`}
-                className="on-dark flex min-h-12 items-center gap-3 rounded-sm border-t-[3px] border-accent bg-deep px-3 py-2 text-on-deep hover:bg-deep-2"
+                className="flex min-h-12 items-center gap-3 rounded-sm border border-line bg-surface px-3 py-2 text-ink hover:border-primary"
               >
-                <span className="font-mono text-sm font-semibold text-on-deep/70">{a.number}</span>
+                <span className="rounded-xs bg-accent-soft px-1.5 pt-0.5 font-mono text-sm font-semibold text-primary">{a.number}</span>
                 <span className="text-[0.9375rem] leading-tight font-bold uppercase">{a.name}</span>
               </Link>
             </li>
@@ -83,9 +83,9 @@ function AisleSection({ aisle, flip }: { aisle: Aisle; flip: boolean }) {
   if (!main) {
     return (
       <section id={aisle.slug} aria-labelledby={`${aisle.slug}-title`} className="container-store scroll-mt-6 py-10 lg:py-14">
-        <div className="on-dark grid gap-6 rounded-md border-t-[3px] border-accent bg-deep-2 p-6 text-on-deep sm:p-10 lg:grid-cols-12">
+        <div className="on-dark grid gap-6 rounded-md border-t-[3px] border-accent bg-deep p-6 text-on-deep sm:p-10 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            <p className="font-mono text-sm font-semibold tracking-wider text-on-deep/70 uppercase">
+            <p className="font-mono text-sm font-semibold tracking-wider text-on-deep-muted uppercase">
               Aisle {aisle.number}
             </p>
             <h2 id={`${aisle.slug}-title`} className="type-display type-h2 mt-2">
@@ -110,9 +110,9 @@ function AisleSection({ aisle, flip }: { aisle: Aisle; flip: boolean }) {
     <section
       id={aisle.slug}
       aria-labelledby={`${aisle.slug}-title`}
-      className="container-store scroll-mt-6 py-10 lg:py-14"
+      className={cn("scroll-mt-6 py-10 lg:py-14", flip && "bg-surface-alt")}
     >
-      <div className="grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-14">
+      <div className="container-store grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-14">
         <div className={cn("lg:col-span-7", flip && "lg:order-2")}>
           <figure>
             <StorePhoto
@@ -129,7 +129,7 @@ function AisleSection({ aisle, flip }: { aisle: Aisle; flip: boolean }) {
           </figure>
         </div>
         <div className={cn("lg:col-span-5", flip && "lg:order-1")}>
-          <p className="font-mono text-sm font-semibold tracking-wider text-primary uppercase">
+          <p className="font-mono text-sm font-semibold tracking-wider text-accent uppercase">
             Aisle {aisle.number}
           </p>
           <h2 id={`${aisle.slug}-title`} className="type-display type-h2 mt-2">

@@ -25,7 +25,7 @@ export function MapEmbed({ className }: { className?: string }) {
       </div>
       <figcaption className="on-dark flex flex-wrap items-center justify-between gap-x-6 gap-y-1 border-t-[3px] border-accent bg-deep px-4 py-2.5 text-on-deep">
         <span className="flex items-center gap-3 py-1.5">
-          <RouteBadge className="text-sm" />
+          <RouteBadge tone="dark" className="text-sm" />
           <span className="leading-tight font-semibold">
             {store.address.streetDisplay}, {store.address.city}, {store.address.region}{" "}
             {store.address.postalCode}
@@ -35,7 +35,7 @@ export function MapEmbed({ className }: { className?: string }) {
           href={store.maps.search}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex min-h-11 items-center gap-1.5 font-bold underline decoration-accent decoration-2 underline-offset-4 hover:text-on-deep"
+          className="inline-flex min-h-11 items-center gap-1.5 font-bold underline decoration-on-deep-muted decoration-2 underline-offset-4 hover:text-on-deep"
         >
           Open in Google Maps
           <ExternalLink aria-hidden="true" strokeWidth={1.75} className="size-4" />

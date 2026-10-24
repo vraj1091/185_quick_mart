@@ -8,7 +8,8 @@ import { FuelFreshness } from "./FuelFreshness";
 import { FuelUpdated } from "./FuelUpdated";
 
 /*
- * Fuel price board, styled after the BP price pylon out front.
+ * Fuel price board, styled after the price pylon out front: dark pine header,
+ * darkest-pine body, LED-green digits.
  *
  * Stale-price rule (never show a price older than 48 hours), enforced three ways:
  *  1. Server: prices already past 48 hours are never rendered.
@@ -43,13 +44,13 @@ export function FuelBoard({
     <section
       id={id}
       aria-labelledby={headingId}
-      className={cn("on-dark overflow-hidden rounded-md bg-deep text-on-deep", className)}
+      className={cn("on-dark overflow-hidden rounded-md bg-deep-2 text-on-deep", className)}
     >
-      <div className="flex items-center justify-between gap-3 border-b border-on-deep/10 px-5 py-3.5 sm:px-6">
+      <div className="flex items-center justify-between gap-3 bg-deep px-5 py-3.5 sm:px-6">
         <Heading id={headingId} className="eyebrow text-on-deep">
           {title}
         </Heading>
-        <p className="eyebrow text-on-deep/70">
+        <p className="eyebrow text-on-deep-muted">
           {store.fuelBrand}
           <Sep />
           per gallon
@@ -69,10 +70,10 @@ export function FuelBoard({
                       size === "lg" ? "py-5" : "py-4",
                     )}
                   >
-                    <dt className="eyebrow flex items-center gap-3 text-[0.875rem] text-on-deep">
+                    <dt className="eyebrow flex items-center gap-3 text-[0.875rem] text-on-deep-muted">
                       <span
                         aria-hidden="true"
-                        className="size-2.5 rounded-full bg-legacy-fuel-dot ring-1 ring-on-deep/30"
+                        className="size-2.5 rounded-full bg-accent"
                       />
                       {row.label}
                     </dt>
@@ -88,7 +89,7 @@ export function FuelBoard({
                   </div>
                 ))}
               </dl>
-              <p className="px-5 py-3 text-sm text-on-deep/75 sm:px-6">
+              <p className="px-5 py-3 text-sm text-on-deep-muted sm:px-6">
                 Updated <FuelUpdated at={state.updatedAtMs} />
               </p>
             </div>
@@ -135,10 +136,10 @@ function CallForPrice() {
   return (
     <div className="px-5 py-6 sm:px-6 sm:py-8">
       <p className="type-display text-[1.75rem] sm:text-[2rem]">Call for today’s price</p>
-      <p className="mt-3 max-w-md text-on-deep/80">
+      <p className="mt-3 max-w-md text-on-deep-muted">
         Prices change often. Give us a call and we’ll read you what’s on the sign.
       </p>
-      <a href={store.phone.href} className={buttonClass("primary", "md", "mt-5")}>
+      <a href={store.phone.href} className={buttonClass("inverse", "md", "mt-5")}>
         <Phone aria-hidden="true" strokeWidth={1.75} className="size-5" />
         Call <span className="font-mono tabular">{store.phone.display}</span>
       </a>

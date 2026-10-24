@@ -9,7 +9,7 @@ export default async function AdminLoginPage() {
 
   return (
     <main className="flex min-h-dvh flex-col">
-      <div className="on-dark border-b-[3px] border-accent bg-deep text-on-deep">
+      <div className="border-b border-line bg-bg text-ink">
         <div className="mx-auto flex h-16 max-w-md items-center px-4 text-[1.375rem]">
           <Lockup />
         </div>

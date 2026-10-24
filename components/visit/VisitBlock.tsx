@@ -24,7 +24,7 @@ export function VisitBlock({ schedule }: { schedule: Schedule }) {
             {store.address.streetDisplay}
             <br />
             {store.address.city}, {store.address.region} {store.address.postalCode}
-            <a href={store.phone.href} className="mt-2 block font-mono text-lg font-semibold text-danger tabular">
+            <a href={store.phone.href} className="mt-2 block font-mono text-lg font-semibold text-primary tabular">
               {store.phone.display}
             </a>
           </address>

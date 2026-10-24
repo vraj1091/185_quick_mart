@@ -67,7 +67,7 @@ export function SpecialHoursManager({ specials }: { specials: AdminSpecial[] }) 
       )}
       <StatusLine status={list.status} />
 
-      <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4 rounded-sm border-2 border-ink bg-surface p-4">
+      <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4 rounded-sm border-2 border-line bg-surface p-4">
         <p className="font-extrabold">Add holiday hours</p>
         <div className="grid gap-4 sm:grid-cols-2">
           <div>

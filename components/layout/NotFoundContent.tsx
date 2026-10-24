@@ -7,7 +7,7 @@ import { mainNav } from "@/lib/site";
 export function NotFoundContent() {
   return (
     <section className="container-store py-16 lg:py-28">
-      <p className="font-mono text-sm font-semibold text-danger">404</p>
+      <p className="font-mono text-sm font-semibold text-accent">404</p>
       <h1 className="type-display type-h1 mt-3 max-w-3xl">That one’s not on the shelf.</h1>
       <p className="measure mt-5 text-lg">
         The page you’re looking for moved or never existed. Try one of these, or call us at{" "}

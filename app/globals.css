@@ -29,8 +29,6 @@
   --color-brand-red: var(--brand-red);
   --color-logo: var(--logo);
   --color-danger: var(--danger);
-  --color-legacy-highlight: var(--legacy-highlight);
-  --color-legacy-fuel-dot: var(--legacy-fuel-dot);
 }
 
 @theme {
@@ -54,7 +52,8 @@
     background: var(--color-bg);
     color: var(--color-ink);
     -webkit-text-size-adjust: 100%;
-    scroll-padding-top: 1.5rem;
+    /* Room for the sticky header when jumping to #anchors. */
+    scroll-padding-top: 6rem;
     text-rendering: optimizeLegibility;
   }
 
@@ -83,7 +82,7 @@
 
   :focus-visible {
     outline: 2px solid var(--focus-ring);
-    outline-offset: 3px;
+    outline-offset: 2px;
   }
 
   a,
@@ -98,8 +97,8 @@
   }
 
   ::selection {
-    background: var(--color-primary);
-    color: var(--color-on-primary);
+    background: var(--color-accent-soft);
+    color: var(--color-ink);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -229,7 +228,7 @@
 
   .on-dark .link-store {
     color: var(--color-on-deep);
-    text-decoration-color: var(--color-accent);
+    text-decoration-color: var(--color-on-deep-muted);
   }
 
   .on-dark .link-store:hover {

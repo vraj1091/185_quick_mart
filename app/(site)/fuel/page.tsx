@@ -108,7 +108,7 @@ export default async function FuelPage() {
             {grades.map((g) => (
               <div key={g.name} className="grid gap-1 py-5 sm:grid-cols-[12rem_1fr] sm:gap-6">
                 <dt className="flex items-center gap-3 text-xl font-extrabold uppercase">
-                  <span aria-hidden="true" className="size-2.5 rounded-full bg-legacy-fuel-dot" />
+                  <span aria-hidden="true" className="size-2.5 rounded-full bg-accent" />
                   {g.name}
                 </dt>
                 <dd className="text-lg text-muted">{g.text}</dd>

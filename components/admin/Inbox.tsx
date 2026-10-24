@@ -36,7 +36,7 @@ export function Inbox({ messages }: { messages: AdminMessage[] }) {
             key={m.id}
             className={cn(
               "rounded-sm border-2 bg-surface p-4",
-              m.read ? "border-line" : "border-ink shadow-[inset_4px_0_0_var(--color-primary)]",
+              m.read ? "border-line" : "border-primary shadow-[inset_4px_0_0_var(--color-primary)]",
             )}
           >
             <div className="flex flex-wrap items-baseline justify-between gap-2">

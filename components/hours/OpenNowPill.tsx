@@ -5,41 +5,42 @@ import { getOpenStatus, type Schedule } from "@/lib/hours";
 import { useNow } from "@/lib/use-now";
 
 /**
- * Live open/closed tag, computed in Central Time in the browser. Styled after the
- * OPEN sign in the front window. The server renders an empty frame of the same
- * height so nothing shifts when the real status appears.
+ * Live open/closed status, computed in Central Time in the browser.
+ * Open: soft green tint with a fern dot. Closed: mist with muted text.
+ * The server renders an empty frame of the same height so nothing shifts.
  */
 export function OpenNowPill({ schedule, className }: { schedule: Schedule; className?: string }) {
   const now = useNow();
   const frame =
-    "inline-flex h-11 items-stretch overflow-hidden rounded-sm border-2 text-[0.9375rem] leading-none";
+    "inline-flex h-10 items-center gap-2 rounded-md border px-3 text-[0.9375rem] leading-none";
 
   if (now === null) {
-    return <span aria-hidden="true" className={cn(frame, "w-64 max-w-full border-line bg-surface", className)} />;
+    return <span aria-hidden="true" className={cn(frame, "w-60 max-w-full border-line bg-surface-alt", className)} />;
   }
 
   const status = getOpenStatus(schedule, new Date(now));
   if (!status) return null;
 
   const open = status.state === "open";
-  const label = open ? (status.headline === "Open 24 hours" ? "Open" : "Open now") : "Closed";
-  const detail = status.headline === "Open 24 hours" ? "24 hours" : status.detail;
 
   return (
-    <p className={cn(frame, open ? "border-accent" : "border-ink", className)}>
-      <span
-        className={cn(
-          "eyebrow flex items-center px-3 pt-0.5",
-          open ? "bg-primary text-on-primary" : "bg-deep text-on-deep",
-        )}
-      >
-        {label}
-      </span>
-      {detail ? (
-        <span className="flex items-center bg-surface px-3 pt-0.5 font-bold text-ink">
+    <p
+      className={cn(
+        frame,
+        open ? "border-accent/25 bg-accent-soft text-primary" : "border-line bg-surface-alt text-muted",
+        className,
+      )}
+    >
+      <span aria-hidden="true" className={cn("size-2 shrink-0 rounded-full", open ? "bg-accent" : "bg-muted")} />
+      <span className="pt-0.5 font-bold">{status.headline}</span>
+      {status.detail ? (
+        <>
+          <span aria-hidden="true" className="pt-0.5">
+            ·
+          </span>
           <span className="sr-only">, </span>
-          {detail}
-        </span>
+          <span className="pt-0.5">{status.detail}</span>
+        </>
       ) : null}
     </p>
   );

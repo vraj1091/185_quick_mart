@@ -122,7 +122,7 @@ export function DealsManager({ deals }: { deals: AdminDeal[] }) {
       <StatusLine status={status} />
 
       {editing === "new" ? (
-        <div className="rounded-sm border-2 border-ink bg-surface p-4">
+        <div className="rounded-sm border-2 border-line bg-surface p-4">
           <DealForm onDone={() => setEditing(null)} />
         </div>
       ) : (

@@ -1,6 +1,6 @@
 import { cn } from "@/lib/cn";
 
-/** Black shelf edge with a red price-strip line on top. Used between major sections. */
+/** Dark shelf edge with a fern price-strip line on top. */
 export function ShelfEdge({ className }: { className?: string }) {
   return (
     <div
@@ -28,7 +28,7 @@ export function CaptionStrip({
       )}
     >
       <span>{left}</span>
-      {right ? <span className="text-right text-on-deep/75">{right}</span> : null}
+      {right ? <span className="text-right text-on-deep-muted">{right}</span> : null}
     </div>
   );
 }

@@ -14,9 +14,9 @@ export function Footer({ schedule }: { schedule: Schedule }) {
       <div className="container-store grid gap-10 py-14 md:grid-cols-12 lg:py-16">
         <div className="md:col-span-5">
           <Link href="/" className="inline-flex min-h-11 items-center rounded-sm text-[1.75rem]">
-            <Lockup />
+            <Lockup tone="dark" />
           </Link>
-          <Tagline className="mt-3 text-on-deep/80" />
+          <Tagline className="mt-3 text-on-deep-muted" />
           <address className="mt-6 leading-relaxed not-italic">
             <a
               href={store.maps.directions}
@@ -36,13 +36,13 @@ export function Footer({ schedule }: { schedule: Schedule }) {
         </div>
 
         <div className="md:col-span-3">
-          <h2 className="eyebrow text-on-deep/70">Hours</h2>
+          <h2 className="eyebrow text-on-deep-muted">Hours</h2>
           {hours.length > 0 ? (
             <dl className="mt-3 space-y-1.5">
               {hours.map((row) => (
                 <div key={row.days} className="flex justify-between gap-4 md:block">
                   <dt className="font-semibold">{row.days}</dt>
-                  <dd className="font-mono text-on-deep/85 tabular">{row.hours}</dd>
+                  <dd className="font-mono text-on-deep-muted tabular">{row.hours}</dd>
                 </div>
               ))}
             </dl>
@@ -53,13 +53,13 @@ export function Footer({ schedule }: { schedule: Schedule }) {
               </a>
             </p>
           )}
-          <Link href="/visit" className="mt-4 inline-block text-sm text-on-deep/75 underline hover:text-on-deep">
+          <Link href="/visit" className="mt-4 inline-block text-sm text-on-deep-muted underline hover:text-on-deep">
             Holiday hours & directions
           </Link>
         </div>
 
         <nav aria-label="Footer" className="md:col-span-4">
-          <h2 className="eyebrow text-on-deep/70">Around the store</h2>
+          <h2 className="eyebrow text-on-deep-muted">Around the store</h2>
           <ul className="mt-2 grid grid-cols-2 gap-x-6">
             <li>
               <Link href="/" className="flex min-h-11 items-center hover:text-on-deep hover:underline">
@@ -78,8 +78,8 @@ export function Footer({ schedule }: { schedule: Schedule }) {
       </div>
 
       <div className="border-t border-on-deep/10">
-        <div className="container-store space-y-2 py-6 text-sm text-on-deep/75">
-          <p className="font-semibold text-on-deep/90">
+        <div className="container-store space-y-2 py-6 text-sm text-on-deep-muted">
+          <p className="font-semibold text-on-deep">
             Must be 21+ to purchase tobacco. Must be 18+ to play the Kentucky Lottery.
           </p>
           <p>

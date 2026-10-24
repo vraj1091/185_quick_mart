@@ -42,7 +42,7 @@ export function HoursForm({ initial, published }: { initial: WeeklyHoursInput; p
   return (
     <form onSubmit={handleSubmit((values) => run(() => saveWeeklyHours(values)))} noValidate className="space-y-5">
       {!published ? (
-        <p className="rounded-sm border-l-4 border-accent bg-surface px-4 py-3 font-semibold">
+        <p className="rounded-sm border-l-4 border-accent bg-accent-soft px-4 py-3 font-semibold">
           No hours are published yet, so the site says “Call for hours”. Set them below and save.
         </p>
       ) : null}

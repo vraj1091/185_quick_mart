@@ -14,45 +14,41 @@ export const USE_BRAND_RED_IN_LOGO = true;
 
 export const palette = {
   /** Page background */
-  bg: "#F3EEE4",
-  /** Cards, raised light surfaces */
-  surface: "#FBF9F4",
-  /** Alternating light section background */
-  surfaceAlt: "#FBF9F4",
-  /** Main text */
-  ink: "#1E2023",
-  /** Secondary text */
-  muted: "#5A5E63",
-  /** Borders, dividers */
-  line: "#D9D3C7",
-  /** Buttons, active nav, key links */
-  primary: "#B4232C",
-  /** Hover/pressed for primary */
-  primaryHover: "#8E1B22",
+  bg: "#FFFFFF",
+  /** Cards, raised light surfaces (separated by `line` borders, not shadows) */
+  surface: "#FFFFFF",
+  /** Mist: every other section, so long pages have rhythm */
+  surfaceAlt: "#F2F7F3",
+  /** Main text: near-black with a green undertone */
+  ink: "#14201A",
+  /** Secondary text: moss gray */
+  muted: "#4F5D54",
+  /** Borders, dividers: soft sage */
+  line: "#D5E3D9",
+  /** Pine: buttons, active nav, key links */
+  primary: "#14532D",
+  /** Darker pine: hover/pressed for primary */
+  primaryHover: "#0E3B20",
   /** Text and icons on primary */
   onPrimary: "#FFFFFF",
-  /** Eyebrow labels, tagline, small highlights */
-  accent: "#B4232C",
+  /** Fern: eyebrow labels, tagline, small highlights */
+  accent: "#1F7A45",
   /** Very light tint for tags and chips */
-  accentSoft: "#FBF9F4",
-  /** Dark sections: footer, fuel board, lottery panel */
-  deep: "#1E2023",
-  /** Raised surfaces inside dark sections */
-  deep2: "#2B2E32",
+  accentSoft: "#E3F0E7",
+  /** Dark pine: footer, lottery panel, fuel board header */
+  deep: "#0E3B20",
+  /** Darkest surface: fuel board body */
+  deep2: "#0B2416",
   /** Main text on dark sections */
-  onDeep: "#F3EEE4",
+  onDeep: "#FFFFFF",
   /** Secondary text on dark sections */
-  onDeepMuted: "#B3B0AA",
-  /** Fuel price digits only */
-  led: "#2FD06A",
+  onDeepMuted: "#A7C4B0",
+  /** Fuel price digits only (soft glow) */
+  led: "#4ADE80",
   /** The real store sign red. Logo wordmark only. */
   brandRed: "#B4232C",
   /** Form errors only */
-  danger: "#B4232C",
-  /** Legacy (removed in the retheme): deal tags and the $5,000 badge */
-  legacyHighlight: "#F2C230",
-  /** Legacy (removed in the retheme): fuel grade dots */
-  legacyFuelDot: "#0B6B3A",
+  danger: "#9F1D24",
 } as const;
 
 export type ThemeToken = keyof typeof palette;
@@ -72,7 +68,7 @@ export const themeStyle: Record<string, string> = {
 };
 
 /** Browser UI color (address bar on phones). */
-export const browserThemeColor = palette.deep;
+export const browserThemeColor = palette.primary;
 
 /** A theme color with transparency, for places that can't use CSS variables (share image). */
 export function withAlpha(hex: string, alpha: number): string {
@@ -88,21 +84,19 @@ export const tokenNotes: Record<ThemeToken, string> = {
   surfaceAlt: "Alternating light section background",
   ink: "Main text",
   muted: "Secondary text; form field borders",
-  line: "Borders and dividers (decorative)",
+  line: "Borders and dividers (decorative; form fields use muted for 3:1)",
   primary: "Buttons, active nav, key links",
   primaryHover: "Hover/pressed for primary",
   onPrimary: "Text and icons on primary",
   accent: "Eyebrow labels, tagline, small highlights",
   accentSoft: "Very light tint for tags and chips",
-  deep: "Dark sections: footer, fuel board header, lottery panel",
+  deep: "Dark sections: footer, fuel board header, lottery panel, notice strip",
   deep2: "Raised surfaces inside dark sections",
   onDeep: "Main text on dark sections",
   onDeepMuted: "Secondary text on dark sections",
   led: "Fuel price digits only",
   brandRed: "Real sign red, logo wordmark only",
   danger: "Form errors only",
-  legacyHighlight: "Legacy: deal tags and $5,000 badge",
-  legacyFuelDot: "Legacy: fuel grade dots",
 };
 
 /** WCAG contrast ratio between two hex colors, e.g. contrastRatio("#000", "#fff") = 21. */

@@ -154,6 +154,32 @@ export default function StyleguidePage() {
         <p className="font-mono text-2xl font-semibold tabular">(270) 599-1126 · 5:30 AM</p>
       </section>
 
+      <section className="container-store space-y-5">
+        <h2 className="type-display type-h3">Logo options</h2>
+        <p className="measure text-muted">
+          Set <code className="font-mono">USE_BRAND_RED_IN_LOGO</code> in lib/theme.ts. Red appears
+          nowhere else on the site. On dark sections the wordmark is always white.
+        </p>
+        <div className="grid gap-4 sm:grid-cols-2">
+          {(
+            [
+              ["brandRed", "true: brand red (the real sign)"],
+              ["primary", "false: pine green"],
+            ] as const
+          ).map(([token, label]) => (
+            <div key={token} className="rounded-sm border border-line bg-surface p-5">
+              <span className="inline-flex items-center gap-[0.4em] text-[2rem] whitespace-nowrap">
+                <RouteBadge className="text-[0.92em]" />
+                <span className="type-display" style={{ color: varOf(token) }}>
+                  Quick Mart
+                </span>
+              </span>
+              <p className="mt-3 font-mono text-sm text-muted">USE_BRAND_RED_IN_LOGO = {label}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* ---------- Components on light ---------- */}
       <section className="border-y border-line bg-bg py-12">
         <div className="container-store space-y-8">
@@ -222,18 +248,19 @@ export default function StyleguidePage() {
           <h2 className="type-display type-h3">Components on dark</h2>
           <div className="flex flex-wrap items-center gap-6">
             <span className="text-[1.5rem]">
-              <Lockup />
+              <Lockup tone="dark" />
             </span>
-            <RouteBadge className="text-3xl" />
+            <RouteBadge tone="dark" className="text-3xl" />
           </div>
           <div className="flex flex-wrap gap-3">
+            <button type="button" className={buttonClass("inverse")}>
+              Inverse (filled) on dark
+            </button>
             <button type="button" className={buttonClass("outline-light")}>
               Outline on dark
             </button>
-            <button type="button" className={buttonClass("primary")}>
-              Primary on dark
-            </button>
           </div>
+          <CaptionStrip left="Caption strip" right="Right side" />
           <p className="measure">
             Text on dark. <span className="text-on-deep-muted">Muted text on dark.</span>{" "}
             <a href="#" className="link-store">

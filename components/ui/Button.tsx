@@ -1,13 +1,17 @@
 import { cn } from "@/lib/cn";
 
-export type ButtonVariant = "primary" | "outline" | "outline-light" | "dark";
+export type ButtonVariant = "primary" | "outline" | "outline-light" | "inverse";
 export type ButtonSize = "md" | "lg";
 
 const variants: Record<ButtonVariant, string> = {
+  /** Pine fill. The main action on light backgrounds. */
   primary: "bg-primary text-on-primary hover:bg-primary-hover active:bg-primary-hover",
-  outline: "border-2 border-ink text-ink hover:bg-ink hover:text-on-deep",
-  "outline-light": "border-2 border-on-deep/80 text-on-deep hover:bg-on-deep hover:text-ink",
-  dark: "bg-deep text-on-deep hover:bg-deep-2",
+  /** Pine outline on light backgrounds. */
+  outline: "border-2 border-primary text-primary hover:bg-accent-soft active:bg-accent-soft",
+  /** White outline on dark sections. */
+  "outline-light": "border-2 border-on-deep text-on-deep hover:bg-on-deep hover:text-primary",
+  /** White fill on dark sections (a pine button would disappear there). */
+  inverse: "bg-on-deep text-primary hover:bg-accent-soft active:bg-accent-soft",
 };
 
 const sizes: Record<ButtonSize, string> = {
