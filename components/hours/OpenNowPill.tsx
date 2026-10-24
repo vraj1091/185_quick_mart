@@ -15,7 +15,7 @@ export function OpenNowPill({ schedule, className }: { schedule: Schedule; class
     "inline-flex h-11 items-stretch overflow-hidden rounded-sm border-2 text-[0.9375rem] leading-none";
 
   if (now === null) {
-    return <span aria-hidden="true" className={cn(frame, "w-64 max-w-full border-concrete bg-bone", className)} />;
+    return <span aria-hidden="true" className={cn(frame, "w-64 max-w-full border-line bg-surface", className)} />;
   }
 
   const status = getOpenStatus(schedule, new Date(now));
@@ -26,17 +26,17 @@ export function OpenNowPill({ schedule, className }: { schedule: Schedule; class
   const detail = status.headline === "Open 24 hours" ? "24 hours" : status.detail;
 
   return (
-    <p className={cn(frame, open ? "border-sign-red" : "border-asphalt", className)}>
+    <p className={cn(frame, open ? "border-accent" : "border-ink", className)}>
       <span
         className={cn(
           "eyebrow flex items-center px-3 pt-0.5",
-          open ? "bg-sign-red text-white" : "bg-asphalt text-limestone",
+          open ? "bg-primary text-on-primary" : "bg-deep text-on-deep",
         )}
       >
         {label}
       </span>
       {detail ? (
-        <span className="flex items-center bg-bone px-3 pt-0.5 font-bold text-asphalt">
+        <span className="flex items-center bg-surface px-3 pt-0.5 font-bold text-ink">
           <span className="sr-only">, </span>
           {detail}
         </span>

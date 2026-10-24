@@ -2,15 +2,16 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { ImageResponse } from "next/og";
 import { store } from "@/content/store";
+import { logoColor, palette, withAlpha } from "./theme";
 
 /*
  * Branded share image and icons, drawn with the same tokens as the site:
  * asphalt panel, red sign lettering with a white outline, and the 185 route plate.
  */
 
-const ASPHALT = "#1e2023";
-const RED = "#b4232c";
-const LIMESTONE = "#f3eee4";
+const ASPHALT = palette.deep;
+const RED = palette.accent;
+const LIMESTONE = palette.onDeep;
 
 async function fonts() {
   const dir = path.join(process.cwd(), "assets", "fonts");
@@ -33,10 +34,10 @@ function RoutePlate({ size }: { size: number }) {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "#fff",
+        background: palette.surface,
         border: `${Math.round(size * 0.11)}px solid ${ASPHALT}`,
         borderRadius: Math.round(size * 0.22),
-        boxShadow: `0 0 0 ${Math.max(2, Math.round(size * 0.09))}px #fff`,
+        boxShadow: `0 0 0 ${Math.max(2, Math.round(size * 0.09))}px ${palette.onPrimary}`,
         padding: `${Math.round(size * 0.1)}px ${Math.round(size * 0.3)}px ${Math.round(size * 0.02)}px`,
         fontFamily: "Overpass",
         fontWeight: 800,
@@ -76,10 +77,12 @@ export async function renderShareImage(size: { width: number; height: number }) 
                 style={{
                   fontFamily: "Archivo Expanded",
                   fontSize: 64,
-                  color: RED,
+                  color: logoColor,
                   letterSpacing: -1,
                   textShadow:
-                    "2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1.5px 1.5px 0 #fff, -1.5px -1.5px 0 #fff, 1.5px -1.5px 0 #fff, -1.5px 1.5px 0 #fff",
+                    [[2, 0], [-2, 0], [0, 2], [0, -2], [1.5, 1.5], [-1.5, -1.5], [1.5, -1.5], [-1.5, 1.5]]
+                      .map(([x, y]) => `${x}px ${y}px 0 ${palette.onPrimary}`)
+                      .join(", "),
                 }}
               >
                 QUICK MART
@@ -112,7 +115,7 @@ export async function renderShareImage(size: { width: number; height: number }) 
                 fontFamily: "Overpass Mono",
                 fontSize: 22,
                 lineHeight: 1.4,
-                color: "rgba(243,238,228,0.8)",
+                color: withAlpha(palette.onDeep, 0.8),
                 display: "flex",
                 flexDirection: "column",
               }}

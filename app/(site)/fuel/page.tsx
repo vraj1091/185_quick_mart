@@ -64,7 +64,7 @@ export default async function FuelPage() {
     <>
       <section className="container-store grid gap-10 pt-10 pb-14 lg:grid-cols-12 lg:items-center lg:gap-14 lg:pt-16 lg:pb-20">
         <div className="lg:col-span-5">
-          <p className="eyebrow text-sign-red">BP fuel on Highway 185</p>
+          <p className="eyebrow text-accent">BP fuel on Highway 185</p>
           <h1 className="type-display type-h1 mt-4">Fuel & prices</h1>
           <p className="measure mt-5 text-lg sm:text-xl">
             Low prices at the pump on regular, premium and diesel. Air for your tires and ice for
@@ -99,26 +99,26 @@ export default async function FuelPage() {
       <section aria-labelledby="grades" className="container-store py-16 lg:py-24">
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
           <div className="lg:col-span-4">
-            <p className="eyebrow text-sign-red">At the pump</p>
+            <p className="eyebrow text-accent">At the pump</p>
             <h2 id="grades" className="type-display type-h2 mt-3">
               Three grades
             </h2>
           </div>
-          <dl className="divide-y divide-concrete border-y border-concrete lg:col-span-8">
+          <dl className="divide-y divide-line border-y border-line lg:col-span-8">
             {grades.map((g) => (
               <div key={g.name} className="grid gap-1 py-5 sm:grid-cols-[12rem_1fr] sm:gap-6">
                 <dt className="flex items-center gap-3 text-xl font-extrabold uppercase">
-                  <span aria-hidden="true" className="size-2.5 rounded-full bg-canopy-green" />
+                  <span aria-hidden="true" className="size-2.5 rounded-full bg-legacy-fuel-dot" />
                   {g.name}
                 </dt>
-                <dd className="text-lg text-slate">{g.text}</dd>
+                <dd className="text-lg text-muted">{g.text}</dd>
               </div>
             ))}
           </dl>
         </div>
       </section>
 
-      <section aria-labelledby="while-here" className="border-y border-concrete bg-bone py-16 lg:py-20">
+      <section aria-labelledby="while-here" className="border-y border-line bg-surface-alt py-16 lg:py-20">
         <div className="container-store grid gap-10 lg:grid-cols-12 lg:gap-14">
           <div className="lg:col-span-4">
             <h2 id="while-here" className="type-display type-h2">
@@ -128,15 +128,15 @@ export default async function FuelPage() {
           <ul className="space-y-6 text-lg lg:col-span-8">
             <li>
               <strong className="block text-xl">Air for your tires</strong>
-              <span className="text-slate">Check them while you fill up.</span>
+              <span className="text-muted">Check them while you fill up.</span>
             </li>
             <li>
               <strong className="block text-xl">Bagged ice</strong>
-              <span className="text-slate">From the ice chest out front, for the cooler or the party.</span>
+              <span className="text-muted">From the ice chest out front, for the cooler or the party.</span>
             </li>
             <li>
               <strong className="block text-xl">Oil, fluids and gas cans</strong>
-              <span className="text-slate">
+              <span className="text-muted">
                 Motor oil, washer fluid, DEF and more in the{" "}
                 <Link href="/store#auto-care" className="link-store">
                   Auto Care aisle
@@ -146,7 +146,7 @@ export default async function FuelPage() {
             </li>
             <li>
               <strong className="block text-xl">ATM inside</strong>
-              <span className="text-slate">Cash when you need it.</span>
+              <span className="text-muted">Cash when you need it.</span>
             </li>
           </ul>
         </div>
@@ -161,17 +161,17 @@ export default async function FuelPage() {
           </div>
           <div className="lg:col-span-7">
             {faqs.map((f) => (
-              <details key={f.q} className="group border-b border-concrete first:border-t">
+              <details key={f.q} className="group border-b border-line first:border-t">
                 <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-4 text-lg font-bold [&::-webkit-details-marker]:hidden">
                   {f.q}
                   <span
                     aria-hidden="true"
-                    className="font-mono text-2xl leading-none text-sign-red group-open:rotate-45 motion-safe:transition-transform"
+                    className="font-mono text-2xl leading-none text-accent group-open:rotate-45 motion-safe:transition-transform"
                   >
                     +
                   </span>
                 </summary>
-                <div className="measure pb-5 text-lg text-slate">{f.a}</div>
+                <div className="measure pb-5 text-lg text-muted">{f.a}</div>
               </details>
             ))}
             <Link href="/visit" className="link-store mt-8 inline-flex items-center gap-2">

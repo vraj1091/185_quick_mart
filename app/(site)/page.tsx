@@ -62,7 +62,7 @@ export default async function HomePage() {
       {/* ---------- Hero ---------- */}
       <section className="container-store grid gap-8 pt-5 pb-14 sm:pt-8 lg:grid-cols-[minmax(0,55fr)_minmax(0,45fr)] lg:items-center lg:gap-14 lg:pt-14 lg:pb-20">
         <div>
-          <p className="eyebrow flex items-center gap-3 text-slate">
+          <p className="eyebrow flex items-center gap-3 text-muted">
             <RouteBadge className="text-[1.0625rem]" />
             <span>
               Highway 185
@@ -71,10 +71,10 @@ export default async function HomePage() {
             </span>
           </p>
           <h1 className="type-display type-h1 mt-5">
-            Gas, hot food <span className="text-sign-red">&amp;</span> everything in between.
+            Gas, hot food <span className="text-accent">&amp;</span> everything in between.
           </h1>
-          <Tagline className="mt-5 text-sign-red" />
-          <p className="measure mt-4 text-lg text-slate sm:text-xl">
+          <Tagline className="mt-5 text-accent" />
+          <p className="measure mt-4 text-lg text-muted sm:text-xl">
             Fill up on BP, grab fried chicken or a Hunt Brothers slice, and pick up whatever else
             you forgot.
           </p>
@@ -112,12 +112,12 @@ export default async function HomePage() {
       <section aria-labelledby="home-fuel" className="container-store pb-16 lg:pb-24">
         <div className="grid gap-8 lg:grid-cols-12 lg:items-center lg:gap-14">
           <div className="lg:col-span-5">
-            <p className="eyebrow text-sign-red">At the pump</p>
+            <p className="eyebrow text-accent">At the pump</p>
             <h2 id="home-fuel" className="type-display type-h2 mt-3">
               Today’s gas prices
             </h2>
             <p className="mt-4 text-xl font-bold">BP fuel. Low prices. Diesel on site.</p>
-            <p className="measure mt-3 text-slate">
+            <p className="measure mt-3 text-muted">
               Regular, premium and diesel, straight from the board out front. Air for your tires,
               ice for your cooler, cash from the ATM while you’re here.
             </p>
@@ -131,7 +131,7 @@ export default async function HomePage() {
       </section>
 
       {/* ---------- Hot food ---------- */}
-      <section aria-labelledby="home-food" className="border-y border-concrete bg-bone py-16 lg:py-24">
+      <section aria-labelledby="home-food" className="border-y border-line bg-surface-alt py-16 lg:py-24">
         <div className="container-store grid gap-10 lg:grid-cols-12 lg:gap-14">
           <div className="lg:col-span-7">
             <figure>
@@ -160,7 +160,7 @@ export default async function HomePage() {
             </div>
           </div>
           <div className="lg:col-span-5 lg:pt-6">
-            <p className="eyebrow text-sign-red">Hot food & drinks</p>
+            <p className="eyebrow text-accent">Hot food & drinks</p>
             <h2 id="home-food" className="type-display type-h2 mt-3">
               Fried chicken. Pizza. Fresh coffee.
             </h2>
@@ -169,13 +169,13 @@ export default async function HomePage() {
                 <strong>Perfectly Southern</strong> fried chicken and <strong>Hunt Brothers</strong>{" "}
                 pizza, made right here. Want it hot out of the fryer? Just ask at the counter.
               </p>
-              <p className="text-slate">
+              <p className="text-muted">
                 Fresh coffee on, every morning. Slushies in strawberry, watermelon, mango and sour
                 apple, and a full fountain at the Beverage Bay.
               </p>
             </div>
             {!settings.hotFoodOn ? (
-              <p className="mt-5 rounded-sm border-l-4 border-sign-red bg-limestone px-4 py-3 font-semibold">
+              <p className="mt-5 rounded-sm border-l-4 border-accent bg-bg px-4 py-3 font-semibold">
                 The kitchen is closed right now. Call before you come for chicken or pizza.
               </p>
             ) : null}
@@ -239,16 +239,16 @@ export default async function HomePage() {
       </section>
 
       {/* ---------- Services ---------- */}
-      <section aria-labelledby="home-services" className="border-y border-concrete bg-bone">
+      <section aria-labelledby="home-services" className="border-y border-line bg-surface-alt">
         <div className="container-store flex flex-col gap-3 py-7 lg:flex-row lg:items-center lg:gap-10">
-          <h2 id="home-services" className="eyebrow shrink-0 text-sign-red">
+          <h2 id="home-services" className="eyebrow shrink-0 text-accent">
             Also at the store
           </h2>
           <ul className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-lg font-bold sm:flex sm:flex-wrap sm:text-xl">
             {services.map((s, i) => (
               <li key={s} className="flex items-center gap-4">
                 {i > 0 ? (
-                  <span aria-hidden="true" className="hidden text-sign-red sm:inline">
+                  <span aria-hidden="true" className="hidden text-primary sm:inline">
                     ·
                   </span>
                 ) : null}
@@ -261,18 +261,18 @@ export default async function HomePage() {
 
       {/* ---------- Lottery ---------- */}
       <section aria-labelledby="home-lottery" className="container-store py-16 lg:py-24">
-        <div className="on-dark grid overflow-hidden rounded-md bg-asphalt text-limestone lg:grid-cols-12">
+        <div className="on-dark grid overflow-hidden rounded-md bg-deep text-on-deep lg:grid-cols-12">
           <div className="p-6 sm:p-10 lg:col-span-8 lg:p-14">
             <p className="flex flex-wrap items-center gap-3">
-              <span className="type-display rounded-sm bg-hi-vis px-3 pt-2.5 pb-1.5 text-[1.75rem] text-asphalt">
+              <span className="type-display rounded-sm bg-legacy-highlight px-3 pt-2.5 pb-1.5 text-[1.75rem] text-ink">
                 {cashLimit}
               </span>
-              <span className="eyebrow text-limestone/80">Kentucky Lottery cashing</span>
+              <span className="eyebrow text-on-deep/80">Kentucky Lottery cashing</span>
             </p>
             <h2 id="home-lottery" className="type-display type-h2 mt-6">
               Won? Cash it here.
             </h2>
-            <p className="measure mt-4 text-lg text-limestone/85">
+            <p className="measure mt-4 text-lg text-on-deep/85">
               Won a scratch-off? Cash it right here, up to {cashLimit}. Buy tickets, scratch-offs
               and draw games at the counter or the self-serve lottery machine.
             </p>
@@ -280,7 +280,7 @@ export default async function HomePage() {
               <Link href="/lottery" className={buttonClass("outline-light")}>
                 How cashing works
               </Link>
-              <p className="text-sm text-limestone/75">
+              <p className="text-sm text-on-deep/75">
                 Must be 18 or older to play. Please play responsibly.
               </p>
             </div>

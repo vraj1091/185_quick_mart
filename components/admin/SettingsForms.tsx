@@ -43,7 +43,7 @@ export function NoticeForm({ initial }: { initial: string }) {
         {...register("noticeText")}
       />
       <FieldError id="notice-error" message={errors.noticeText?.message} />
-      <p id="notice-count" className="text-sm text-slate">
+      <p id="notice-count" className="text-sm text-muted">
         {text.length}/160 characters. Leave it empty to hide the banner.
       </p>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -74,8 +74,8 @@ export function TogglesForm({ initial }: { initial: TogglesInput }) {
     defaultValues: initial,
   });
 
-  const toggleRow = "flex min-h-14 cursor-pointer items-start gap-4 rounded-sm border-2 border-concrete bg-white p-4";
-  const box = "mt-0.5 size-6 shrink-0 accent-sign-red";
+  const toggleRow = "flex min-h-14 cursor-pointer items-start gap-4 rounded-sm border-2 border-line bg-surface p-4";
+  const box = "mt-0.5 size-6 shrink-0 accent-primary";
 
   return (
     <form onSubmit={handleSubmit((values) => run(() => saveToggles(values)))} className="space-y-3">
@@ -83,14 +83,14 @@ export function TogglesForm({ initial }: { initial: TogglesInput }) {
         <input type="checkbox" className={box} {...register("hotFoodOn")} />
         <span>
           <span className="block text-lg font-bold">Hot food is available</span>
-          <span className="text-slate">Turn off when the kitchen is closed. The site tells people to call first.</span>
+          <span className="text-muted">Turn off when the kitchen is closed. The site tells people to call first.</span>
         </span>
       </label>
       <label className={toggleRow}>
         <input type="checkbox" className={box} {...register("hiringOn")} />
         <span>
           <span className="block text-lg font-bold">We’re hiring</span>
-          <span className="text-slate">Shows a “We’re hiring” box on the Visit page.</span>
+          <span className="text-muted">Shows a “We’re hiring” box on the Visit page.</span>
         </span>
       </label>
       <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:items-center">

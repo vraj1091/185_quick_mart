@@ -34,10 +34,10 @@ export function HeaderNav() {
                 href={item.href}
                 aria-current={isActive(item.href) ? "page" : undefined}
                 className={cn(
-                  "flex min-h-11 items-center rounded-sm px-3 text-[0.9375rem] font-bold tracking-wide uppercase hover:text-white",
+                  "flex min-h-11 items-center rounded-sm px-3 text-[0.9375rem] font-bold tracking-wide uppercase hover:text-on-deep",
                   isActive(item.href)
-                    ? "text-white shadow-[inset_0_-3px_0_var(--color-sign-red)]"
-                    : "text-limestone/85",
+                    ? "text-on-deep shadow-[inset_0_-3px_0_var(--color-primary)]"
+                    : "text-on-deep/85",
                 )}
               >
                 {item.label}
@@ -73,7 +73,7 @@ export function HeaderNav() {
       <div
         id="mobile-menu"
         hidden={!open}
-        className="absolute inset-x-0 top-full z-40 border-b-[3px] border-sign-red bg-asphalt lg:hidden"
+        className="absolute inset-x-0 top-full z-40 border-b-[3px] border-accent bg-deep lg:hidden"
       >
         <nav aria-label="Mobile" className="container-store pt-2 pb-6">
           <ul>
@@ -82,7 +82,7 @@ export function HeaderNav() {
                 href="/"
                 onClick={() => setOpen(false)}
                 aria-current={pathname === "/" ? "page" : undefined}
-                className="flex min-h-14 items-center border-b border-white/10 text-lg font-bold uppercase aria-[current=page]:text-white"
+                className="flex min-h-14 items-center border-b border-on-deep/10 text-lg font-bold uppercase aria-[current=page]:text-on-deep"
               >
                 Home
               </Link>
@@ -94,19 +94,19 @@ export function HeaderNav() {
                   onClick={() => setOpen(false)}
                   aria-current={isActive(item.href) ? "page" : undefined}
                   className={cn(
-                    "flex min-h-14 items-center justify-between border-b border-white/10 text-lg font-bold uppercase",
-                    isActive(item.href) ? "text-white" : "text-limestone/90",
+                    "flex min-h-14 items-center justify-between border-b border-on-deep/10 text-lg font-bold uppercase",
+                    isActive(item.href) ? "text-on-deep" : "text-on-deep/90",
                   )}
                 >
                   {item.label}
                   {isActive(item.href) ? (
-                    <span aria-hidden="true" className="h-3 w-3 bg-sign-red" />
+                    <span aria-hidden="true" className="h-3 w-3 bg-primary" />
                   ) : null}
                 </Link>
               </li>
             ))}
           </ul>
-          <p className="mt-5 text-limestone/75">{displayAddress}</p>
+          <p className="mt-5 text-on-deep/75">{displayAddress}</p>
         </nav>
       </div>
     </>

@@ -27,11 +27,11 @@ export function LoginForm() {
       <button
         type="submit"
         disabled={pending}
-        className="inline-flex min-h-14 w-full items-center justify-center rounded-sm bg-sign-red px-6 text-lg font-bold text-white hover:bg-ember disabled:opacity-60"
+        className="inline-flex min-h-14 w-full items-center justify-center rounded-sm bg-primary px-6 text-lg font-bold text-on-primary hover:bg-primary-hover disabled:opacity-60"
       >
         {pending ? "Checking…" : "Log in"}
       </button>
-      <p id="login-error" role="status" aria-live="polite" className="min-h-7 font-semibold text-sign-red">
+      <p id="login-error" role="status" aria-live="polite" className="min-h-7 font-semibold text-danger">
         {state.error ?? ""}
       </p>
     </form>

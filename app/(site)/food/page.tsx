@@ -23,7 +23,7 @@ export default async function FoodPage() {
   return (
     <>
       <header className="container-store pt-10 pb-12 lg:pt-16 lg:pb-16">
-        <p className="eyebrow text-sign-red">Hot food & drinks</p>
+        <p className="eyebrow text-accent">Hot food & drinks</p>
         <h1 className="type-display type-h1 mt-4 max-w-4xl">Hot food, cold drinks, fresh coffee.</h1>
         <p className="measure mt-5 text-lg sm:text-xl">
           Fried chicken and pizza from the kitchen, coffee on every morning, and a whole bay of
@@ -32,7 +32,7 @@ export default async function FoodPage() {
         {!settings.hotFoodOn ? (
           <p
             role="note"
-            className="mt-6 max-w-2xl rounded-sm border-l-4 border-sign-red bg-bone px-4 py-3 text-lg font-semibold"
+            className="mt-6 max-w-2xl rounded-sm border-l-4 border-accent bg-surface px-4 py-3 text-lg font-semibold"
           >
             The kitchen is closed right now. Call{" "}
             <a href={store.phone.href} className="link-store font-mono tabular">
@@ -44,7 +44,7 @@ export default async function FoodPage() {
       </header>
 
       {/* ---------- From the kitchen ---------- */}
-      <section aria-labelledby="kitchen" className="border-y border-concrete bg-bone py-14 lg:py-20">
+      <section aria-labelledby="kitchen" className="border-y border-line bg-surface-alt py-14 lg:py-20">
         <div className="container-store">
           <h2 id="kitchen" className="type-display type-h2">
             From the kitchen
@@ -121,7 +121,7 @@ export default async function FoodPage() {
       />
 
       <section className="container-store pb-16 lg:pb-24">
-        <div className="on-dark flex flex-col gap-5 rounded-md bg-asphalt p-6 text-limestone sm:flex-row sm:items-center sm:justify-between sm:p-8">
+        <div className="on-dark flex flex-col gap-5 rounded-md bg-deep p-6 text-on-deep sm:flex-row sm:items-center sm:justify-between sm:p-8">
           <p className="text-xl font-bold">Calling ahead for food? We’ll tell you what’s hot.</p>
           <a href={store.phone.href} className={buttonClass("primary", "md", "shrink-0")}>
             <Phone aria-hidden="true" strokeWidth={1.75} className="size-5" />
@@ -147,17 +147,17 @@ function MenuBlock({
   return (
     <div id={id} className="scroll-mt-6">
       <PartnerLogo partner={partner} className="mb-3 h-12 w-auto" />
-      <p className="eyebrow text-sign-red">{category.brand}</p>
+      <p className="eyebrow text-accent">{category.brand}</p>
       <h3 className="type-display type-h3 mt-2">{category.title}</h3>
       <p className="mt-3 text-lg">{text}</p>
       {category.items.length > 0 ? (
-        <ul className="mt-5 divide-y divide-concrete border-y border-concrete">
+        <ul className="mt-5 divide-y divide-line border-y border-line">
           {category.items.map((item) => (
             <li key={item.name} className="flex items-baseline justify-between gap-4 py-3">
               <span>
                 <span className="font-bold">{item.name}</span>
                 {item.description ? (
-                  <span className="block text-[0.9375rem] text-slate">{item.description}</span>
+                  <span className="block text-[0.9375rem] text-muted">{item.description}</span>
                 ) : null}
               </span>
               {item.price ? <span className="font-mono font-semibold tabular">{item.price}</span> : null}
@@ -165,7 +165,7 @@ function MenuBlock({
           ))}
         </ul>
       ) : (
-        <p className="mt-4 border-l-4 border-asphalt pl-3 font-semibold">
+        <p className="mt-4 border-l-4 border-ink pl-3 font-semibold">
           Ask at the counter for today’s menu.
         </p>
       )}
@@ -210,12 +210,12 @@ function FoodFeature({
           <CaptionStrip left={caption} right={store.address.city} />
         </figure>
         <div className={cn("lg:col-span-5", flip && "lg:order-1 lg:col-span-6 lg:col-start-1")}>
-          <p className="eyebrow text-sign-red">{eyebrow}</p>
+          <p className="eyebrow text-accent">{eyebrow}</p>
           <h2 id={`${id}-title`} className="type-display type-h2 mt-3">
             {title}
           </h2>
           <p className="measure mt-4 text-lg">{text}</p>
-          {note ? <p className="mt-2 font-semibold text-slate">{note}</p> : null}
+          {note ? <p className="mt-2 font-semibold text-muted">{note}</p> : null}
         </div>
       </div>
     </section>

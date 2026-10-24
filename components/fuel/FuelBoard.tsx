@@ -43,13 +43,13 @@ export function FuelBoard({
     <section
       id={id}
       aria-labelledby={headingId}
-      className={cn("on-dark overflow-hidden rounded-md bg-asphalt text-limestone", className)}
+      className={cn("on-dark overflow-hidden rounded-md bg-deep text-on-deep", className)}
     >
-      <div className="flex items-center justify-between gap-3 border-b border-white/10 px-5 py-3.5 sm:px-6">
-        <Heading id={headingId} className="eyebrow text-limestone">
+      <div className="flex items-center justify-between gap-3 border-b border-on-deep/10 px-5 py-3.5 sm:px-6">
+        <Heading id={headingId} className="eyebrow text-on-deep">
           {title}
         </Heading>
-        <p className="eyebrow text-limestone/70">
+        <p className="eyebrow text-on-deep/70">
           {store.fuelBrand}
           <Sep />
           per gallon
@@ -65,14 +65,14 @@ export function FuelBoard({
                   <div
                     key={row.grade}
                     className={cn(
-                      "flex items-center justify-between gap-4 border-b border-white/10 px-5 sm:px-6",
+                      "flex items-center justify-between gap-4 border-b border-on-deep/10 px-5 sm:px-6",
                       size === "lg" ? "py-5" : "py-4",
                     )}
                   >
-                    <dt className="eyebrow flex items-center gap-3 text-[0.875rem] text-limestone">
+                    <dt className="eyebrow flex items-center gap-3 text-[0.875rem] text-on-deep">
                       <span
                         aria-hidden="true"
-                        className="size-2.5 rounded-full bg-canopy-green ring-1 ring-white/30"
+                        className="size-2.5 rounded-full bg-legacy-fuel-dot ring-1 ring-on-deep/30"
                       />
                       {row.label}
                     </dt>
@@ -88,7 +88,7 @@ export function FuelBoard({
                   </div>
                 ))}
               </dl>
-              <p className="px-5 py-3 text-sm text-limestone/75 sm:px-6">
+              <p className="px-5 py-3 text-sm text-on-deep/75 sm:px-6">
                 Updated <FuelUpdated at={state.updatedAtMs} />
               </p>
             </div>
@@ -135,7 +135,7 @@ function CallForPrice() {
   return (
     <div className="px-5 py-6 sm:px-6 sm:py-8">
       <p className="type-display text-[1.75rem] sm:text-[2rem]">Call for today’s price</p>
-      <p className="mt-3 max-w-md text-limestone/80">
+      <p className="mt-3 max-w-md text-on-deep/80">
         Prices change often. Give us a call and we’ll read you what’s on the sign.
       </p>
       <a href={store.phone.href} className={buttonClass("primary", "md", "mt-5")}>

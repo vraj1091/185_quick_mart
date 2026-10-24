@@ -42,7 +42,7 @@ export function FuelPricesForm({ initial }: { initial: Record<FuelGradeId, FuelG
                 {g.label}
               </label>
               <div className="relative mt-1.5">
-                <span className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 font-mono text-xl text-slate">
+                <span className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 font-mono text-xl text-muted">
                   $
                 </span>
                 <input
@@ -57,10 +57,10 @@ export function FuelPricesForm({ initial }: { initial: Record<FuelGradeId, FuelG
                 />
               </div>
               <FieldError id={`price-${g.id}-error`} message={error} />
-              <p id={`price-${g.id}-saved`} className="mt-1.5 text-sm text-slate">
+              <p id={`price-${g.id}-saved`} className="mt-1.5 text-sm text-muted">
                 {state.savedLabel ? `Saved ${state.savedLabel}` : "Not set yet"}
                 {state.savedLabel && !state.showing ? (
-                  <span className="block font-semibold text-sign-red">
+                  <span className="block font-semibold text-danger">
                     Hidden on the site: older than 48 hours.
                   </span>
                 ) : null}
@@ -69,7 +69,7 @@ export function FuelPricesForm({ initial }: { initial: Record<FuelGradeId, FuelG
           );
         })}
       </div>
-      <p className="text-sm text-slate">
+      <p className="text-sm text-muted">
         Type prices like the sign: $2.79⁹⁄₁₀ is <span className="font-mono">2.799</span>. Leave a box
         empty to hide that grade. Prices hide themselves 48 hours after you save, so save every
         morning, even if nothing changed.

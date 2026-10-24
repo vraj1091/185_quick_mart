@@ -18,7 +18,7 @@ type Props = {
 export function StorePhoto({ photo, sizes, preload, className, cover, position }: Props) {
   if (cover) {
     return (
-      <div className={cn("relative overflow-hidden bg-concrete", className)}>
+      <div className={cn("relative overflow-hidden bg-line", className)}>
         <Image
           src={photo.src}
           alt={photo.alt}
@@ -41,7 +41,7 @@ export function StorePhoto({ photo, sizes, preload, className, cover, position }
       sizes={sizes}
       preload={preload}
       fetchPriority={preload ? "high" : undefined}
-      className={cn("h-auto w-full bg-concrete", className)}
+      className={cn("h-auto w-full bg-line", className)}
     />
   );
 }

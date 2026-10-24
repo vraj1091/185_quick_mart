@@ -15,7 +15,7 @@ export function RouteBadge({
     <span
       aria-hidden="true"
       className={cn(
-        "inline-flex items-center justify-center rounded-[0.22em] border-[0.11em] border-asphalt bg-white px-[0.32em] pt-[0.12em] pb-[0.04em] font-sans leading-none font-extrabold text-asphalt tabular shadow-[0_0_0_0.09em_#fff]",
+        "inline-flex items-center justify-center rounded-[0.22em] border-[0.11em] border-ink bg-surface px-[0.32em] pt-[0.12em] pb-[0.04em] font-sans leading-none font-extrabold text-ink tabular shadow-[0_0_0_0.09em_var(--color-on-primary)]",
         className,
       )}
     >

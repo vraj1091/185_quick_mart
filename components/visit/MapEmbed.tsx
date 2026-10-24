@@ -9,9 +9,9 @@ import { cn } from "@/lib/cn";
  */
 export function MapEmbed({ className }: { className?: string }) {
   return (
-    <figure className={cn("overflow-hidden rounded-md border border-concrete bg-bone", className)}>
-      <div className="relative aspect-[4/3] w-full bg-concrete sm:aspect-[16/11]">
-        <p aria-hidden="true" className="absolute inset-0 flex items-center justify-center text-slate">
+    <figure className={cn("overflow-hidden rounded-md border border-line bg-surface", className)}>
+      <div className="relative aspect-[4/3] w-full bg-line sm:aspect-[16/11]">
+        <p aria-hidden="true" className="absolute inset-0 flex items-center justify-center text-muted">
           Loading map…
         </p>
         <iframe
@@ -23,7 +23,7 @@ export function MapEmbed({ className }: { className?: string }) {
           allowFullScreen
         />
       </div>
-      <figcaption className="on-dark flex flex-wrap items-center justify-between gap-x-6 gap-y-1 border-t-[3px] border-sign-red bg-asphalt px-4 py-2.5 text-limestone">
+      <figcaption className="on-dark flex flex-wrap items-center justify-between gap-x-6 gap-y-1 border-t-[3px] border-accent bg-deep px-4 py-2.5 text-on-deep">
         <span className="flex items-center gap-3 py-1.5">
           <RouteBadge className="text-sm" />
           <span className="leading-tight font-semibold">
@@ -35,7 +35,7 @@ export function MapEmbed({ className }: { className?: string }) {
           href={store.maps.search}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex min-h-11 items-center gap-1.5 font-bold underline decoration-sign-red decoration-2 underline-offset-4 hover:text-white"
+          className="inline-flex min-h-11 items-center gap-1.5 font-bold underline decoration-accent decoration-2 underline-offset-4 hover:text-on-deep"
         >
           Open in Google Maps
           <ExternalLink aria-hidden="true" strokeWidth={1.75} className="size-4" />

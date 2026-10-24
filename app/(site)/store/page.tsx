@@ -18,7 +18,7 @@ export default function StorePage() {
   return (
     <>
       <header className="container-store pt-10 pb-10 lg:pt-16 lg:pb-14">
-        <p className="eyebrow text-sign-red">In the store</p>
+        <p className="eyebrow text-accent">In the store</p>
         <h1 className="type-display type-h1 mt-4">{store.supportLine}.</h1>
         <p className="measure mt-5 text-lg sm:text-xl">
           Ten aisles of the things you stop for on the way to work or on the way home. Here’s what’s
@@ -32,9 +32,9 @@ export default function StorePage() {
             <li key={a.slug}>
               <Link
                 href={`#${a.slug}`}
-                className="on-dark flex min-h-12 items-center gap-3 rounded-sm border-t-[3px] border-sign-red bg-asphalt px-3 py-2 text-limestone hover:bg-asphalt-2"
+                className="on-dark flex min-h-12 items-center gap-3 rounded-sm border-t-[3px] border-accent bg-deep px-3 py-2 text-on-deep hover:bg-deep-2"
               >
-                <span className="font-mono text-sm font-semibold text-limestone/70">{a.number}</span>
+                <span className="font-mono text-sm font-semibold text-on-deep/70">{a.number}</span>
                 <span className="text-[0.9375rem] leading-tight font-bold uppercase">{a.name}</span>
               </Link>
             </li>
@@ -47,7 +47,7 @@ export default function StorePage() {
       ))}
 
       <section aria-labelledby="services" className="container-store scroll-mt-6 py-14 lg:py-20" id="atm">
-        <div className="grid gap-8 border-t border-concrete pt-14 lg:grid-cols-12 lg:gap-14">
+        <div className="grid gap-8 border-t border-line pt-14 lg:grid-cols-12 lg:gap-14">
           <figure className="lg:col-span-6">
             <StorePhoto
               photo={photos.atm}
@@ -58,7 +58,7 @@ export default function StorePage() {
             <CaptionStrip left="ATM" right="Inside the store" />
           </figure>
           <div className="lg:col-span-6">
-            <p className="eyebrow text-sign-red">Also inside</p>
+            <p className="eyebrow text-accent">Also inside</p>
             <h2 id="services" className="type-display type-h2 mt-3">
               ATM, ice, air & lottery
             </h2>
@@ -83,9 +83,9 @@ function AisleSection({ aisle, flip }: { aisle: Aisle; flip: boolean }) {
   if (!main) {
     return (
       <section id={aisle.slug} aria-labelledby={`${aisle.slug}-title`} className="container-store scroll-mt-6 py-10 lg:py-14">
-        <div className="on-dark grid gap-6 rounded-md border-t-[3px] border-sign-red bg-asphalt-2 p-6 text-limestone sm:p-10 lg:grid-cols-12">
+        <div className="on-dark grid gap-6 rounded-md border-t-[3px] border-accent bg-deep-2 p-6 text-on-deep sm:p-10 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            <p className="font-mono text-sm font-semibold tracking-wider text-limestone/70 uppercase">
+            <p className="font-mono text-sm font-semibold tracking-wider text-on-deep/70 uppercase">
               Aisle {aisle.number}
             </p>
             <h2 id={`${aisle.slug}-title`} className="type-display type-h2 mt-2">
@@ -95,8 +95,8 @@ function AisleSection({ aisle, flip }: { aisle: Aisle; flip: boolean }) {
           <div className="text-lg lg:col-span-7">
             <p>{aisle.description}</p>
             {aisle.ageNotice ? (
-              <p className="mt-4 flex items-start gap-3 rounded-sm border-2 border-limestone px-3 py-2 font-bold">
-                <span className="shrink-0 rounded-xs bg-limestone px-1.5 pt-0.5 font-mono text-asphalt">21+</span>
+              <p className="mt-4 flex items-start gap-3 rounded-sm border-2 border-on-deep px-3 py-2 font-bold">
+                <span className="shrink-0 rounded-xs bg-on-deep px-1.5 pt-0.5 font-mono text-ink">21+</span>
                 {aisle.ageNotice}
               </p>
             ) : null}
@@ -129,7 +129,7 @@ function AisleSection({ aisle, flip }: { aisle: Aisle; flip: boolean }) {
           </figure>
         </div>
         <div className={cn("lg:col-span-5", flip && "lg:order-1")}>
-          <p className="font-mono text-sm font-semibold tracking-wider text-sign-red uppercase">
+          <p className="font-mono text-sm font-semibold tracking-wider text-primary uppercase">
             Aisle {aisle.number}
           </p>
           <h2 id={`${aisle.slug}-title`} className="type-display type-h2 mt-2">

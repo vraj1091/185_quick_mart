@@ -24,7 +24,7 @@ export function Inbox({ messages }: { messages: AdminMessage[] }) {
   const { status, pending, run } = useActionStatus();
 
   if (messages.length === 0) {
-    return <p className="text-slate">No messages yet. Messages from the contact form show up here.</p>;
+    return <p className="text-muted">No messages yet. Messages from the contact form show up here.</p>;
   }
 
   return (
@@ -35,22 +35,22 @@ export function Inbox({ messages }: { messages: AdminMessage[] }) {
           <li
             key={m.id}
             className={cn(
-              "rounded-sm border-2 bg-white p-4",
-              m.read ? "border-concrete" : "border-asphalt shadow-[inset_4px_0_0_var(--color-sign-red)]",
+              "rounded-sm border-2 bg-surface p-4",
+              m.read ? "border-line" : "border-ink shadow-[inset_4px_0_0_var(--color-primary)]",
             )}
           >
             <div className="flex flex-wrap items-baseline justify-between gap-2">
               <p className="text-lg font-bold">
-                {m.read ? null : <span className="eyebrow mr-2 text-[0.75rem] text-sign-red">New</span>}
+                {m.read ? null : <span className="eyebrow mr-2 text-[0.75rem] text-accent">New</span>}
                 {m.name}
               </p>
-              <p className="text-sm text-slate">{m.receivedLabel}</p>
+              <p className="text-sm text-muted">{m.receivedLabel}</p>
             </div>
             <p className="mt-1">
               <a href={contactHref(m.contact)} className="link-store font-mono">
                 {m.contact}
               </a>
-              <span className="text-slate"> · {m.topic}</span>
+              <span className="text-muted"> · {m.topic}</span>
             </p>
             <p className="mt-3 whitespace-pre-wrap">{m.message}</p>
             <div className="mt-4 flex flex-wrap gap-2">

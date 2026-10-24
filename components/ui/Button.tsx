@@ -4,10 +4,10 @@ export type ButtonVariant = "primary" | "outline" | "outline-light" | "dark";
 export type ButtonSize = "md" | "lg";
 
 const variants: Record<ButtonVariant, string> = {
-  primary: "bg-sign-red text-white hover:bg-ember active:bg-ember",
-  outline: "border-2 border-asphalt text-asphalt hover:bg-asphalt hover:text-limestone",
-  "outline-light": "border-2 border-limestone/80 text-limestone hover:bg-limestone hover:text-asphalt",
-  dark: "bg-asphalt text-limestone hover:bg-asphalt-2",
+  primary: "bg-primary text-on-primary hover:bg-primary-hover active:bg-primary-hover",
+  outline: "border-2 border-ink text-ink hover:bg-ink hover:text-on-deep",
+  "outline-light": "border-2 border-on-deep/80 text-on-deep hover:bg-on-deep hover:text-ink",
+  dark: "bg-deep text-on-deep hover:bg-deep-2",
 };
 
 const sizes: Record<ButtonSize, string> = {

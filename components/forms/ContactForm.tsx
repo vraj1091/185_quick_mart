@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { buttonClass } from "@/components/ui/Button";
+import { fieldClass as inputClass } from "@/components/ui/fields";
 import { store } from "@/content/store";
 import { cn } from "@/lib/cn";
 import { CONTACT_TOPICS, contactSchema, type ContactInput } from "@/lib/validation";
@@ -14,8 +15,6 @@ type Status =
   | { type: "success"; name: string }
   | { type: "error"; message: string };
 
-const inputClass =
-  "mt-1.5 block w-full rounded-sm border-2 border-slate bg-white px-3 py-3 text-[1.0625rem] text-asphalt placeholder:text-slate/80 aria-[invalid=true]:border-sign-red";
 
 export function ContactForm() {
   const [status, setStatus] = useState<Status>({ type: "idle" });
@@ -67,9 +66,9 @@ export function ContactForm() {
 
   if (status.type === "success") {
     return (
-      <div role="status" className="rounded-md border-2 border-asphalt bg-bone p-6">
+      <div role="status" className="rounded-md border-2 border-ink bg-surface p-6">
         <p className="text-xl font-extrabold">Thanks, {status.name}. We got your message.</p>
-        <p className="mt-2 text-slate">
+        <p className="mt-2 text-muted">
           We’ll get back to you as soon as we can. Need an answer right now? Call{" "}
           <a href={store.phone.href} className="link-store font-mono tabular">
             {store.phone.display}
@@ -154,7 +153,7 @@ export function ContactForm() {
         <button type="submit" disabled={isSubmitting} className={buttonClass("primary", "lg")}>
           {isSubmitting ? "Sending…" : "Send message"}
         </button>
-        <p className="text-sm text-slate">
+        <p className="text-sm text-muted">
           See our{" "}
           <Link href="/privacy" className="underline">
             privacy notice
@@ -163,7 +162,7 @@ export function ContactForm() {
         </p>
       </div>
 
-      <p role="status" aria-live="polite" className="min-h-6 font-semibold text-sign-red">
+      <p role="status" aria-live="polite" className="min-h-6 font-semibold text-danger">
         {status.type === "error" ? status.message : ""}
       </p>
     </form>
@@ -189,13 +188,13 @@ function Field({
         {label}
       </label>
       {hint ? (
-        <span id={`${id}-hint`} className="ml-2 text-sm text-slate">
+        <span id={`${id}-hint`} className="ml-2 text-sm text-muted">
           {hint}
         </span>
       ) : null}
       {children}
       {error ? (
-        <p id={`${id}-error`} className="mt-1.5 text-[0.9375rem] font-semibold text-sign-red">
+        <p id={`${id}-error`} className="mt-1.5 text-[0.9375rem] font-semibold text-danger">
           {error}
         </p>
       ) : null}

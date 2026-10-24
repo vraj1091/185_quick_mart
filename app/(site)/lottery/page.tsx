@@ -57,14 +57,14 @@ export default function LotteryPage() {
     <>
       <section className="container-store grid gap-10 pt-10 pb-14 lg:grid-cols-12 lg:items-center lg:gap-14 lg:pt-16 lg:pb-20">
         <div className="lg:col-span-7">
-          <p className="eyebrow text-sign-red">Kentucky Lottery</p>
+          <p className="eyebrow text-accent">Kentucky Lottery</p>
           <h1 className="type-display type-h1 mt-4">Play here. Cash it here.</h1>
           <p className="measure mt-5 text-lg sm:text-xl">
             Kentucky Lottery tickets, scratch-offs and draw games at the counter, plus a
             self-service lottery machine inside the store.
           </p>
-          <div className="on-dark mt-8 inline-flex flex-wrap items-center gap-4 rounded-md bg-asphalt p-4 pr-6 text-limestone">
-            <span className="type-display rounded-sm bg-hi-vis px-3 pt-2.5 pb-1.5 text-[2rem] text-asphalt">
+          <div className="on-dark mt-8 inline-flex flex-wrap items-center gap-4 rounded-md bg-deep p-4 pr-6 text-on-deep">
+            <span className="type-display rounded-sm bg-legacy-highlight px-3 pt-2.5 pb-1.5 text-[2rem] text-ink">
               {cashLimit}
             </span>
             <span className="text-lg font-bold">We cash winning tickets up to {cashLimit}.</span>
@@ -83,14 +83,14 @@ export default function LotteryPage() {
         </figure>
       </section>
 
-      <section aria-labelledby="cashing" className="border-y border-concrete bg-bone py-16 lg:py-24">
+      <section aria-labelledby="cashing" className="border-y border-line bg-surface-alt py-16 lg:py-24">
         <div className="container-store grid gap-10 lg:grid-cols-12 lg:gap-14">
           <div className="lg:col-span-4">
-            <p className="eyebrow text-sign-red">Cashing a winner</p>
+            <p className="eyebrow text-accent">Cashing a winner</p>
             <h2 id="cashing" className="type-display type-h2 mt-3">
               Won? Here’s how it works.
             </h2>
-            <p className="mt-4 text-slate">
+            <p className="mt-4 text-muted">
               Sign the back of your ticket as soon as you know it’s a winner.
             </p>
           </div>
@@ -98,13 +98,13 @@ export default function LotteryPage() {
             {rules.map((r) => (
               <div
                 key={r.amount}
-                className="grid gap-2 border-t-[3px] border-asphalt py-6 sm:grid-cols-[14rem_1fr] sm:gap-8"
+                className="grid gap-2 border-t-[3px] border-ink py-6 sm:grid-cols-[14rem_1fr] sm:gap-8"
               >
                 <dt className="font-mono text-lg font-semibold tabular">{r.amount}</dt>
                 <dd className="text-lg">{r.text}</dd>
               </div>
             ))}
-            <p className="border-t border-concrete pt-5 text-slate">
+            <p className="border-t border-line pt-5 text-muted">
               Prizes must be claimed within 180 days of the drawing, or of the game’s end date for
               scratch-offs. Rules are set by the Kentucky Lottery and can change; check{" "}
               <a href={officialLinks.kyLottery} target="_blank" rel="noopener noreferrer" className="link-store">

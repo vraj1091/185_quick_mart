@@ -1,26 +1,39 @@
 @import "tailwindcss";
 
 /*
- * 185 Quick Mart design tokens. Colors come from the building itself:
- * charcoal metal roof (asphalt), cream block walls (limestone), the red channel-letter
- * sign (sign-red), and the BP price pylon (price-green). No other colors.
+ * Semantic color tokens. The values live in lib/theme.ts (the only place colors are
+ * defined) and arrive as CSS variables on <html>. Tailwind classes use these names:
+ * bg-surface, text-muted, border-line, bg-primary, text-on-deep, and so on.
  */
 @theme {
   --color-*: initial;
-  --color-white: #ffffff;
-  --color-black: #000000;
-  --color-asphalt: #1e2023;
-  --color-asphalt-2: #2b2e32;
-  --color-sign-red: #b4232c;
-  --color-ember: #8e1b22;
-  --color-limestone: #f3eee4;
-  --color-bone: #fbf9f4;
-  --color-concrete: #d9d3c7;
-  --color-slate: #5a5e63;
-  --color-price-green: #2fd06a;
-  --color-canopy-green: #0b6b3a;
-  --color-hi-vis: #f2c230;
+}
 
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-alt);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-on-primary: var(--on-primary);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-deep: var(--deep);
+  --color-deep-2: var(--deep-2);
+  --color-on-deep: var(--on-deep);
+  --color-on-deep-muted: var(--on-deep-muted);
+  --color-led: var(--led);
+  --color-brand-red: var(--brand-red);
+  --color-logo: var(--logo);
+  --color-danger: var(--danger);
+  --color-legacy-highlight: var(--legacy-highlight);
+  --color-legacy-fuel-dot: var(--legacy-fuel-dot);
+}
+
+@theme {
   --font-sans: var(--font-overpass), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-overpass-mono), ui-monospace, "SFMono-Regular", monospace;
   --font-display: var(--font-archivo), var(--font-overpass), ui-sans-serif, sans-serif;
@@ -34,12 +47,12 @@
 
 @layer base {
   :root {
-    --focus-ring: var(--color-sign-red);
+    --focus-ring: var(--color-primary);
   }
 
   html {
-    background: var(--color-limestone);
-    color: var(--color-asphalt);
+    background: var(--color-bg);
+    color: var(--color-ink);
     -webkit-text-size-adjust: 100%;
     scroll-padding-top: 1.5rem;
     text-rendering: optimizeLegibility;
@@ -63,9 +76,9 @@
     text-wrap: pretty;
   }
 
-  /* Dark surfaces get a light focus ring: red on asphalt is under 3:1. */
+  /* Dark surfaces get a light focus ring so it stays visible. */
   .on-dark {
-    --focus-ring: var(--color-limestone);
+    --focus-ring: var(--color-on-deep);
   }
 
   :focus-visible {
@@ -85,8 +98,8 @@
   }
 
   ::selection {
-    background: var(--color-sign-red);
-    color: var(--color-white);
+    background: var(--color-primary);
+    color: var(--color-on-primary);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -146,19 +159,19 @@
   max-width: 68ch;
 }
 
-/* Red letters with a thin white outline, like the lit sign on the roof. */
+/* Sign lettering for the "QUICK MART" wordmark. */
 @utility sign-letters {
-  color: var(--color-sign-red);
-  -webkit-text-stroke: 0.07em var(--color-white);
+  color: var(--color-logo);
+  -webkit-text-stroke: 0.07em var(--color-on-primary);
   paint-order: stroke fill;
 }
 
 /* Glowing digits from the price pylon. Only on the dark fuel board. */
 @utility price-led {
-  color: var(--color-price-green);
+  color: var(--color-led);
   text-shadow:
-    0 0 6px rgb(47 208 106 / 0.45),
-    0 0 20px rgb(47 208 106 / 0.18);
+    0 0 6px color-mix(in srgb, var(--color-led) 45%, transparent),
+    0 0 20px color-mix(in srgb, var(--color-led) 18%, transparent);
 }
 
 /* ---------- Components ---------- */
@@ -203,7 +216,7 @@
 
   /* Body copy links. */
   .link-store {
-    color: var(--color-sign-red);
+    color: var(--color-primary);
     font-weight: 700;
     text-decoration-line: underline;
     text-decoration-thickness: 2px;
@@ -211,16 +224,16 @@
   }
 
   .link-store:hover {
-    color: var(--color-ember);
+    color: var(--color-primary-hover);
   }
 
   .on-dark .link-store {
-    color: var(--color-limestone);
-    text-decoration-color: var(--color-sign-red);
+    color: var(--color-on-deep);
+    text-decoration-color: var(--color-accent);
   }
 
   .on-dark .link-store:hover {
-    color: var(--color-white);
+    color: var(--color-on-deep);
   }
 
   /* Plain-language long text (privacy page, lottery rules). */
@@ -245,6 +258,6 @@
   }
 
   .prose-store li::marker {
-    color: var(--color-sign-red);
+    color: var(--color-accent);
   }
 }

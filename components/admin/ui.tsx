@@ -7,7 +7,7 @@ import type { ActionResult } from "@/app/admin/actions";
 import { cn } from "@/lib/cn";
 
 export const inputClass =
-  "block w-full min-h-12 rounded-sm border-2 border-slate bg-white px-3 py-2 text-lg text-asphalt aria-[invalid=true]:border-sign-red disabled:border-concrete disabled:bg-limestone disabled:text-slate";
+  "block w-full min-h-12 rounded-sm border-2 border-muted bg-surface px-3 py-2 text-lg text-ink aria-[invalid=true]:border-danger disabled:border-line disabled:bg-bg disabled:text-muted";
 
 export const labelClass = "block font-bold";
 
@@ -27,12 +27,12 @@ export function AdminSection({
     <section
       id={id}
       aria-labelledby={`${id}-title`}
-      className="scroll-mt-20 rounded-md border border-concrete bg-bone p-4 sm:p-6"
+      className="scroll-mt-20 rounded-md border border-line bg-surface p-4 sm:p-6"
     >
       <h2 id={`${id}-title`} className="type-display text-[1.5rem] sm:text-[1.75rem]">
         {title}
       </h2>
-      {intro ? <div className="mt-2 text-slate">{intro}</div> : null}
+      {intro ? <div className="mt-2 text-muted">{intro}</div> : null}
       <div className="mt-5">{children}</div>
     </section>
   );
@@ -41,7 +41,7 @@ export function AdminSection({
 export function FieldError({ id, message }: { id: string; message?: string }) {
   if (!message) return null;
   return (
-    <p id={id} className="mt-1.5 font-semibold text-sign-red">
+    <p id={id} className="mt-1.5 font-semibold text-danger">
       {message}
     </p>
   );
@@ -53,12 +53,12 @@ export function StatusLine({ status }: { status: ActionResult | null }) {
     <p role="status" aria-live="polite" className="min-h-7 font-semibold">
       {status ? (
         status.ok ? (
-          <span className="inline-flex items-center gap-2 text-asphalt">
-            <Check aria-hidden="true" strokeWidth={2} className="size-5 text-sign-red" />
+          <span className="inline-flex items-center gap-2 text-ink">
+            <Check aria-hidden="true" strokeWidth={2} className="size-5 text-accent" />
             {status.message}
           </span>
         ) : (
-          <span className="inline-flex items-center gap-2 text-sign-red">
+          <span className="inline-flex items-center gap-2 text-danger">
             <AlertCircle aria-hidden="true" strokeWidth={1.75} className="size-5" />
             {status.error}
           </span>
@@ -116,7 +116,7 @@ export function SubmitButton({
       type="submit"
       disabled={pending}
       className={cn(
-        "inline-flex min-h-14 w-full items-center justify-center rounded-sm bg-sign-red px-6 text-lg font-bold text-white hover:bg-ember disabled:opacity-60 sm:w-auto",
+        "inline-flex min-h-14 w-full items-center justify-center rounded-sm bg-primary px-6 text-lg font-bold text-on-primary hover:bg-primary-hover disabled:opacity-60 sm:w-auto",
         className,
       )}
     >
@@ -126,7 +126,7 @@ export function SubmitButton({
 }
 
 export const smallButton =
-  "inline-flex min-h-11 items-center justify-center gap-1.5 rounded-sm border-2 border-asphalt px-3 font-bold hover:bg-asphalt hover:text-limestone disabled:opacity-50";
+  "inline-flex min-h-11 items-center justify-center gap-1.5 rounded-sm border-2 border-ink px-3 font-bold hover:bg-ink hover:text-on-deep disabled:opacity-50";
 
 export const dangerButton =
-  "inline-flex min-h-11 items-center justify-center gap-1.5 rounded-sm border-2 border-sign-red px-3 font-bold text-sign-red hover:bg-sign-red hover:text-white disabled:opacity-50";
+  "inline-flex min-h-11 items-center justify-center gap-1.5 rounded-sm border-2 border-accent px-3 font-bold text-primary hover:bg-primary hover:text-on-primary disabled:opacity-50";

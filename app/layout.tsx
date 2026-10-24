@@ -3,6 +3,7 @@ import { Overpass, Overpass_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import { store } from "@/content/store";
 import { siteUrl } from "@/lib/site";
+import { browserThemeColor, themeStyle } from "@/lib/theme";
 import "./globals.css";
 
 // Archivo ExtraBold at 118% width (the wide channel-letter look), pinned to that one
@@ -51,7 +52,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#1e2023",
+  themeColor: browserThemeColor,
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -62,6 +63,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="en-US"
       className={`${archivo.variable} ${overpass.variable} ${overpassMono.variable}`}
+      style={themeStyle as React.CSSProperties}
       suppressHydrationWarning
     >
       <body>{children}</body>

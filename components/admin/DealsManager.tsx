@@ -42,9 +42,9 @@ export function DealsManager({ deals }: { deals: AdminDeal[] }) {
   return (
     <div className="space-y-5">
       {deals.length === 0 ? (
-        <p className="text-slate">No deals yet. The deals section stays hidden on the site until you add one.</p>
+        <p className="text-muted">No deals yet. The deals section stays hidden on the site until you add one.</p>
       ) : (
-        <ul className="divide-y divide-concrete border-y border-concrete">
+        <ul className="divide-y divide-line border-y border-line">
           {deals.map((deal, i) => (
             <li key={deal.id} className="py-4">
               {editing === deal.id ? (
@@ -55,11 +55,11 @@ export function DealsManager({ deals }: { deals: AdminDeal[] }) {
                     <p className="text-lg font-bold">
                       {deal.title} <span className="font-mono">· {deal.priceText}</span>
                     </p>
-                    {deal.note ? <p className="text-slate">{deal.note}</p> : null}
+                    {deal.note ? <p className="text-muted">{deal.note}</p> : null}
                     <p
                       className={cn(
                         "eyebrow mt-1.5 inline-block rounded-xs px-2 py-1 text-[0.75rem]",
-                        deal.isLive ? "bg-asphalt text-limestone" : "bg-concrete text-asphalt",
+                        deal.isLive ? "bg-deep text-on-deep" : "bg-line text-ink",
                       )}
                     >
                       {deal.statusLabel}
@@ -114,7 +114,7 @@ export function DealsManager({ deals }: { deals: AdminDeal[] }) {
       )}
 
       {liveCount > 4 ? (
-        <p className="font-semibold text-sign-red">
+        <p className="font-semibold text-danger">
           {liveCount} deals are live, but the home page shows the top 4. Use the arrows to choose.
         </p>
       ) : null}
@@ -122,7 +122,7 @@ export function DealsManager({ deals }: { deals: AdminDeal[] }) {
       <StatusLine status={status} />
 
       {editing === "new" ? (
-        <div className="rounded-sm border-2 border-asphalt bg-white p-4">
+        <div className="rounded-sm border-2 border-ink bg-surface p-4">
           <DealForm onDone={() => setEditing(null)} />
         </div>
       ) : (
@@ -198,7 +198,7 @@ function DealForm({ deal, onDone }: { deal?: AdminDeal; onDone: () => void }) {
       </div>
       <div>
         <label htmlFor={`${idPrefix}-note`} className={labelClass}>
-          Note <span className="font-normal text-slate">(optional)</span>
+          Note <span className="font-normal text-muted">(optional)</span>
         </label>
         <input
           id={`${idPrefix}-note`}
@@ -212,7 +212,7 @@ function DealForm({ deal, onDone }: { deal?: AdminDeal; onDone: () => void }) {
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label htmlFor={`${idPrefix}-starts`} className={labelClass}>
-            Starts <span className="font-normal text-slate">(optional)</span>
+            Starts <span className="font-normal text-muted">(optional)</span>
           </label>
           <input
             id={`${idPrefix}-starts`}
@@ -225,7 +225,7 @@ function DealForm({ deal, onDone }: { deal?: AdminDeal; onDone: () => void }) {
         </div>
         <div>
           <label htmlFor={`${idPrefix}-ends`} className={labelClass}>
-            Last day <span className="font-normal text-slate">(optional)</span>
+            Last day <span className="font-normal text-muted">(optional)</span>
           </label>
           <input
             id={`${idPrefix}-ends`}

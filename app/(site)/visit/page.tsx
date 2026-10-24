@@ -25,7 +25,7 @@ export default async function VisitPage() {
   return (
     <>
       <header className="container-store pt-10 pb-10 lg:pt-16 lg:pb-14">
-        <p className="eyebrow text-sign-red">Visit</p>
+        <p className="eyebrow text-accent">Visit</p>
         <h1 className="type-display type-h1 mt-4">Hours, directions & contact</h1>
       </header>
 
@@ -45,13 +45,13 @@ export default async function VisitPage() {
           </div>
 
           <div className="lg:col-span-5">
-            <h2 className="eyebrow text-slate">Address</h2>
+            <h2 className="eyebrow text-muted">Address</h2>
             <address className="mt-2 text-2xl leading-snug font-bold not-italic">
               {store.address.streetDisplay}
               <br />
               {store.address.city}, {store.address.region} {store.address.postalCode}
             </address>
-            <p className="mt-1 text-slate">
+            <p className="mt-1 text-muted">
               On KY-185 in {store.address.county}, {store.address.regionName}
             </p>
 
@@ -76,10 +76,10 @@ export default async function VisitPage() {
               </a>
             </div>
 
-            <h2 className="eyebrow mt-10 text-slate">Phone</h2>
+            <h2 className="eyebrow mt-10 text-muted">Phone</h2>
             <a
               href={store.phone.href}
-              className="mt-2 inline-flex min-h-11 items-center gap-3 font-mono text-2xl font-semibold text-sign-red tabular hover:text-ember"
+              className="mt-2 inline-flex min-h-11 items-center gap-3 font-mono text-2xl font-semibold text-danger tabular hover:text-primary-hover"
             >
               <Phone aria-hidden="true" strokeWidth={1.75} className="size-6" />
               {store.phone.display}
@@ -93,7 +93,7 @@ export default async function VisitPage() {
             ) : null}
 
             <div className="mt-10 flex flex-wrap items-center justify-between gap-3">
-              <h2 className="eyebrow text-slate">Hours</h2>
+              <h2 className="eyebrow text-muted">Hours</h2>
               {hasWeeklyHours(schedule) ? <OpenNowPill schedule={schedule} /> : null}
             </div>
             <HoursTable
@@ -107,11 +107,11 @@ export default async function VisitPage() {
 
       {settings.hiringOn ? (
         <section aria-labelledby="hiring" className="container-store pb-16">
-          <div className="on-dark grid gap-4 rounded-md border-t-[3px] border-sign-red bg-asphalt p-6 text-limestone sm:p-10 lg:grid-cols-12 lg:items-center">
+          <div className="on-dark grid gap-4 rounded-md border-t-[3px] border-accent bg-deep p-6 text-on-deep sm:p-10 lg:grid-cols-12 lg:items-center">
             <h2 id="hiring" className="type-display type-h2 lg:col-span-5">
               We’re hiring
             </h2>
-            <p className="text-lg text-limestone/90 lg:col-span-7">
+            <p className="text-lg text-on-deep/90 lg:col-span-7">
               Friendly, reliable, and like a clean store? Stop by the counter and ask for an
               application, or send us a note below and pick “Jobs”.
             </p>
@@ -119,14 +119,14 @@ export default async function VisitPage() {
         </section>
       ) : null}
 
-      <section aria-labelledby="contact" className="border-t border-concrete bg-bone py-16 lg:py-24">
+      <section aria-labelledby="contact" className="border-t border-line bg-surface-alt py-16 lg:py-24">
         <div className="container-store grid gap-10 lg:grid-cols-12 lg:gap-14">
           <div className="lg:col-span-4">
-            <p className="eyebrow text-sign-red">Contact</p>
+            <p className="eyebrow text-accent">Contact</p>
             <h2 id="contact" className="type-display type-h2 mt-3">
               Send us a note
             </h2>
-            <p className="mt-4 text-lg text-slate">
+            <p className="mt-4 text-lg text-muted">
               Questions, feedback, lost and found, or anything else. For something that can’t wait,
               call the store at{" "}
               <a href={store.phone.href} className="link-store font-mono tabular">

@@ -42,14 +42,14 @@ export function HoursForm({ initial, published }: { initial: WeeklyHoursInput; p
   return (
     <form onSubmit={handleSubmit((values) => run(() => saveWeeklyHours(values)))} noValidate className="space-y-5">
       {!published ? (
-        <p className="rounded-sm border-l-4 border-sign-red bg-white px-4 py-3 font-semibold">
+        <p className="rounded-sm border-l-4 border-accent bg-surface px-4 py-3 font-semibold">
           No hours are published yet, so the site says “Call for hours”. Set them below and save.
         </p>
       ) : null}
 
       <fieldset>
         <legend className="sr-only">Weekly hours</legend>
-        <ul className="divide-y divide-concrete border-y border-concrete">
+        <ul className="divide-y divide-line border-y border-line">
           {DISPLAY_DAY_ORDER.map((d) => {
             const mode = days?.[d]?.mode ?? "open";
             const dayErrors = errors.days?.[d];
@@ -96,7 +96,7 @@ export function HoursForm({ initial, published }: { initial: WeeklyHoursInput; p
                     </div>
                   </div>
                 ) : (
-                  <p className="pt-3 text-slate">{mode === "24h" ? "Open around the clock." : "Closed."}</p>
+                  <p className="pt-3 text-muted">{mode === "24h" ? "Open around the clock." : "Closed."}</p>
                 )}
               </li>
             );
@@ -104,7 +104,7 @@ export function HoursForm({ initial, published }: { initial: WeeklyHoursInput; p
         </ul>
       </fieldset>
 
-      <p className="text-sm text-slate">
+      <p className="text-sm text-muted">
         Times are Central. Closing after midnight? Just pick the time, like 2:00 AM, and it counts
         toward the next morning. 12:00 AM means midnight.
       </p>

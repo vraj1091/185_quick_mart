@@ -11,7 +11,7 @@ export const metadata = pageMetadata({
 export default function PrivacyPage() {
   return (
     <article className="container-store pt-10 pb-20 lg:pt-16">
-      <p className="eyebrow text-sign-red">Privacy</p>
+      <p className="eyebrow text-accent">Privacy</p>
       <h1 className="type-display type-h1 mt-4">Privacy notice</h1>
       <div className="prose-store measure mt-8 text-lg">
         <p>

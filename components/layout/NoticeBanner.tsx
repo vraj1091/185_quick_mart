@@ -17,10 +17,10 @@ export function NoticeBanner({ text }: { text: string | null }) {
   return (
     <>
       <script dangerouslySetInnerHTML={{ __html: script }} />
-      <div data-notice className="on-dark border-b border-white/10 bg-asphalt-2 text-limestone">
+      <div data-notice className="on-dark border-b border-on-deep/10 bg-deep-2 text-on-deep">
         <div className="container-store flex min-h-11 items-center justify-between gap-3 py-1.5">
           <p className="text-[0.9375rem] leading-snug font-semibold">
-            <span className="eyebrow mr-2.5 text-[0.75rem] text-limestone/70">Notice</span>
+            <span className="eyebrow mr-2.5 text-[0.75rem] text-on-deep/70">Notice</span>
             {text}
           </p>
           <NoticeDismiss id={id} />

@@ -41,10 +41,10 @@ export function SpecialHoursManager({ specials }: { specials: AdminSpecial[] }) 
   return (
     <div className="space-y-6">
       {specials.length > 0 ? (
-        <ul className="divide-y divide-concrete border-y border-concrete">
+        <ul className="divide-y divide-line border-y border-line">
           {specials.map((s) => (
             <li key={s.id} className="flex flex-wrap items-center justify-between gap-3 py-3">
-              <p className={s.past ? "text-slate" : undefined}>
+              <p className={s.past ? "text-muted" : undefined}>
                 <span className="block font-bold">
                   {s.label}
                   {s.past ? " (past)" : null}
@@ -63,11 +63,11 @@ export function SpecialHoursManager({ specials }: { specials: AdminSpecial[] }) 
           ))}
         </ul>
       ) : (
-        <p className="text-slate">No holiday hours set.</p>
+        <p className="text-muted">No holiday hours set.</p>
       )}
       <StatusLine status={list.status} />
 
-      <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4 rounded-sm border-2 border-asphalt bg-white p-4">
+      <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4 rounded-sm border-2 border-ink bg-surface p-4">
         <p className="font-extrabold">Add holiday hours</p>
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
