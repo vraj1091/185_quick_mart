@@ -50,7 +50,7 @@ const pairs: { fg: ThemeToken; bg: ThemeToken; use: string; min: number }[] = [
   { fg: "led", bg: "deep2", use: "Fuel price digits (large)", min: 3 },
   { fg: "brandRed", bg: "bg", use: "Logo wordmark, red version (large)", min: 3 },
   { fg: "primary", bg: "bg", use: "Logo wordmark, green version (large)", min: 3 },
-  { fg: "danger", bg: "bg", use: "Form error text", min: 4.5 },
+  { fg: "error", bg: "bg", use: "Form error text", min: 4.5 },
 ];
 
 const varOf = (t: ThemeToken) => `var(${cssVarName(t)})`;
@@ -127,7 +127,7 @@ export default function StyleguidePage() {
                     </td>
                     <td className="p-3">{p.use}</td>
                     <td className="p-3 text-right font-mono tabular">{ratio.toFixed(2)}:1</td>
-                    <td className={cn("p-3 font-bold", pass ? "text-ink" : "text-danger")}>
+                    <td className={cn("p-3 font-bold", pass ? "text-ink" : "text-error")}>
                       {pass ? `Pass (≥${p.min})` : `FAIL (needs ${p.min})`}
                     </td>
                   </tr>
@@ -219,7 +219,7 @@ export default function StyleguidePage() {
               Field with an error
             </label>
             <input id="sg-field-error" className={fieldClass} aria-invalid="true" defaultValue="nope" />
-            <p className="mt-1.5 font-semibold text-danger">That doesn’t look like a phone number or email.</p>
+            <p className="mt-1.5 font-semibold text-error">That doesn’t look like a phone number or email.</p>
           </div>
           <ShelfEdge />
           <CaptionStrip left="Caption strip" right="Right side" />

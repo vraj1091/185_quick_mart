@@ -31,7 +31,7 @@ export function LoginForm() {
       >
         {pending ? "Checking…" : "Log in"}
       </button>
-      <p id="login-error" role="status" aria-live="polite" className="min-h-7 font-semibold text-danger">
+      <p id="login-error" role="status" aria-live="polite" className="min-h-7 font-semibold text-error">
         {state.error ?? ""}
       </p>
     </form>

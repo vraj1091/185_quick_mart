@@ -114,7 +114,7 @@ export function DealsManager({ deals }: { deals: AdminDeal[] }) {
       )}
 
       {liveCount > 4 ? (
-        <p className="font-semibold text-danger">
+        <p className="font-semibold text-error">
           {liveCount} deals are live, but the home page shows the top 4. Use the arrows to choose.
         </p>
       ) : null}

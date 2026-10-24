@@ -7,6 +7,7 @@
  */
 @theme {
   --color-*: initial;
+  --shadow-*: initial;
 }
 
 @theme inline {
@@ -20,15 +21,22 @@
   --color-primary-hover: var(--primary-hover);
   --color-on-primary: var(--on-primary);
   --color-accent: var(--accent);
+  --color-accent-bright: var(--accent-bright);
   --color-accent-soft: var(--accent-soft);
   --color-deep: var(--deep);
   --color-deep-2: var(--deep-2);
+  --color-deep-3: var(--deep-3);
   --color-on-deep: var(--on-deep);
   --color-on-deep-muted: var(--on-deep-muted);
   --color-led: var(--led);
+  --color-chrome: var(--chrome);
   --color-brand-red: var(--brand-red);
   --color-logo: var(--logo);
-  --color-danger: var(--danger);
+  --color-error: var(--error);
+
+  --shadow-sm: var(--theme-shadow-sm);
+  --shadow-md: var(--theme-shadow-md);
+  --shadow-lift: var(--theme-shadow-lift);
 }
 
 @theme {

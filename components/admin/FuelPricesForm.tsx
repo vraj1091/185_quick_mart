@@ -60,7 +60,7 @@ export function FuelPricesForm({ initial }: { initial: Record<FuelGradeId, FuelG
               <p id={`price-${g.id}-saved`} className="mt-1.5 text-sm text-muted">
                 {state.savedLabel ? `Saved ${state.savedLabel}` : "Not set yet"}
                 {state.savedLabel && !state.showing ? (
-                  <span className="block font-semibold text-danger">
+                  <span className="block font-semibold text-error">
                     Hidden on the site: older than 48 hours.
                   </span>
                 ) : null}

@@ -7,7 +7,7 @@ import type { ActionResult } from "@/app/admin/actions";
 import { cn } from "@/lib/cn";
 
 export const inputClass =
-  "block w-full min-h-12 rounded-sm border border-muted bg-surface px-3 py-2 text-lg text-ink aria-[invalid=true]:border-danger disabled:border-line disabled:bg-bg disabled:text-muted";
+  "block w-full min-h-12 rounded-sm border border-muted bg-surface px-3 py-2 text-lg text-ink aria-[invalid=true]:border-error disabled:border-line disabled:bg-bg disabled:text-muted";
 
 export const labelClass = "block font-bold";
 
@@ -41,7 +41,7 @@ export function AdminSection({
 export function FieldError({ id, message }: { id: string; message?: string }) {
   if (!message) return null;
   return (
-    <p id={id} className="mt-1.5 font-semibold text-danger">
+    <p id={id} className="mt-1.5 font-semibold text-error">
       {message}
     </p>
   );
@@ -58,7 +58,7 @@ export function StatusLine({ status }: { status: ActionResult | null }) {
             {status.message}
           </span>
         ) : (
-          <span className="inline-flex items-center gap-2 text-danger">
+          <span className="inline-flex items-center gap-2 text-error">
             <AlertCircle aria-hidden="true" strokeWidth={1.75} className="size-5" />
             {status.error}
           </span>
@@ -129,4 +129,4 @@ export const smallButton =
   "inline-flex min-h-11 items-center justify-center gap-1.5 rounded-sm border-2 border-primary px-3 font-bold text-primary hover:bg-accent-soft disabled:opacity-50";
 
 export const dangerButton =
-  "inline-flex min-h-11 items-center justify-center gap-1.5 rounded-sm border-2 border-danger px-3 font-bold text-danger hover:bg-danger hover:text-on-primary disabled:opacity-50";
+  "inline-flex min-h-11 items-center justify-center gap-1.5 rounded-sm border-2 border-error px-3 font-bold text-error hover:bg-error hover:text-on-primary disabled:opacity-50";

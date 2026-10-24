@@ -33,22 +33,28 @@ export const palette = {
   onPrimary: "#FFFFFF",
   /** Fern: eyebrow labels, tagline, small highlights */
   accent: "#1F7A45",
+  /** Bright fern: large text and graphics only (3.4:1 on white, too light for small text) */
+  accentBright: "#2F9E5A",
   /** Very light tint for tags and chips */
   accentSoft: "#E3F0E7",
   /** Dark pine: footer, lottery panel, fuel board header */
   deep: "#0E3B20",
   /** Darkest surface: fuel board body */
   deep2: "#0B2416",
+  /** Contour texture lines and borders inside dark sections */
+  deep3: "#0A2A17",
   /** Main text on dark sections */
   onDeep: "#FFFFFF",
   /** Secondary text on dark sections */
   onDeepMuted: "#A7C4B0",
   /** Fuel price digits only (soft glow) */
   led: "#4ADE80",
+  /** Sign-cabinet frame on the fuel board (decorative) */
+  chrome: "#C9D2CD",
   /** The real store sign red. Logo wordmark only. */
   brandRed: "#B4232C",
   /** Form errors only */
-  danger: "#9F1D24",
+  error: "#9F1D24",
 } as const;
 
 export type ThemeToken = keyof typeof palette;
@@ -61,21 +67,31 @@ export function cssVarName(token: string): string {
 /** The wordmark color, following USE_BRAND_RED_IN_LOGO. */
 export const logoColor = USE_BRAND_RED_IN_LOGO ? palette.brandRed : palette.primary;
 
-/** CSS variables for <html style>. */
-export const themeStyle: Record<string, string> = {
-  ...Object.fromEntries(Object.entries(palette).map(([k, v]) => [cssVarName(k), v])),
-  "--logo": logoColor,
-};
-
-/** Browser UI color (address bar on phones). */
-export const browserThemeColor = palette.primary;
-
-/** A theme color with transparency, for places that can't use CSS variables (share image). */
+/** A theme color with transparency, for shadows and the share image. */
 export function withAlpha(hex: string, alpha: number): string {
   const h = hex.replace("#", "");
   const [r, g, b] = [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16));
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
+
+/** Green-tinted elevation (never gray-blue), from the darkest pine. */
+export const shadows = {
+  sm: `0 1px 2px ${withAlpha(palette.deep3, 0.06)}`,
+  md: `0 1px 2px ${withAlpha(palette.deep3, 0.06)}, 0 10px 24px -12px ${withAlpha(palette.deep3, 0.22)}`,
+  lift: `0 2px 4px ${withAlpha(palette.deep3, 0.08)}, 0 18px 36px -16px ${withAlpha(palette.deep3, 0.3)}`,
+} as const;
+
+/** CSS variables for <html style>. */
+export const themeStyle: Record<string, string> = {
+  ...Object.fromEntries(Object.entries(palette).map(([k, v]) => [cssVarName(k), v])),
+  "--logo": logoColor,
+  "--theme-shadow-sm": shadows.sm,
+  "--theme-shadow-md": shadows.md,
+  "--theme-shadow-lift": shadows.lift,
+};
+
+/** Browser UI color (address bar on phones). */
+export const browserThemeColor = palette.primary;
 
 /** What each token is for (shown in /styleguide). */
 export const tokenNotes: Record<ThemeToken, string> = {
@@ -89,14 +105,17 @@ export const tokenNotes: Record<ThemeToken, string> = {
   primaryHover: "Hover/pressed for primary",
   onPrimary: "Text and icons on primary",
   accent: "Eyebrow labels, tagline, small highlights",
+  accentBright: "Large text and graphics only: the hero ampersand, road-line dashes",
   accentSoft: "Very light tint for tags and chips",
-  deep: "Dark sections: footer, fuel board header, lottery panel, notice strip",
-  deep2: "Raised surfaces inside dark sections",
+  deep: "Dark sections: footer, food band, lottery panel, fuel board header, notice strip",
+  deep2: "Darkest surface: fuel board body",
+  deep3: "Contour texture lines, borders and plates inside dark sections",
   onDeep: "Main text on dark sections",
   onDeepMuted: "Secondary text on dark sections",
   led: "Fuel price digits only",
+  chrome: "Sign-cabinet frame on the fuel board (decorative)",
   brandRed: "Real sign red, logo wordmark only",
-  danger: "Form errors only",
+  error: "Form errors only",
 };
 
 /** WCAG contrast ratio between two hex colors, e.g. contrastRatio("#000", "#fff") = 21. */

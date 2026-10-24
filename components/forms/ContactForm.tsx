@@ -162,7 +162,7 @@ export function ContactForm() {
         </p>
       </div>
 
-      <p role="status" aria-live="polite" className="min-h-6 font-semibold text-danger">
+      <p role="status" aria-live="polite" className="min-h-6 font-semibold text-error">
         {status.type === "error" ? status.message : ""}
       </p>
     </form>
@@ -194,7 +194,7 @@ function Field({
       ) : null}
       {children}
       {error ? (
-        <p id={`${id}-error`} className="mt-1.5 text-[0.9375rem] font-semibold text-danger">
+        <p id={`${id}-error`} className="mt-1.5 text-[0.9375rem] font-semibold text-error">
           {error}
         </p>
       ) : null}
