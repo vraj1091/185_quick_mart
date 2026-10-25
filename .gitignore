@@ -30,3 +30,8 @@ coverage/
 
 # before/after screenshots for the retheme review (large, local only)
 retheme-review/
+
+# AI-assistant reference docs added by the Vercel/Neon CLI (local only)
+.agents/
+.claude/skills/
+skills-lock.json
