@@ -64,22 +64,24 @@ Go to **yoursite.com/admin** on your phone and log in. Every save shows up on th
 
 ## 3. Put it online (Vercel + Neon)
 
-Any Node.js host works; nothing in the code is Vercel-only. These steps use Vercel and a free Neon Postgres database.
+**How it's set up now:** the code lives at [github.com/vraj1091/185_quick_mart](https://github.com/vraj1091/185_quick_mart). The Vercel project `185-quick-mart` (team "vraj1091's projects") is connected to that repo, so **every push to `main` deploys automatically**, and every other branch gets its own preview link. The database is a free Neon Postgres (`quickmart-db`, region `iad1`), added through Vercel's marketplace, which sets `DATABASE_URL` for the project.
 
-1. **Database.** Create a project at [neon.tech](https://neon.tech) and copy the connection string (`postgresql://…?sslmode=require`).
-2. **Create the tables** from your computer, pointing at that database:
-   ```bash
-   DATABASE_URL="postgresql://…" npm run db:push
-   DATABASE_URL="postgresql://…" npm run db:seed
-   ```
-   The seed adds the owner-confirmed store hours (Mon–Fri 4 AM – 11 PM, Sat 5 AM – 11 PM, Sun 7 AM – 10 PM, Central) only if no hours are stored yet. For a database that already exists, run `DATABASE_URL="postgresql://…" npm run db:hours`: it adds the hours only if none are stored, and if different hours are stored (edited in `/admin`) it lists the differences and changes nothing. `npm run db:hours -- --force` replaces them.
-   `db:push` switches `prisma/schema.prisma` to PostgreSQL automatically when the URL starts with `postgres`. Don't commit that change if you still use SQLite locally (`git checkout prisma/schema.prisma`).
-3. **Vercel.** Import the repository at [vercel.com/new](https://vercel.com/new). Framework: Next.js. Build command: leave the default (`npm run build`). It runs `scripts/prisma-provider.mjs`, which picks PostgreSQL from `DATABASE_URL` for you.
-4. **Environment variables** in Vercel → Settings → Environment Variables: everything in [section 4](#4-environment-variables). Paste the **plain** password hash (no backslashes) on Vercel.
-5. **Domain.** Add your domain in Vercel, then set `NEXT_PUBLIC_SITE_URL` to it (e.g. `https://185quickmart.com`) and redeploy. Canonical links, the sitemap and share images all use it.
-6. **Check it:** open the site on your phone, log in at `/admin`, save prices, and confirm they show on the home page. Then run [PageSpeed Insights](https://pagespeed.web.dev/) on the live URL.
+**What a deploy does** (`npm run vercel-build`, which Vercel runs instead of `npm run build`):
+1. Switches Prisma to PostgreSQL (`scripts/prisma-provider.mjs`).
+2. Creates any missing tables (`prisma db push`, which refuses any change that would lose data) and fills in only what's empty: fuel grades, settings, and the owner-confirmed hours (`scripts/vercel-db-setup.mjs`). It never overwrites prices, deals or hours edited in `/admin`.
+3. Builds the site.
 
-SQLite does **not** work on Vercel (the disk is read-only), so production must use PostgreSQL.
+**Environment variables on Vercel** (Settings → Environment Variables): `DATABASE_URL` (and the other Neon variables, added by the integration), `ADMIN_PASSWORD_HASH` and `SESSION_SECRET` (marked sensitive). `NEXT_PUBLIC_SITE_URL` is optional: without it, the site uses Vercel's production address. Set it when you add a custom domain. To add email for the contact form, add `RESEND_API_KEY`, `CONTACT_TO_EMAIL` and `CONTACT_FROM_EMAIL` and redeploy.
+
+**Changing the admin password:** run `npm run admin:password -- "new password"`, then on Vercel replace `ADMIN_PASSWORD_HASH` with the plain hash it prints (no backslashes) and redeploy.
+
+**Hours in an existing database:** `npm run db:hours` (with `DATABASE_URL` pointing at it) adds the confirmed hours only if none are stored; if different hours are stored it lists the differences and changes nothing. `npm run db:hours -- --force` replaces them.
+
+**Custom domain:** Vercel → the project → Settings → Domains. Then set `NEXT_PUBLIC_SITE_URL` to it (e.g. `https://185quickmart.com`) and redeploy, so canonical links, the sitemap and share images use it.
+
+**Setting it up again from scratch** (another account or host): create a Postgres database (Neon free tier works), import the repo at [vercel.com/new](https://vercel.com/new) (framework Next.js, defaults are fine), add `DATABASE_URL`, `ADMIN_PASSWORD_HASH` and `SESSION_SECRET`, and deploy. The build creates the tables and starting data itself.
+
+SQLite does **not** work on Vercel (the disk is read-only), so production must use PostgreSQL. Local development keeps using the SQLite file.
 
 ---
 
@@ -241,6 +243,7 @@ The hidden style guide at `/styleguide` shows every token as a swatch with its c
 |---|---|
 | `npm run dev` | Development server |
 | `npm run build` / `npm start` | Production build / server |
+| `npm run vercel-build` | What Vercel runs: Postgres switch, create missing tables, seed what's empty, build |
 | `npm run setup` | Create local DB tables + seed |
 | `npm run db:push` / `npm run db:seed` | Sync schema / seed (any database) |
 | `npm run db:hours` | Load the confirmed store hours into a database that has none (`-- --force` to replace) |
