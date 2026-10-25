@@ -1,7 +1,13 @@
-export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(
-  /\/+$/,
-  "",
-);
+/**
+ * Public address of the site. NEXT_PUBLIC_SITE_URL wins (set it to the real domain);
+ * on Vercel it falls back to the project's production URL, then to localhost.
+ */
+export const siteUrl = (
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "http://localhost:3000")
+).replace(/\/+$/, "");
 
 export function absoluteUrl(path = "/"): string {
   return new URL(path, `${siteUrl}/`).toString();

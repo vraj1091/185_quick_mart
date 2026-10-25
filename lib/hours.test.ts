@@ -291,6 +291,8 @@ describe("the owner-confirmed hours", () => {
     ["Sunday 6:45 AM", "2026-10-25", "06:45", "closed", "Opens 7 AM"],
     ["Friday 11:00 PM (Saturday next)", "2026-10-23", "23:00", "closed", "Opens 5 AM"],
     ["Saturday 11:30 PM (Sunday next)", "2026-10-24", "23:30", "closed", "Opens 7 AM"],
+    ["Sunday 9:30 PM", "2026-10-25", "21:30", "open", "until 10 PM"],
+    ["Sunday 10:00 PM (Monday next)", "2026-10-25", "22:00", "closed", "Opens 4 AM"],
     ["Sunday 11:15 PM (Monday next)", "2026-10-25", "23:15", "closed", "Opens 4 AM"],
   ];
 
@@ -321,10 +323,10 @@ describe("the owner-confirmed hours", () => {
     expect(rows).toEqual([
       { days: "Mon–Fri", hours: "4 AM – 11 PM" },
       { days: "Sat", hours: "5 AM – 11 PM" },
-      { days: "Sun", hours: "7 AM – 11 PM" },
+      { days: "Sun", hours: "7 AM – 10 PM" },
     ]);
     expect(rows.map((r) => `${r.days} ${r.hours}`).join(" · ")).toBe(
-      "Mon–Fri 4 AM – 11 PM · Sat 5 AM – 11 PM · Sun 7 AM – 11 PM",
+      "Mon–Fri 4 AM – 11 PM · Sat 5 AM – 11 PM · Sun 7 AM – 10 PM",
     );
   });
 });

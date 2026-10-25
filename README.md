@@ -72,7 +72,7 @@ Any Node.js host works; nothing in the code is Vercel-only. These steps use Verc
    DATABASE_URL="postgresql://…" npm run db:push
    DATABASE_URL="postgresql://…" npm run db:seed
    ```
-   The seed adds the owner-confirmed store hours (Mon–Fri 4 AM – 11 PM, Sat 5 AM – 11 PM, Sun 7 AM – 11 PM, Central) only if no hours are stored yet. For a database that already exists, run `DATABASE_URL="postgresql://…" npm run db:hours`: it adds the hours only if none are stored, and if different hours are stored (edited in `/admin`) it lists the differences and changes nothing. `npm run db:hours -- --force` replaces them.
+   The seed adds the owner-confirmed store hours (Mon–Fri 4 AM – 11 PM, Sat 5 AM – 11 PM, Sun 7 AM – 10 PM, Central) only if no hours are stored yet. For a database that already exists, run `DATABASE_URL="postgresql://…" npm run db:hours`: it adds the hours only if none are stored, and if different hours are stored (edited in `/admin`) it lists the differences and changes nothing. `npm run db:hours -- --force` replaces them.
    `db:push` switches `prisma/schema.prisma` to PostgreSQL automatically when the URL starts with `postgres`. Don't commit that change if you still use SQLite locally (`git checkout prisma/schema.prisma`).
 3. **Vercel.** Import the repository at [vercel.com/new](https://vercel.com/new). Framework: Next.js. Build command: leave the default (`npm run build`). It runs `scripts/prisma-provider.mjs`, which picks PostgreSQL from `DATABASE_URL` for you.
 4. **Environment variables** in Vercel → Settings → Environment Variables: everything in [section 4](#4-environment-variables). Paste the **plain** password hash (no backslashes) on Vercel.
@@ -106,7 +106,7 @@ Nothing below is guessed on the site; each item stays hidden or says "call" unti
 - [ ] **Phone** (270) 599-1126 matches the Google Business Profile listing.
 - [ ] **Lottery cashing:** confirm the store is an authorized Kentucky Lottery cashing agent for prizes from $600.01 to $5,000. The Lottery page says "We cash winning tickets up to $5,000"; change `lottery.cashLimitDollars` if that's not right.
 - [ ] **Problem-gambling helpline:** the site lists 1-800-GAMBLER (1-800-426-2537), the Kentucky Council on Problem Gambling's line (kycpg.org). Re-check before launch.
-- [x] **Store hours:** confirmed (Mon–Fri 4 AM – 11 PM, Sat 5 AM – 11 PM, Sun 7 AM – 11 PM). They're in `content/store.ts` (`confirmedHours`) and seeded into the database; change them in `/admin` from now on.
+- [x] **Store hours:** confirmed (Mon–Fri 4 AM – 11 PM, Sat 5 AM – 11 PM, Sun 7 AM – 10 PM). They're in `content/store.ts` (`confirmedHours`) and seeded into the database; change them in `/admin` from now on.
 - [ ] **Opening year:** if you want "Serving Bowling Green since 2023", set `servingSince: 2023`.
 - [ ] **Exact location:** latitude/longitude of the front door (`coordinates`). Until then, maps use the street address.
 - [ ] **Pay at the pump?** (`fuel.payAtPump`). The fuel FAQ leaves this question out until you answer it.

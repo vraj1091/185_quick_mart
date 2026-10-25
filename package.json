@@ -23,7 +23,8 @@
     "admin:password": "node scripts/hash-password.mjs",
     "photos:crop": "python scripts/crop-photos.py",
     "postinstall": "prisma generate",
-    "db:hours": "tsx scripts/set-store-hours.ts"
+    "db:hours": "tsx scripts/set-store-hours.ts",
+    "vercel-build": "node scripts/prisma-provider.mjs && prisma generate && node scripts/vercel-db-setup.mjs && next build"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",

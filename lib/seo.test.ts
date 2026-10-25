@@ -66,7 +66,7 @@ describe("store JSON-LD", () => {
 });
 
 describe("store JSON-LD with the confirmed hours", () => {
-  it("publishes Mon–Fri 4–11, Sat 5–11, Sun 7–11 and links the menu", async () => {
+  it("publishes Mon–Fri 4–11, Sat 5–11, Sun 7–10 and links the menu", async () => {
     const { confirmedHours } = await import("@/content/store");
     const { toDayHours } = await import("./hours");
     const schedule: Schedule = {
@@ -75,7 +75,7 @@ describe("store JSON-LD with the confirmed hours", () => {
     };
     const data = storeJsonLd(schedule);
     expect(data.openingHoursSpecification).toEqual([
-      { "@type": "OpeningHoursSpecification", dayOfWeek: "https://schema.org/Sunday", opens: "07:00", closes: "23:00" },
+      { "@type": "OpeningHoursSpecification", dayOfWeek: "https://schema.org/Sunday", opens: "07:00", closes: "22:00" },
       {
         "@type": "OpeningHoursSpecification",
         dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].map((d) => `https://schema.org/${d}`),

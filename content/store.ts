@@ -116,7 +116,7 @@ export const STORE_TIME_ZONE = store.timeZone;
  * owner manages hours in /admin, and the database is what the site shows.
  */
 export const confirmedHours: readonly { opensAt: string; closesAt: string }[] = [
-  { opensAt: "07:00", closesAt: "23:00" }, // Sunday
+  { opensAt: "07:00", closesAt: "22:00" }, // Sunday
   { opensAt: "04:00", closesAt: "23:00" }, // Monday
   { opensAt: "04:00", closesAt: "23:00" }, // Tuesday
   { opensAt: "04:00", closesAt: "23:00" }, // Wednesday
