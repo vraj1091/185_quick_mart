@@ -24,7 +24,13 @@ export function Inbox({ messages }: { messages: AdminMessage[] }) {
   const { status, pending, run } = useActionStatus();
 
   if (messages.length === 0) {
-    return <p className="text-muted">No messages yet. Messages from the contact form show up here.</p>;
+    // Keep the status line, so "Message deleted." still shows after deleting the last one.
+    return (
+      <div className="space-y-4">
+        <StatusLine status={status} />
+        <p className="text-muted">No messages yet. Messages from the contact form show up here.</p>
+      </div>
+    );
   }
 
   return (
